@@ -1,0 +1,116 @@
+
+/* ------------------footer.html 시작--------------------- */
+#fo_footer {
+    clear: both;
+    /*border-top: 3px solid #ffe600;*/
+    margin: 20px auto 0;
+    background-color: #fafafa;
+    z-index: 999;
+}
+
+.fo_in {
+    padding: 30px 0;
+    text-align:left;
+    color: #949494;
+    position: relative;
+    margin-left: 50px;
+    font-weight: 400;
+    display: flex;
+    justify-content: space-around;
+}
+
+.fo_in .fo_logo {
+    width: 179px;
+}
+
+.fo_in .fo_logo img {
+    vertical-align: middle;
+    width: 179px;
+    height: 100px;
+    margin-left: 30px;
+}
+
+.fo_in .fo_company_info {
+    /*padding-top: 30px;*/
+    width: 700px;
+    margin-bottom: 0;
+    margin-right: 800px;
+    font-size: 15px;
+}
+
+.fo_in .fo_company_info li {
+    display: inline-block;
+    line-height: 1.7;
+}
+
+.fo_in .fo_company_info li:not(.fo_not):after {
+    padding: 0 14px;
+    content: "|";
+}
+
+.fo_in .fo_copy {
+    margin-top: 25px;
+    margin-left: 40px;
+}
+
+.fo_in .fo_other_box {
+    width: 175px;
+    max-width: 175px;
+    position: absolute;
+    top: 40px;
+    right: 400px;
+    font-size: 0.75rem;
+}
+
+.fo_in .fo_other_box .fo_other_family {
+    width: 175px;
+    margin-bottom: 25px;
+    position: relative;
+    cursor: pointer;
+}
+
+/* -----------------footer.html 시작------------------- */
+
+
+.fo_selectbox-option {
+    display: none;
+
+}
+.fo_selectbox-option.show {
+    display: block;
+    border: 1px solid #999999;
+    width: 190px;
+    height: 250px;
+    box-shadow: 2px 2px 4px #cbcbcb;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+.fo_toggle-btn{
+    width: 193px;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid #50cba6;
+    box-shadow: 1px 1px 4px #a5cabf, -1px -1px 4px #a5cabf;
+    background-color: #fafafa;
+    cursor: pointer;
+    z-index: 1000;
+}
+.fo_selectbox-option{
+    list-style: none;
+    padding: 5px;
+}
+.fo_selectbox-option li{
+}
+.fo_selectbox-option li button{
+    width: 170px;
+    height: 30px;
+    border: none;
+    background-color: #fafafa;
+    border-radius: 10px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+.fo_selectbox-option li button:hover{
+    background-color: rgba(0, 200, 140, 0.43);
+}

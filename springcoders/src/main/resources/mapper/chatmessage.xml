@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.demo.mapper.ChatMessageMapper">
+	<select id="chatMessageList">
+		select * from chatmessage where roomno=#{roomno}
+	</select>
+	<insert id="chatMessageInsert">
+		insert into chatmessage (type, roomno, userid, message) values (#{type}, #{roomno}, #{userid}, #{message})
+	</insert>
+	<delete id="chatMessageDelete">
+    	delete from chatmessage where chatno=#{chatno} and userid=#{userid}
+	</delete>
+	<select id="lastMessage">
+		select * from chatmessage where roomno = #{roomno} and (type = 'MESSAGE' or type = 'IMAGE' or type = 'IMOTICON' or type = 'ENTER') order by time desc limit 1
+	</select>
+	<select id="unseenMessage">
+		select count(cm.chatno) as unseen_messages
+		from chatuser cu
+		join chatmessage cm on cu.roomno = cm.roomno
+		and cm.chatno > cu.last_read_chatno
+		where cu.userid = #{userid} and cm.roomno = #{roomno}
+		group by cu.userid, cm.roomno;
+	</select>
+	<select id="lastReadChatNo" resultType="int">
+        select chatno
+        from chatmessage
+        where roomno = #{roomno}
+        order by time desc limit 1
+    </select>
+    <update id="seenMessage">
+        update chatuser
+        set last_read_chatno = #{last_read_chatno}
+        where roomno = #{roomno} and userid = #{loginMember}
+    </update>
+    <select id="lastImage">
+		select * from chatmessage where roomno = #{roomno} and type = 'IMAGE' order by time desc limit 1
+	</select>
+	<select id="lastImoticon">
+		select * from chatmessage where roomno = #{roomno} and type = 'IMOTICON' order by time desc limit 1
+	</select>
+</mapper>

@@ -1,0 +1,345 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ONE-Mobile-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'GmarketSansMedium', sans-serif;
+}
+
+#wrap {
+    width: 1300px;
+    margin: 50px auto;
+}
+
+/*header {*/
+/*    width: 100%;*/
+/*    height: 200px;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    margin: 0 auto;*/
+/*}*/
+
+#content_box {
+    width: 100%;
+}
+
+/*footer {*/
+/*    width: 100%;*/
+/*    height: 200px;*/
+/*    border: 1px solid black;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+
+#title_area {
+    width: 100%;
+    height: 140px;
+    text-align: center;
+}
+
+#top1 {
+    font-weight: bold;
+    font-size: 40px;
+    padding-bottom: 10px;
+    color: #212121;
+}
+
+#top_semi {
+    color:	#434343;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    font-size: 15px;
+}
+
+#slide_box {
+    width: 100%;
+    height: 230px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#slide_btn {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 15px;
+    cursor: pointer;
+}
+
+#area_slide {
+    width: 1180px;
+    height: 90%;
+    overflow: hidden; /* 넘치는 부분 숨기기 */
+    position: relative; /* 자식 요소의 위치를 절대적으로 설정하기 위해 */
+}
+
+#area_slide ul {
+    width: 100%;
+    height: 85%;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    transition: transform 0.5s ease; /* 슬라이드 효과를 위한 transition 속성 */
+}
+
+#area_slide ul li {
+    width: 180px;
+    height: 180px;
+    flex: 0 0 auto;
+    margin: 0px 20px 0px 0px;
+}
+
+#area_slide ul li a {
+    width: 180px;
+    height: 180px;
+    display: inline-block;
+    text-decoration: none;
+}
+
+#area_slide ul li a img {
+    width: 180px;
+    border-radius: 100%;
+}
+
+#area_slide ul li a img:hover {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+#area_slide ul li a span {
+    width: 180px;
+    height: 15px;
+    display: block;
+    text-align: center;
+}
+
+#area_info {
+    width: 100%;
+    height: 80%;
+}
+
+#line_add_view {
+    width: 100%;
+    height: 5%;
+}
+
+.prev {
+	background-image: url(../images/lefticon.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.next {
+	background-image:  url(../images/righticon.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+#select_img {
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+#area_info {
+	width: 100%;
+}
+
+#area_info_line {
+	width: 100%;
+	height: 430px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#area_info_line li {
+	width: 300px;
+	height: 400px;
+    border-radius: 20px;
+	margin: 0 10px 0 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#area_info_line li:hover {
+    transform: scale(1.1); /* 확대 효과 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#area_info_line li a {
+	display: inline-block;
+	width: 300px;
+	height: 400px;
+}
+
+#area_info_line li a img{
+	width: 300px;
+	height: 80%;
+	border: 1px solid white;
+	border-radius: 15px;
+	text-decoration: none;
+}
+
+#area_info_line li a span {
+	display: inline-block;
+	width: 300px;
+	height: 20%;
+	justify-content: center;
+	align-items: center;
+}
+
+#area_info_line li a span p:nth-of-type(1) {
+	font-weight: bold;
+	padding: 5px 0px 0px 5px;
+}
+
+#area_info_line li a span p:nth-of-type(2) {
+	font-size: 13px;
+	padding: 5px 0px 0px 5px;
+}
+
+#line_add_view_box {
+	width: 100%;
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#line_add_view {
+	width: 50px;
+	height: 50px;
+	background-image: url(../images/add.png);
+	background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+#area_info img {
+	object-fit: cover;
+    display: block;
+}
+
+#line_add_view:hover {
+	animation: flipRight 0.5s linear;
+}
+
+@keyframes flipRight {
+	from {
+		transform: rotateY(0deg);
+	}
+	to {
+		transform: rotateY(360deg);
+	}
+}
+
+#top1, p  {
+	font-family: 'GmarketSansMedium', sans-serif;
+}
+
+#top_semi {
+	font-family: 'GmarketSansMedium', sans-serif;
+}
+
+#top1 span { 
+	color: #00c88c;
+}
+
+.area_select {
+	cursor: pointer;
+	font-weight: bold;
+	font-family: 'GmarketSansMedium', sans-serif
+}
+
+.showcase_bg {
+	display: none;
+}
+
+	#lodingWindow{position: absolute; top: 0; left: 0;  width: 100%; height: 3500px; overflow: hidden; z-index: 10000; background-color: rgba(0, 0, 0, 0.7);}
+		#lodingText{
+		  position: absolute;
+		  left: 50%;
+		  top: 500px;
+		  width: 400px;
+		  margin-left: -200px;
+		  text-align: center;
+		  font-size: 36px;
+		  font-weight: bolder;
+		  color: #00C88C;
+		}
+		#lodingBar{
+		  position: absolute;
+		  left: 50%;
+		  top: 560px;
+		  width: 500px;
+		  height: 15px;
+		  margin-left: -250px;
+		  color: #00C88C;
+		  border: 1px solid;
+		  border-radius: 10px;
+		}
+		#lodinggauge{
+		  float: left;
+		  width: 100%;
+		  height: 100%;
+		  background: #00c88c;
+		}
+		#lodinggauge.animation{
+		  animation:loding 1.5s linear 0s 1;
+		}
+		@keyframes loding {
+		  from {
+		    width: 0;
+		  }
+		  to {
+		    width: 100%;
+		  }
+		}
+		.disappear{display: none !important; width: 0; height: 0;}

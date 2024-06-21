@@ -1,0 +1,821 @@
+<th:block th:fragment="chatButton">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<link rel="stylesheet" href="/css/chat/chat.css">
+
+<body>
+	<input type="button" class="chat_img" value="">
+	<div id="chat_box" class="chat_box fadeIn">
+		<p class="chat_box_p">채팅</p>
+		<div>
+			<p class="my_chatting_p">나의 채팅 <span></span></p>
+			<ul class="chat_ul">
+			</ul>
+		</div>
+	</div>
+	<div id="chatting_box" class="chatting_box fadeIn">
+	
+	</div>
+	<div id="imoticon_box" class="fadeIn">
+
+	</div>
+</body>
+<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+<script th:inline="javascript">
+	let loginMember = /*[[${session.loginUser}]]*/+"";
+	//로그인 멤버에 세션대신 임시로 값 집어넣음
+	let intervalId;
+
+	function updateChatInfo() {
+		let str = "";
+		if (loginMember != null) {
+			let chat_box = $(".chat_box");
+			chat_box.css("display", "block");
+			$(".chat_img").css("display", "none");
+			chatInfo(function (chatRoomInfos) {
+				$(".my_chatting_p span").text(chatRoomInfos.length);
+				$(".chat_ul").empty(); // 기존 내용을 지우고 새로 추가
+				for (let i = 0; i < chatRoomInfos.length; i++) {
+					let chatRoomInfo = chatRoomInfos[i];
+					let userinfo = chatRoomInfo[1];
+					let chatRoom = chatRoomInfo[4];
+					let jsonString = JSON.stringify(chatRoomInfo);
+
+					str += "<li id='chat_rooms' class='chat_rooms_zero'>";
+					str += "<a id='chatroominfo" + i + "' class='chatroominfo' onclick='createChatting(" + jsonString + ")'>";
+
+					if (userinfo.length == 1) {
+						str += "<div class='chatroom_one'>";
+						for (let j = 0; j < userinfo.length; j++) {
+							str += "<img src='" + (userinfo[j].userprofile == "planz" ? "/image/default-user.webp" : "/file/thumbnail?systemname="+userinfo[j].userprofile+"") + "'>";
+						}
+						str += "</div>";
+					} else if (userinfo.length == 2) {
+						str += "<div class='chatroom_two'>";
+						for (let j = 0; j < userinfo.length; j++) {
+							if (userinfo[j].userid != loginMember) {
+								str += "<img src='" + (userinfo[j].userprofile == "planz" ? "/image/default-user.webp" : "/file/thumbnail?systemname="+userinfo[j].userprofile+"") + "'>";
+							}
+						}
+						str += "</div>";
+					} else if (userinfo.length == 3 || userinfo.length == 4) {
+						str += "<div class='chatroom_three'>";
+						for (let j = 0; j < userinfo.length; j++) {
+							if (userinfo[j].userid != loginMember) {
+								str += "<img src='" + (userinfo[j].userprofile == "planz" ? "/image/default-user.webp" : "/file/thumbnail?systemname="+userinfo[j].userprofile+"") + "'>";
+							}
+						}
+						str += "</div>";
+					} else if (userinfo.length >= 5) {
+						str += "<div class='chatroom_five'>";
+						for (let j = 0; j < userinfo.length; j++) {
+							if (userinfo[j].userid != loginMember) {
+								str += "<img src='" + (userinfo[j].userprofile == "planz" ? "/image/default-user.webp" : "/file/thumbnail?systemname="+userinfo[j].userprofile+"") + "'>";
+							}
+						}
+						str += "</div>";
+					}
+
+					str += "<div class='chat_room'>";
+					let lastMessage = chatRoomInfo[2];
+					let unseenMessage = chatRoomInfo[3];
+
+					str += "<div class='chat_room_left'>";
+					str += "<div class='chat_roomname'>" + chatRoomInfo[0].roomname;
+					if(chatRoom.roomtype != "chat"){
+						str += "<span>" + chatRoomInfo[1].length + "명</span>";
+					}
+					else{
+						for (let j = 0; j < userinfo.length; j++) {
+							if (userinfo[j].userid != loginMember) {
+								str += "<span>" +userinfo[j].username+ "</span>";
+							}
+						}
+					}
+					str += "</div>";
+					str += "<div class='lastmessage'>";
+					if (lastMessage) {
+					    if (lastMessage.type === "IMAGE") {
+					        str += "사진을 보냈습니다";
+					    } else if (lastMessage.type === "MESSAGE") {
+					        str += lastMessage.message;
+					    } else if(lastMessage.type === "IMOTICON"){
+							str += "이모티콘을 보냈습니다";
+						}
+					} else {
+					    str += "";
+					}
+					str += "</div>";
+					str += "</div>";
+
+					str += "<div class='chat_room_right'>";
+					str += "<div class='lastmessage_time'>" + (lastMessage ? timeChoose(lastMessage) : "") + "</div>";
+					if (unseenMessage != 0) {
+						str += "<div class='unseenMessage'>" + (unseenMessage > 99 ? "99+" : unseenMessage) + "</div>";
+					}
+					str += "</div>";
+
+					str += "</div>";
+					str += "</a>";
+					str += "</li>";
+				}
+				$(".chat_ul").append(str);
+
+				const unseenMessageElements = document.getElementsByClassName("unseenMessage");
+				for (let k = 0; k < unseenMessageElements.length; k++) {
+					const unseenMessageCount = parseInt(unseenMessageElements[k].innerHTML);
+					if (unseenMessageCount !== 0) {
+						const chatroominfo = unseenMessageElements[k].closest(".chatroominfo");
+						if (chatroominfo) {
+							chatroominfo.parentElement.classList.add("chat_rooms");
+							chatroominfo.parentElement.classList.remove("chat_rooms_zero");
+						}
+					}
+				}
+			});
+		} else {
+			alert("로그인을 먼저 해주세요.");
+		}
+		clearInterval(intervalId);
+		intervalId = setInterval(updateChatInfo, 3000);
+	}
+
+	const chatBox = document.getElementById("chat_box");
+    const chatBoxStyle = window.getComputedStyle(chatBox);
+	const chattingBox = document.getElementById("chatting_box");
+	const chattingBoxStyle = window.getComputedStyle(chattingBox);
+	const imoticonBox= document.getElementById("imoticon_box");
+    const imoticonBoxStyle = window.getComputedStyle(imoticonBox);
+
+	function handleClickOutside(event){
+		if(chatBoxStyle.display === "block" && !chatBox.contains(event.target) && !chattingBox.contains(event.target) && !imoticonBox.contains(event.target)){
+			clearInterval(intervalId);
+			chatBox.classList.remove("fadeIn");
+			chattingBox.classList.remove("fadeIn");
+			imoticonBox.classList.remove("fadeIn");
+			chatBox.classList.add("fadeOut");
+			chattingBox.classList.add("fadeOut");
+			imoticonBox.classList.add("fadeOut");
+			setTimeout(() => {
+				chatBox.style.display = "none";
+				chattingBox.style.display="none";
+				imoticonBox.style.display="none";
+				$(".chat_img").css("display", "block");
+				chatBox.classList.add("fadeIn");
+				chattingBox.classList.add("fadeIn");
+				imoticonBox.classList.add("fadeIn");
+				chatBox.classList.remove("fadeOut");
+				chattingBox.classList.remove("fadeOut");
+				imoticonBox.classList.remove("fadeOut");
+			}, 800);
+			$(".chat_img").css("display", "block");
+		}
+	}
+
+	document.addEventListener('mouseup', handleClickOutside);
+
+	$(document).ready(function () {
+		$(".chat_img").on("click", function (e) {
+			updateChatInfo();
+		});
+	});
+
+
+
+	//방정보랑 유저정보 가져오기
+	function chatInfo(callback) {
+		$.getJSON(
+			`/chat/rooms`, function (chatRoomInfos) {
+				callback(chatRoomInfos);
+			}
+		)
+	}
+
+
+	function createChatting(chatRoomInfo) {
+		let chatting_box = $(".chatting_box");
+		chatting_box.empty();
+		chatting_box.css("display", "block");
+		const chattingBox = document.getElementById("chatting_box");
+		chattingBox.classList.remove("fadeOut");
+		chattingBox.classList.add("fadeIn");
+
+		if(imoticonBoxStyle.display === "block"){
+			imoticonBox.classList.remove("fadeIn");
+			imoticonBox.classList.add("fadeOut");
+			setTimeout(() => {
+				imoticonBox.style.display="none";
+				imoticonBox.classList.add("fadeIn");
+				imoticonBox.classList.remove("fadeOut");
+			}, 800);
+		}
+
+		let userinfo = chatRoomInfo[1];
+		let strr = "";
+		strr += "<div id='chatting_head' class='chatting_head'>";
+		strr += "<div class='chatting_head_inner'>";
+		let roomno = chatRoomInfo[0].roomno;
+		chatService.update(roomno, function (result) {
+						
+		})
+		if (userinfo.length == 1) {
+			strr += "<div class='chatroom_one'>";
+			for (let j = 0; j < userinfo.length; j++) {
+				if (userinfo[j].userprofile == "planz") {
+					strr += "<img src='/image/default-user.webp'>";
+				} else {
+					strr += "<img src='/file/thumbnail?systemname="+userinfo[j].userprofile+"'>";
+				}
+			}
+			strr += "</div>";
+		} else if (userinfo.length == 2) {
+			strr += "<div class='chatroom_two'>";
+			for (let j = 0; j < userinfo.length; j++) {
+				if (userinfo[j].userid == loginMember) {
+
+				} else {
+					if (userinfo[j].userprofile == "planz") {
+						strr += "<img src='/image/default-user.webp'>";
+					} else {
+						strr += "<img src='/file/thumbnail?systemname="+userinfo[j].userprofile+"'>";
+					}
+				}
+			}
+			strr += "</div>";
+		} else if (userinfo.length == 3 || userinfo.length == 4) {
+			strr += "<div class='chatroom_three'>";
+			for (let j = 0; j < userinfo.length; j++) {
+				if (userinfo[j].userid == loginMember) {
+
+				} else {
+					if (userinfo[j].userprofile == "planz") {
+						strr += "<img src='/image/default-user.webp'>";
+					} else {
+						strr += "<img src='/file/thumbnail?systemname="+userinfo[j].userprofile+"'>";
+					}
+				}
+			}
+			strr += "</div>";
+		} else if (userinfo.length >= 5) {
+			strr += "<div class='chatroom_five'>";
+			for (let j = 0; j < userinfo.length; j++) {
+				if (userinfo[j].userid == loginMember) {
+
+				} else {
+					if (userinfo[j].userprofile == "planz") {
+						strr += "<img src='/image/default-user.webp'>";
+					} else {
+						strr += "<img src='/file/thumbnail?systemname="+userinfo[j].userprofile+"'>";
+					}
+				}
+			}
+			strr += "</div>";
+		}
+		strr += "<div class='chatroom_right'>";
+		strr += chatRoomInfo[0].roomname;
+		strr += "<span>";
+		strr += chatRoomInfo[1].length + "명";
+		strr += "</span>";
+		strr += "</div>";
+		strr += "<div class='chatroom_rright'>";
+		strr += "<img class='chat_exit' src='/image/chatting_exit.png' onclick='if(confirm(\"채팅창을 나가시겠습니까?\")) { exitChatFunction("+chatRoomInfo[0].roomno+"); }'>";
+		strr += "</div>";
+		strr += "</div>";
+		strr += "</div>";
+		strr += "<div class='chatting_record'>";
+		strr += "<div id='chatting_log' class='chatting_log'>";
+		chatService.ready(roomno, function (list) {
+			if (list == null || list.length == 0) {
+				// strr += "<div>";
+				// 	strr += "<div>";
+				// 		strr += "<b>등록된 댓글이 없습니다.</b>";
+				// 	strr += "</div>";
+				// strr += "</div>";
+			} else {
+				for (let i = 0; i < list.length; i++) {
+					let message = list[i];
+					let type = message.type;
+					let userid = message.userid;
+					if (type == "ENTER") {
+						strr += "<div class='sys_message'>";
+						strr += "<div class='blocck'>";
+						strr += "<div class='sys_content'>" + message.message + "</div> ";
+						strr += "</div>";
+						strr += "</div>";
+					}
+					else if (type == "RE_ENTER") {
+
+					}
+					else if (type == "MESSAGE") {
+						if (message.userid == loginMember) {
+							strr += "<div class='my_message chat_messages'>";
+							strr += "<div class='blocrk'>";
+							strr += "<div class='time'>" + timeChoose(message) + "</div>";
+							strr += "<div class='message_content'>" + message.message + "</div> ";
+							strr += "</div>";
+							strr += "</div>";
+						} else {
+							strr += "<div class='your_message chat_messages'>";
+							for (let l = 0; l < chatRoomInfo[1].length; l++) {
+								if (chatRoomInfo[1][l].userid == message.userid) {
+									if (chatRoomInfo[1][l].userprofile == "planz") {
+										strr += "<img src='/image/default-user.webp'>";
+									} else {
+										strr += "<img src='/file/thumbnail?systemname="+chatRoomInfo[1][l].userprofile+"'>";
+									}
+									strr += "<div class='your_message_right'>";
+									strr += "<span class='userid'>" + chatRoomInfo[1][l].username + "</span> ";
+									strr += "<div class='blockk'>";
+									strr += "<div class='message_content'>" + message.message;
+									strr += "</div> ";
+									strr += "<span class='time'>" + timeChoose(message) + "</span>";
+									strr += "</div>";
+									strr += "</div>";
+									break; // 일치하는 userid를 찾았으므로 루프 종료
+								}
+							}
+							strr += "</div>";
+						}
+					}
+					else if (type == "IMAGE") {
+						let messageArray = message.message.split('\\');
+						if (userid == loginMember) {
+							strr += "<div class='my_message chat_messages'>";
+							strr += "<div class='blocrk'>";
+							strr += "<div class='time'>" + timeChoose(message) + "</div>";
+							strr += "<div class='image_con'>";
+							for (let i = 0; i < messageArray.length - 1; i++) {
+								if((messageArray.length -1) % 2 == 1 && i == (messageArray.length -2) && i != 0){
+									strr += "<div class='chatting_img'><img class = 'img_end imgg' src='/file/thumbnail?systemname=" + messageArray[i] + "' onclick='window.open(this.src)'></div> ";
+									continue;
+								}
+								strr += "<div class='chatting_img'><img class='imgg' src='/file/thumbnail?systemname=" + messageArray[i] + "' onclick='window.open(this.src)'></div> ";
+							}
+							strr += "</div>";
+							strr += "</div>";
+							strr += "</div>";
+						} else {
+							strr += "<div class='your_message chat_messages'>";
+							for (let l = 0; l < chatRoomInfo[1].length; l++) {
+								if (chatRoomInfo[1][l].userid == userid) {
+									if (chatRoomInfo[1][l].userprofile == "planz") {
+										strr += "<img src='/image/default-user.webp'>";
+									} else {
+										strr += "<img src='/file/thumbnail?systemname="+chatRoomInfo[1][l].userprofile+"'>";
+									}
+									strr += "<div class='your_message_right'>";
+									strr += "<span class='userid'>" + chatRoomInfo[1][l].username + "</span> ";
+									strr += "<div class='blockk'>";
+									strr += "<div class='image_con'>";
+									for (let i = 0; i < messageArray.length-1; i++) {
+										if((messageArray.length -1) % 2 == 1 && i == (messageArray.length -2) && i != 0){
+											strr += "<div class='chatting_img'><img class = 'img_end imgg' src='/file/thumbnail?systemname=" + messageArray[i] + "' onclick='window.open(this.src)'></div> ";
+											continue;
+										}
+										strr += "<div class='chatting_img'><img class='imgg' src='/file/thumbnail?systemname=" + messageArray[i] + "' onclick='window.open(this.src)'></div> ";
+									}
+									strr += "</div>";
+									strr += "<span class='time'>" + timeChoose(message) + "</span>";
+									strr += "</div>";
+									strr += "</div>";
+									break; // 일치하는 userid를 찾았으므로 루프 종료
+								}
+							}
+							strr += "</div>";
+						}
+					} else if(type == "IMOTICON"){
+						if (userid === loginMember) {
+							strr += "<div class='my_message chat_messages'>";
+							strr += "<div class='blocrk'>";
+							strr += "<div class='time'>" + timeChoose(message) + "</div>";
+							strr += "<div class='image_con'>";
+							strr += "<div class='chatting_img'><img src='/image/dino"+message.message+".png'></div> ";
+							strr += "</div>";
+							strr += "</div>";
+							strr += "</div>";
+						} else {
+							strr += "<div class='your_message chat_messages'>";
+							for (let l = 0; l < chatRoomInfo[1].length; l++) {
+								if (chatRoomInfo[1][l].userid == userid) {
+									if (chatRoomInfo[1][l].userprofile == "planz") {
+										strr += "<img src='/image/default-user.webp'>";
+									} else {
+										strr += "<img src='/file/thumbnail?systemname="+chatRoomInfo[1][l].userprofile+"'>";
+									}
+									strr += "<div class='your_message_right'>";
+									strr += "<span class='userid'>" + chatRoomInfo[1][l].username + "</span> ";
+									strr += "<div class='blockk'>";
+									strr += "<div class='image_con'>";
+									strr += "<div class='chatting_img'><img src='/image/dino"+message.message+".png'></div> ";
+									strr += "</div>";
+									strr += "<span class='time'>" + timeChoose(message) + "</span>";
+									strr += "</div>";
+									strr += "</div>";
+									break; // 일치하는 userid를 찾았으므로 루프 종료
+								}
+							}
+							strr += "</div>";
+						}
+					}
+				}
+			}
+			strr += "</div>";
+			strr += "<div class='chatting_container'>";
+			strr += "<div class='chatting_form'>";
+			strr += "<div class='chatting_input'>";
+			strr += "<textarea cols='50' rows='10' id='chat_message' name='chat_message' onkeypress='sendMessageEnter(event)'>";
+			strr += "</textarea>";
+			strr += "</div>";
+			strr += "<div class='chatting_enter'>";
+			strr += "<div>";
+			strr += "<img id='imoticon' src='/image/imoticon.png'>";
+			strr += "<img id='imgFile' src='/image/gallery2.png'>";
+			strr += "</div>";
+			strr += "<input type='file' multiple name='image' accept='image/gif, image/jpeg, image/png' style='display: none;'>";
+			strr += "<input type='button' value='전송' id='sendMessage'>";
+			strr += "</div>";
+			strr += "</div>";
+			strr += "</div>";
+			strr += "</div>";
+			$(".chatting_box").append(strr);
+
+			$("#imoticon").on("click", function (e) {
+				createImoticon();
+			});
+
+			var sockJs = new SockJS("/stomp/chat");
+			//1. SockJS를 내부에 들고있는 stomp를 내어줌
+			var stomp = Stomp.over(sockJs);
+
+			stomp.connect({}, function () {
+				console.log("STOMP Connection")
+
+				document.addEventListener('mouseup', closeChat);
+
+				const chat_rooms = document.getElementById("chat_rooms");
+				chat_rooms.addEventListener('mouseup', closeChat);
+
+				function closeChat(event){
+					if(chatBoxStyle.display === "block" && !chatBox.contains(event.target) && !chattingBox.contains(event.target) && !imoticonBox.contains(event.target)){
+						if (stomp !== null) {
+							console.log("ㅎㅇㅎㅇ");
+							stomp.unsubscribe();
+							stomp.disconnect();
+						}
+					}
+				}
+
+				//4. subscribe(path, callback)으로 메세지를 받을 수 있음
+				stomp.subscribe("/sub/chat/room/" + roomno, function (chat) {
+					chatService.update(roomno, function (result) {
+
+					})
+					let content = JSON.parse(chat.body);
+					let userid = content.userid;
+					let message = content.message;
+					let type = content.type;
+					let strrr = '';
+					if (type == "ENTER") {
+						strrr += "<div class='sys_message'>";
+						strrr += "<div class='blocck'>";
+						strrr += "<div class='sys_content'>" + message + "</div> ";
+						strrr += "</div>";
+						strrr += "</div>";
+					}
+					else if (type == "RE_ENTER") {
+
+					}
+					else if (type == "MESSAGE") {
+						if (userid === loginMember) {
+							strrr += "<div class='my_message chat_messages'>";
+							strrr += "<div class='blocrk'>";
+							strrr += "<div class='time'>" + timeChoose(content) + "</div>";
+							strrr += "<div class='message_content'>" + message + "</div> ";
+							strrr += "</div>";
+							strrr += "</div>";
+						} else {
+							strrr += "<div class='your_message chat_messages'>";
+							for (let l = 0; l < chatRoomInfo[1].length; l++) {
+								if (chatRoomInfo[1][l].userid == userid) {
+									if (chatRoomInfo[1][l].userprofile == "planz") {
+										strrr += "<img src='/image/default-user.webp'>";
+									} else {
+										strrr += "<img src='/file/thumbnail?systemname="+chatRoomInfo[1][l].userprofile+"'>";
+									}
+									strrr += "<div class='your_message_right'>";
+									strrr += "<span class='userid'>" + chatRoomInfo[1][l].username + "</span> ";
+									strrr += "<div class='blockk'>";
+									strrr += "<div class='message_content'>" + message + "</div> ";
+									strrr += "<span class='time'>" + timeChoose(content) + "</span>";
+									strrr += "</div>";
+									strrr += "</div>";
+									break; // 일치하는 userid를 찾았으므로 루프 종료
+								}
+							}
+							strrr += "</div>";
+						}
+					}
+					else if (type == "IMAGE") {
+						let messageArray = message.split('\\');
+						if (userid === loginMember) {
+							strrr += "<div class='my_message chat_messages'>";
+							strrr += "<div class='blocrk'>";
+							strrr += "<div class='time'>" + timeChoose(content) + "</div>";
+							strrr += "<div class='image_con'>";
+							for (let i = 0; i < messageArray.length - 1; i++) {
+								if((messageArray.length -1) % 2 == 1 && i == (messageArray.length -2) && i != 0){
+									strrr += "<div class='chatting_img'><img class = 'img_end imgg' src='/file/thumbnail?systemname=" + messageArray[i] + "' onclick='window.open(this.src)'></div> ";
+									continue;
+								}
+								strrr += "<div class='chatting_img'><img class ='imgg' src='/file/thumbnail?systemname=" + messageArray[i] + "' onclick='window.open(this.src)'></div> ";
+							}
+							strrr += "</div>";
+							strrr += "</div>";
+							strrr += "</div>";
+						} else {
+							strrr += "<div class='your_message chat_messages'>";
+							for (let l = 0; l < chatRoomInfo[1].length; l++) {
+								if (chatRoomInfo[1][l].userid == userid) {
+									if (chatRoomInfo[1][l].userprofile == "planz") {
+										strrr += "<img src='/image/default-user.webp'>";
+									} else {
+										strrr += "<img src='/file/thumbnail?systemname="+chatRoomInfo[1][l].userprofile+"'>";
+									}
+									strrr += "<div class='your_message_right'>";
+									strrr += "<span class='userid'>" + chatRoomInfo[1][l].username + "</span> ";
+									strrr += "<div class='blockk'>";
+									strrr += "<div class='image_con'>";
+									for (let i = 0; i < messageArray.length - 1; i++) {
+										if((messageArray.length -1) % 2 == 1 && i == (messageArray.length -2) && i != 0){
+										strrr += "<div class='chatting_img'><img class = 'img_end imgg' src='/file/thumbnail?systemname=" + messageArray[i] + "' onclick='window.open(this.src)'></div> ";
+										continue;
+									}
+										strrr += "<div class='chatting_img'><img class='imgg' src='/file/thumbnail?systemname=" + messageArray[i] + "' onclick='window.open(this.src)'></div> ";
+									}
+									strrr += "</div>";
+									strrr += "<span class='time'>" + timeChoose(content) + "</span>";
+									strrr += "</div>";
+									strrr += "</div>";
+									break; // 일치하는 userid를 찾았으므로 루프 종료
+								}
+							}
+							strrr += "</div>";
+						}
+					} else if(type == "IMOTICON"){
+						if (userid === loginMember) {
+							strrr += "<div class='my_message chat_messages'>";
+							strrr += "<div class='blocrk'>";
+							strrr += "<div class='time'>" + timeChoose(content) + "</div>";
+							strrr += "<div class='image_con'>";
+							strrr += "<div class='chatting_img'><img src='/image/dino"+message+".png'></div> ";
+							strrr += "</div>";
+							strrr += "</div>";
+							strrr += "</div>";
+						} else {
+							strrr += "<div class='your_message chat_messages'>";
+							for (let l = 0; l < chatRoomInfo[1].length; l++) {
+								if (chatRoomInfo[1][l].userid == userid) {
+									if (chatRoomInfo[1][l].userprofile == "planz") {
+										strrr += "<img src='/image/default-user.webp'>";
+									} else {
+										strrr += "<img src='/file/thumbnail?systemname="+chatRoomInfo[1][l].userprofile+"'>";
+									}
+									strrr += "<div class='your_message_right'>";
+									strrr += "<span class='userid'>" + chatRoomInfo[1][l].username + "</span> ";
+									strrr += "<div class='blockk'>";
+									strrr += "<div class='image_con'>";
+									strrr += "<div class='chatting_img'><img src='/image/dino"+message+".png'></div> ";
+									strrr += "</div>";
+									strrr += "<span class='time'>" + timeChoose(content) + "</span>";
+									strrr += "</div>";
+									strrr += "</div>";
+									break; // 일치하는 userid를 찾았으므로 루프 종료
+								}
+							}
+							strrr += "</div>";
+						}
+					}
+					$("#chatting_log").append(strrr);
+					window.setTimeout(scrollToBottom, 50);
+				});
+
+				//3. send(path, header, message)로 메세지를 보낼 수 있음
+				stomp.send('/pub/chat/enter', {}, JSON.stringify({roomno: roomno, userid: loginMember, type: "ENTER"}))
+			});
+
+			
+			function sendChat() {
+				let msg = document.getElementById("chat_message");
+				if (msg.value.trim() !== "") {
+					stomp.send('/pub/chat/message', {}, JSON.stringify({roomno: roomno, message: msg.value, userid: loginMember, type: "MESSAGE"}));
+					msg.value = '';
+				}
+			}
+
+			function addchatimg() {
+				$('input[type=file]').click();
+
+				$('input[type=file]').off("change").on("change", function (e) {
+
+					let formData = new FormData();
+					let files = $('input[type=file]')[0].files;
+
+					// 파일 입력 필드 초기화
+					$('input[type=file]').val = "";
+
+					for (let i = 0; i < files.length; i++) {
+						formData.append('files', files[i]);
+					}
+
+					let response1;
+
+					$.ajax({
+						url: '/chatting/image',
+						type: 'POST',
+						data: formData,
+						processData: false,
+						contentType: false,
+						success: function (response) {
+							stomp.send('/pub/chat/image', {}, JSON.stringify({roomno: roomno, message: response, userid: loginMember, type: "IMAGE"}))
+							$('input[type=file]').val('');
+						}
+					});
+				});
+			}
+
+			function createImoticon() {
+				let imoticon_box = $("#imoticon_box");
+				imoticon_box.empty();
+
+				if (imoticon_box.css("display") === "none") {
+					imoticon_box.css("display", "block");
+					let str = "";
+					str += "<div class='imoticon_head'>";
+					str += "<p>이모티콘</p>";
+					str += "</div>";
+					str += "<div class='imoticon_body'>";
+					for (let i = 0; i < 8; i++) {
+						str += `<img class='imoticons' src='/image/dino${i}.png'>`;
+					}
+					str += "</div>";
+					imoticon_box.append(str);
+
+					document.querySelectorAll('.imoticons').forEach(function(img) {
+						img.addEventListener('click', function() {
+							let imgSrc = img.src;
+							let matches = imgSrc.match(/\/image\/dino(\d+)\.png/);
+							if (matches && matches[1]) {
+								let imoticons = matches[1];
+								addImoticon(imoticons);
+							}
+						});
+					});
+				} else if (imoticon_box.css("display") === "block") {
+					imoticonBox.classList.remove("fadeIn");
+					imoticonBox.classList.add("fadeOut");
+					setTimeout(() => {
+						imoticonBox.classList.add("fadeIn");
+						imoticonBox.classList.remove("fadeOut");
+						imoticon_box.css("display", "none");
+					}, 800);
+				}
+			}
+			
+			function addImoticon(imoticons){
+				stomp.send('/pub/chat/imoticon', {}, JSON.stringify({roomno: roomno, message: imoticons, userid: loginMember, type: "IMOTICON"}));
+			}
+
+			document.getElementById('sendMessage').addEventListener('click', sendChat);
+
+			document.getElementById('imgFile').addEventListener('click', addchatimg);
+
+			// document.getElementById('imoticons').addEventListener('click', function(){
+			// 	let imgElement = document.getElementById('imoticons');
+			// 	let imgSrc = imgElement.src;
+			// 	let matches = imgSrc.match(/\/image\/dino(\d+)\.png/);
+			// 	let imoticons = matches[1];
+			// 	addImoticon(imoticons);
+			// }
+			// );
+
+			//채팅창을 맨 아래로 내림
+			window.setTimeout(scrollToBottom, 50);
+			// scrollToBottom();
+		});
+
+
+	}
+
+	const chatService = {
+		ready: function (data, callback) {
+			let roomno = data;
+			$.getJSON(
+				`/chatting/ready/${roomno}`,
+				function (list) {
+					callback(list);
+				}
+			)
+		},
+		update: function (roomno, callback) {
+			$.ajax({
+				type: "PUT",
+				url: `/chatting/update/${roomno}`,
+				success: function (result) {
+					callback(result);
+				}
+			})
+		}
+	}
+
+
+	function scrollToBottom() {
+		let chatting_log = document.querySelector('#chatting_log');
+		chatting_log.scrollTop = chatting_log.scrollHeight;
+	}
+
+	function timeChoose(lastMessage) {
+		if (lastMessage != null) {
+			let str = "";
+			let targetDateString = lastMessage.time;
+			// 현재 시간을 가져옵니다.
+			let currentDate = new Date();
+
+			// lastMessage.time을 Date 객체로 변환합니다.
+			let targetDate = new Date(targetDateString);
+
+			// 두 날짜 사이의 차이를 계산합니다. (밀리초로 반환됨)
+			let timeDiff = currentDate - targetDate;
+
+			// 차이를 시간 단위로 변환합니다.
+			let hoursDiff = Math.abs(Math.floor(timeDiff / (1000 * 60 * 60)));
+
+			// 분 단위로 변환합니다.
+			let minutesDiff = Math.abs(Math.floor(timeDiff / (1000 * 60)));
+
+			// 날짜 차이 계산
+			let daysDiff = Math.abs(Math.floor(timeDiff / (1000 * 60 * 60 * 24)));
+
+			// 현재 시간과 목표 시간 사이의 차이를 확인하여 출력 형식을 선택합니다.
+			if (daysDiff > 7) {
+				// 하루 이상 차이나면 날짜만 출력
+				str += targetDate.toISOString().slice(0, 10);
+			} else if (hoursDiff >= 24) {
+				// 24시간 이상 차이나면 하루 이상으로 계산
+				let days = Math.floor(hoursDiff / 24);
+				str += days + "일전";
+			} else if (minutesDiff >= 60) {
+				// 한 시간 이상 차이나면 분으로 계산
+				let hours = Math.floor(minutesDiff / 60);
+				str += hours + "시간전";
+			} else if (minutesDiff < 1) {
+				// 1분 미만이면 방금으로 출력
+				str += "방금";
+			} else {
+				// 1시간 이내라면 분으로 출력
+				str += minutesDiff + "분전";
+			}
+
+			return str;
+		} else {
+			// 이전 메시지가 없는 경우 처리
+		}
+	}
+
+	function sendMessageEnter(e) {
+		if (e.keyCode == 13) {
+			$("#sendMessage").click();
+			$("#chat_message").val("");
+		}
+	}
+
+	// function disconnect() {
+	// 	if (stomp !== null) {
+	// 		stomp.disconnect();
+	// 	}
+	// }
+
+	function exitChatFunction(roomno){
+		$.ajax({
+			type: "POST",
+			url: `/chat/delete/${roomno}`,
+			success: function (result) {
+				console.log("삭제성공");
+			}
+		})
+		const chattingBox = document.getElementById("chatting_box");
+		chattingBox.classList.add("fadeOut");
+		chattingBox.classList.remove("fadeIn");
+		setTimeout(() => {
+			chattingBox.style.display="none";
+		}, 800);
+	}
+
+</script>
+
+</html>
+</th:block>

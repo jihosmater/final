@@ -1,0 +1,1075 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>플랜즈</title>
+
+    <style>
+        @font-face {
+            font-family: 'Freesentation-9Black';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2404@1.0/Freesentation-9Black.woff2') format('woff2');
+            font-weight: 900;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'BookkGothic-Bd';
+            src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/BookkGothic-Bd.woff2') format('woff2');
+            font-weight: 700;
+            font-style: normal;
+        }
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            /*font-family: 'Freesentation-9Black';*/
+            letter-spacing: 2px;
+        }
+        h2{
+            font-family: 'Freesentation-9Black';
+        }
+        #wrap {
+            margin: 0 auto;
+        }
+        #main {
+            width: 100%;
+            margin-bottom: 100px;
+            display: flex;
+            justify-content: center;
+            font-size: 30px;
+            text-align: center;
+            font-family: 'Freesentation-9Black';
+        }
+        /*#maintxt {*/
+        /*    width: 100%;*/
+        /*    height: 100vh;*/
+        /*    letter-spacing: 1px;*/
+        /*    text-align: center;*/
+        /*    margin-bottom: 100px;*/
+
+        /*}*/
+        #maintxt h1 {
+            font-size: 55px;
+            padding-top: 80px;
+            text-decoration: #00C88C;
+            z-index: 33;
+        }
+        #maintxt span {
+            display: inline-block;
+            margin-bottom: 80px;
+            font-size: 70px;
+            z-index: 33;
+        }
+        #gratxt{
+                display: block;
+                background-clip: text;
+                -webkit-background-clip: text;
+                color: transparent;
+                background-image: linear-gradient(
+                        180deg,
+                        #00c88c,
+                        #59e6c0 10%,
+                        #5cc6a1 33%,
+                        #acedd6 45%,
+                        #e3fffa 50%,
+                        rgba(105, 226, 184, 0.84) 66%,
+                        #beffed
+                );
+
+            }
+        #gratxt{
+            background-size: 100% 300%;
+        background-position-y: 0%;
+        animation: gradient 2s ease-in-out backwards;
+        }
+
+        @keyframes gradient {
+            from {
+                background-position-y: 0%;
+            }
+            to {
+                background-position-y: 100%;
+            }
+        }
+        @keyframes fadeInUp {
+            0% {
+                opacity: 0;
+                transform: translate3d(0, 100%, 0);
+            }
+            to {
+                opacity: 1;
+                transform: translateZ(0);
+            }
+        }
+
+
+        /*problem css 시작*/
+        #protxt{
+            margin-bottom: 500px;
+        }
+        #proimg{
+            display: flex;
+            justify-content: center;
+            margin-bottom: 150px;
+        }
+        #problem{
+            text-align: center;
+            font-family:'Freesentation-9Black';
+            font-size: 25px;
+            margin-bottom: 30px;
+            margin-top: 200px;
+            padding:100px;
+            background-color: aliceblue;
+
+        }
+        #badpoint{
+            font-size: 20px;
+            margin-bottom:15px;
+            color: black;
+            margin-top: 100px;
+        }
+        #protxt p:nth-child(2){
+            font-size: 60px;
+            margin-bottom:15px;
+            color: black
+        }
+        #problem span{
+            color: #00C88C;
+        }
+        #prosolve{
+            margin-bottom: 100px;
+        }
+        #prosolvetxt{
+            margin-bottom: 150px;
+            font-size: 50px;
+            font-family:'Freesentation-9Black';
+        }
+        #prosolvetxt span{
+            font-size: 50px;
+            color: #00C88C;
+            font-family:'Freesentation-9Black';
+        }
+
+        /*container css 시작*/
+        #container{
+            margin: 0 auto;
+            width: 1700px;
+            text-align: center;
+        }
+        #functxt{
+            font-size: 50px;
+            font-family:'Freesentation-9Black';
+            margin: 200px;
+        }
+        .functions {
+            width: 100%;
+            height: 1000px;
+            border-radius: 30px;
+            border: 1px solid #ffffff;
+            box-shadow: 2px 2px 6px #D2D2D2;
+            margin-bottom: 50px;
+
+        }
+        .subtitle{
+            width: 100%;
+            padding-top: 100px;
+            text-align: center;
+            font-size: 25px;
+            font-family: 'Freesentation-9Black';
+        }
+        .search {
+            margin: 0 auto;
+            /*display: flex;*/
+            /*justify-content: center;*/
+            /*width: 550px;*/
+            padding:50px;
+            /*padding: 200px 150px 50px 150px;*/
+            /*margin-right: 200px;*/
+            font-family: 'Freesentation-9Black';
+        }
+        .search_txt{
+            width: 700px;
+            margin: 0 auto;
+            text-align: center;
+            /*margin-top: 250px;*/
+        }
+        .scheck, .stext {
+            display: flex;
+            justify-content: center;
+        }
+        .scheck img{
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+        }
+        .searchimg img{
+            width: 845px;
+        }
+        .search p {
+            width: 700px;
+            font-size: 35px;
+        }
+        .search span{
+            font-size: 45px;
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(200px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .btn-motion6 span {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            margin-left: -12px;
+            border-left: 1px solid #eeeeee;
+            border-bottom: 1px solid #eeeeee;
+            transform: rotate(-45deg);
+            animation: btn-motion6 2s infinite;
+            opacity: 0;
+            box-sizing: border-box;
+        }
+        .btn-motion6 span:hover {
+            border-left: 1px solid #00C88C;
+            border-bottom: 1px solid #00C88C;
+        }
+        .btn-motion6 span:nth-of-type(1) {
+            animation-delay: 0s;
+        }
+        .btn-motion6 span:nth-of-type(2) {
+            top: 16px;
+            animation-delay: .15s;
+        }
+        .btn-motion6 span:nth-of-type(3) {
+            top: 32px;
+            animation-delay: .3s;
+        }
+        @keyframes btn-motion6 {
+            0% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+        .slide_wrapper {
+            position: relative;
+            width: 1400px;
+            margin: 0 auto;
+            height: 360px;
+            overflow: hidden;
+            font-family: 'Freesentation-9Black';
+        }
+        .slides {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        #slidetxt{
+            font-family: 'Freesentation-9Black';
+        }
+        .slides.animated {
+            transition: 0.5s ease-out;
+        }
+        .slides li {
+            width: 600px;
+            height: 360px;
+            background-color: #ccc;
+            float: left;
+        }
+        .slides li:not(:last-child) {
+            margin-right: 30px;
+        }
+        .controls {
+            text-align: center;
+            margin-top: 50px;
+        }
+        .slides img{
+            width: 600px;
+            height: 360px;
+        }
+
+
+        #animated-text {
+            display: inline-block;
+            transition: all 0.5s ease-in-out;
+        }
+
+
+        #startbox {
+            position: relative;
+        }
+
+        .image-container img{
+            border: 1px solid red;
+            opacity: 0; /* 초기 불투명도를 0으로 설정 */
+            transition: opacity 2s ease-in-out; /* 서서히 나타나는 효과를 위한 트랜지션 설정 */
+        }
+        .scroll-button {
+            width: 280px;
+            height: 50px;
+            border: none;
+            /*border: 1px solid #00C88C;*/
+            color: #00C88C;
+            border-radius: 50px;
+            line-height: 50px;
+            font-size: 30px;
+            margin-top: 45px;
+            font-family: 'Freesentation-9Black';
+            background-color: white;
+            box-shadow: 1px 1px 5px #59e6c0 ;
+        }
+        .baro-button{
+            width: 250px;
+            height: 50px;
+            border:none;
+            background-color: white;
+            color: rgba(0, 200, 140, 0.66);
+            border-radius: 20px;
+            line-height: 50px;
+            margin: 5px auto;
+            font-size: 22px;
+            font-family: 'Freesentation-9Black';
+            box-shadow: 1px 0 5px 3px #b1dfd2;
+            cursor: pointer;
+        }
+        .barobox{
+            width: 100%;
+            height: 20px;
+            display: flex;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .barobox:hover{
+            transform: scale(1.05);
+        }
+        #introduce{
+            height: 350px;
+            margin: 100px auto;
+        }
+        #intro_cont{
+            margin: 0 auto;
+            display: flex;
+        }
+        .introducebox {
+            perspective: 1000px; /* 3D 공간에 대한 관점을 정의 */
+            display: inline-block;
+            margin: 20px auto;
+        }
+
+        .introinner {
+            position: relative;
+            width: 200px; /* 카드의 너비 설정 */
+            height: 250px; /* 카드의 높이 설정 */
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+            background-color: #00C88C;
+            border-radius: 20px;
+            background: linear-gradient( #00C88C, #00c8c8);
+        }
+        .introinner img{
+            width: 100px;
+            height: 100px;
+        }
+        .introinner.show-back {
+            transform: rotateY(180deg);
+        }
+
+        .orgin, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            font-size: 28px;
+            font-family: 'Freesentation-9Black';
+            padding: 20px 5px;
+            word-break: break-all;
+        }
+        .orgin p, .back h2  {
+            text-align: center;
+            white-space: normal; /* 텍스트 줄 바꿈 허용 */
+            word-wrap: break-word; /* 긴 단어 줄 바꿈 */
+            font-size: 25px; /* 폰트 크기 조정 */
+        }
+        .back h2{
+            width: 160px;
+            height: 90px;
+        }
+        .back p{
+            width: 166px;
+            height: 90px;
+            color: #555;
+            text-align: center;
+        }
+
+        .introinner .back {
+            font-size: 20px;
+            border-radius: 20px;
+            transform: rotateY(180deg);
+            padding: 0 0px;
+            word-break: break-all;
+            border: 2px solid transparent;
+            background-image: linear-gradient(#fff, #fff), linear-gradient(to bottom,#00C88C, #00c8c8);
+            background-origin: border-box;
+            background-clip: content-box, border-box;
+
+
+
+        }
+        .introinner .back p {
+            word-break: break-all;
+        }
+    </style>
+</head>
+
+<body>
+<th:block th:replace="~{common/header::header(${session.loginUser})}"></th:block>
+<div id="wrap" style="width: 1900px">
+    <div id="main">
+        <div id="maintxt">
+            <h1>여행의 <span id="animated-text">시작</span>을 함께하는</h1>
+            <span>당신의 계획친구 <span id="gratxt">플랜즈</span>입니다</span>
+
+            <div id="startbox" style="position:relative;height:100px;">
+                <div class="btn-motion6">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+            <div>
+                <button class="scroll-button" onclick="scrollDown()">플랜즈 알아보기</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="planer">
+
+    </div>
+
+
+    <div id="problem">
+        <div id="protxt">
+            <p id="badpoint">PROBLEM</p>
+            <p>여행으로 느끼는 <span>불편함</span>에는 무엇이 있나요?</p>
+        </div>
+        <div id="proimg">
+            <img src="/image/angel.png" style="width: 580px">
+            <img src="/image/patu.png" style="width: 580px">
+            <img src="/image/easyplangirl.png" style="width: 580px">
+        </div>
+        <div id="prosolvetxt">
+            <p><span>플랜즈</span>에서는 이렇게 해결했어요😀</p>
+        </div>
+        <div id="proline">
+            <img src="/image/line.png" style="width: 560px">
+            <img src="/image/line.png" style="width: 560px">
+            <img src="/image/line.png" style="width: 560px">
+        </div>
+        <div id="prosolve">
+            <img src="/image/pink.png" style="width: 560px">
+            <img src="/image/yellow.png" style="width: 560px">
+            <img src="/image/green.png" style="width: 560px">
+        </div>
+    </div>
+
+
+    <div id="container">
+        <div id="functxt">
+            <p><span>플랜즈</span>바로가기</p>
+        </div>
+        <div class="functions">
+
+            <div class="subtitle">
+                <p style="color: #00C88C">여행<span style="color: #aaaaaa">&nbsp;플래너</span></p>
+            </div>
+            <div class="search">
+                <div class="search_txt">
+                    <p class="animate-on-scroll"><span>여행 장소, 숙소</span>를 검색 후</p>
+                    <p class="animate-on-scroll">클릭으로 손쉽게 여행계획 </p>
+                </div>
+
+                <div class="searchimg">
+                    <img class="animate-on-scroll" src="/image/glasses .png">
+                    <!--            <div style="height: 100px;"></div>-->
+                </div>
+                <div class="barobox">
+                    <button class="baro-button" onclick="goToPlanner()"> MY플래너 바로가기 </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="functions">
+            <div class="subtitle">
+                <p style="color: #00C88C">여행일정<span style="color: #aaaaaa">&nbsp;거래</span></p>
+            </div>
+            <div class="search">
+                <div class="search_txt">
+                    <p class="animate-on-scroll"></p>
+                    <p class="animate-on-scroll"><span>교통, 입장권, 숙소</span> 등을 사고 팔 수 있어요 </p>
+                </div>
+            </div>
+            <div class="searchimg" style="margin-left: 20px">
+                <img class="animate-on-scroll" src="/image/reservation.png" style=" margin-bottom: 15px; height: 538px;">
+            </div>
+            <div class="barobox">
+                <button class="baro-button" onclick="goToBoard()">커뮤니티 바로가기</button>
+            </div>
+        </div>
+        <div class="functions" style="height: 1100px;">
+            <div class="subtitle">
+                <p style="color: #00C88C">관광지 추천<span style="color: #aaaaaa">&nbsp;즐겨찾기</span></p>
+            </div>
+            <div class="search">
+                <div class="search_txt">
+                    <div class="scheck">
+                        <img src="/image/checkgreen.png">
+                        <p class="animate-on-scroll"> 공공데이터를 활용한 <span>맛집, 카페, 관광지, 숙소</span> 등 추천</p>
+                    </div>
+                    <div class="stext">
+                        <img style="width: 50px;" src="/image/checkgreen.png">
+                        <p class="animate-on-scroll"><span>즐겨찾기</span> 장소를 <span>플래너</span>로 이동</p>
+                    </div>
+                </div>
+                <div class="searchimg" style="margin-left: 90px">
+                    <img class="animate-on-scroll" src="/image/likepointer.png" style= "margin-top: 50px;">
+                </div>
+                <div class="barobox">
+                    <button class="baro-button" onclick="goToInfo()">관광정보 바로가기</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="introduce">
+        <div id="intro_cont">
+        <div class="introducebox">
+            <div class="introinner">
+                <div class="orgin">
+                    <p>숙소 판매·양도</p>
+                    <img src="/image/sukso.png">
+                </div>
+                <div class="back">
+                    <h2>숙소 판매·양도</h2>
+                    <p>숙소를 판매하고 양도할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="introducebox">
+            <div class="introinner">
+                <div class="orgin">
+                    <p>결제 기능</p>
+                    <img src="/image/money.png">
+                </div>
+                <div class="back">
+                    <h2>결제 기능</h2>
+                    <p>사용자들이 안전하게 거래를 할 수 있도록 중간책이 되어 결제를 돕습니다.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="introducebox">
+            <div class="introinner">
+                <div class="orgin">
+                    <p>추천<br>  여행지 & 맛집</p>
+                    <img src="/image/recommend.png">
+                </div>
+                <div class="back">
+                    <h2>추천<br> 여행지 & 맛집</h2>
+                    <p>공공데이터에서 가져온 맛집, 관광지, 명소 정보를 알려줍니다</p>
+                </div>
+            </div>
+        </div>
+        <div class="introducebox">
+            <div class="introinner">
+                <div class="orgin">
+                    <p>지역축제 캘린더</p>
+                    <img src="/image/calendar.png">
+                </div>
+                <div class="back">
+                    <h2>지역축제 캘린더</h2>
+                    <p>지역 별 지역축제를 한눈에 볼 수 있는 달력을 제공합니다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="introducebox">
+            <div class="introinner">
+                <div class="orgin">
+                    <p>일정 정보</p>
+                    <img src="/image/planer.png" style="width: 130px; height: 130px">
+                </div>
+                <div class="back">
+                    <h2>일정 정보</h2>
+                    <p>일정명·내용·목적을 정리할 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="introducebox">
+            <div class="introinner">
+                <div class="orgin">
+                    <p>여행메이트 초대</p>
+                    <img src="/image/tripmate.png" style="width: 130px; height: 130px">
+                </div>
+                <div class="back">
+                    <h2>여행메이트 초대</h2>
+                    <p>여행 동행자를 초대하여 일정을 함께 볼 수 있습니다.</p>
+                </div>
+            </div>
+        </div>
+        <div class="introducebox">
+            <div class="introinner">
+                <div class="orgin">
+                    <p>찜한 장소<br>일정 추가</p>
+                    <img src="/image/likeheart.png">
+                </div>
+                <div class="back">
+                    <h2>찜한 장소<br>일정 추가</h2>
+                    <p>즐겨 찾기를 한 후 일정에 바로 추가할 수 있습니다</p>
+                </div>
+            </div>
+        </div>
+<!--        <div class="introducebox">-->
+<!--            <div class="introinner">-->
+<!--                <div class="orgin">-->
+<!--                    <p>검색 후 일정에 추가</p>-->
+<!--                    <img src="/image/searchand.png">-->
+<!--                </div>-->
+<!--                <div class="back">-->
+<!--                    <h2>검색 후 일정에 추가</h2>-->
+<!--                    <p>검색을 한 후 일정에 바로 추가할 수 있습니다.</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="introducebox">-->
+<!--            <div class="introinner">-->
+<!--                <div class="orgin">-->
+<!--                    <p>지도를 보며 일정 추가</p>-->
+<!--                    <img src="/image/maplocation.png">-->
+<!--                </div>-->
+<!--                <div class="back">-->
+<!--                    <h2>지도를 보며 일정 추가</h2>-->
+<!--                    <p>지도로 위치를 확인하며 일정을 추가할 수 있어요</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="introducebox">-->
+<!--            <div class="introinner">-->
+<!--                <div class="orgin">-->
+<!--                    <p>선택한 일정으로 타임테이블 만들기</p>-->
+<!--                    <img src="/image/timetable.png">-->
+<!--                </div>-->
+<!--                <div class="back">-->
+<!--                    <h2>선택한 일정으로 타임테이블 만들기</h2>-->
+<!--                    <p>선택된 장소들을 시간대 별로 타임테이블에 추가할 수 있습니다.</p>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+        </div>
+    </div>
+
+    <!--    <div id="slidecontainer">-->
+    <!--        <div id="slidetxt" style="width: 600px;margin: 0 auto;">-->
+    <!--            <p class="animate-on-scroll" style="font-size: 50px; padding:120px;">국내여행의 모든 것 </p>-->
+    <!--        </div>-->
+    <!--        <div class="slide_wrapper">-->
+    <!--            <ul class="slides">-->
+    <!--                <li><img src="/image/sunnyboat.jpg"></li>-->
+    <!--                <li><img src="/image/hanok.jpg"> </li>-->
+    <!--                <li><img src="/image/seakid.jpg"></li>-->
+    <!--                <li><img src="/image/stop.jpg"></li>-->
+    <!--                <li><img src="/image/gull.jpg"></li>-->
+    <!--                <li><img src="/image/sail.jpg"></li>-->
+    <!--                <li><img src="/image/railbike.jpg"></li>-->
+    <!--                <li><img src="/image/castle.jpg"></li>-->
+    <!--                <li><img src="/image/dock.jpg"></li>-->
+    <!--                <li><img src="/image/chinatown.jpg"></li>-->
+    <!--                <li><img src="/image/castle.jpg"></li>-->
+    <!--            </ul>-->
+    <!--        </div>-->
+    <!--        <p class="controls">-->
+    <!--            <span class="leftbtn"></span>-->
+    <!--            <span class="rightbtn"></span>-->
+    <!--        </p>-->
+    <!--    </div>-->
+
+
+
+    <div id="in_wrap" style="display: none">
+        <div id="resentEventList">
+            <div id="eventInfoBox">
+                <!-- <ul id="eventInfoList"></ul> -->
+                <ul id="eventInfoList">
+                    <li class="eventInfo">
+                        <span class="eventTitle">서울드럼페스티벌</span>
+                        <span class="eventAddr">서울특별시 용산구 양녕로 445 (이촌동)</span>
+                        <span class="eventDate">행사기간 : 5/25~5/26</span>
+                    </li>
+                    <li class="eventInfo">
+                        <span class="eventTitle">영양산나물축제</span>
+                        <span class="eventAddr">경상북도 영양군 영양읍 군청길 37</span>
+                        <span class="eventDate">행사기간 : 5/9~5/12</span>
+                    </li>
+                    <li class="eventInfo">
+                        <span class="eventTitle">부산국제매직페스티벌</span>
+                        <span class="eventAddr">부산광역시 남구 못골번영로71번길 74 부산예술대학</span>
+                        <span class="eventDate">행사기간 : 3/23~12/15</span>
+                    </li>
+                    <li class="eventInfo">
+                        <span class="eventTitle">울산조선해양축제</span>
+                        <span class="eventAddr">울산광역시 동구 해수욕장10길</span>
+                        <span class="eventDate">행사기간 : 7/19~7/21</span>
+                    </li>
+                    <li class="eventInfo">
+                        <span class="eventTitle">고양호수예술축제</span>
+                        <span class="eventAddr">경기도 고양시 일산동구 호수로 595</span>
+                        <span class="eventDate">행사기간 : 10/11~10/13</span>
+                    </li>
+                    <li class="eventInfo">
+                        <span class="eventTitle">대한민국와인축제</span>
+                        <span class="eventAddr">충청북도 영동군 영동읍 계산리</span>
+                        <span class="eventDate">행사기간 : 5/24~5/26</span>
+                    </li>
+                    <li class="eventInfo">
+                        <span class="eventTitle">서천 자연산 광어 도미 축제</span>
+                        <span class="eventAddr">충청남도 서천군 서인로 58</span>
+                        <span class="eventDate">행사기간 : 5/4~5/19</span>
+                    </li>
+                    <li class="eventInfo">
+                        <span class="eventTitle">2024경기도자비엔날레 (Gyeonggi Ceramics Biennale 2024)</span>
+                        <span class="eventAddr">경기도 이천시 경충대로2697번길 263</span>
+                        <span class="eventDate">행사기간 : 9/6~10/20</span>
+                    </li>
+                    <li class="eventInfo">
+                        <span class="eventTitle">울산대공원 장미축제</span>
+                        <span class="eventAddr">울산광역시 남구 남부순환도로 377</span>
+                        <span class="eventDate">행사기간 : 5/22~5/26</span>
+                    </li>
+                    <li class="eventInfo">
+                        <span class="eventTitle">보물섬 미조항 멸치&amp;수산물 축제</span>
+                        <span class="eventAddr">경상남도 남해군 미조면 미조로 9</span>
+                        <span class="eventDate">행사기간 : 5/11~5/12</span>
+                    </li>
+                </ul>
+                <div id="evenPageBtnBox">
+                    <div id="pagenumbox">
+                        <span id="nowpagenum">1</span> / <span id="totalpage">10</span>
+                    </div>
+                    <div id="btnbox">
+                        <span class="btn prev"></span>
+                        <span class="btn stop disappear"></span>
+                        <span class="btn start"></span>
+                        <span class="btn next"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="eventImgBox">
+                <!-- <ul id="eventImgList"></ul> -->
+                <ul id="eventImgList">
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/48/2598348_image2_1.jpg) no-repeat center/100%;">
+                    </li>
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/12/2987512_image2_1.png) no-repeat center/100%;">
+                    </li>
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/96/2489196_image2_1.jpg) no-repeat center/100%;">
+                    </li>
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/76/2989876_image2_1.png) no-repeat center/100%;">
+                    </li>
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/41/3115941_image2_1.jpg) no-repeat center/100%;">
+                    </li>
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/41/3114641_image2_1.JPG) no-repeat center/100%;">
+                    </li>
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/51/3106451_image2_1.jpg) no-repeat center/100%;">
+                    </li>
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/06/2978106_image2_1.jpg) no-repeat center/100%;">
+                    </li>
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/00/2606300_image2_1.jpg) no-repeat center/100%;">
+                    </li>
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/95/2597295_image2_1.jpeg) no-repeat center/100%;">
+                    </li>
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/48/2598348_image2_1.jpg) no-repeat center/100%;">
+                    </li>
+                    <li class="evenImg"
+                        style="background:url(http://tong.visitkorea.or.kr/cms/resource/12/2987512_image2_1.png) no-repeat center/100%;">
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- <input type="button" onclick="doing()" value="ajax실행"> -->
+    </div>
+</div>
+<th:block th:replace="~{common/footer::footer}"></th:block>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+    <!--   글자 바뀌는 애니메이션 css-->
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const textElement = document.getElementById("animated-text");
+        const texts = ["시작", "계획"];
+        let index = 0;
+
+        setInterval(() => {
+            // Fade out
+            textElement.classList.remove("fade-in");
+            textElement.classList.add("fade-out");
+
+            setTimeout(() => {
+                // Change text
+                index = (index + 1) % texts.length;
+                textElement.textContent = texts[index];
+
+                // Fade in
+                textElement.classList.remove("fade-out");
+                textElement.classList.add("fade-in");
+            }, 500); // Match the duration with the CSS transition
+        }, 2000); // Change text every 2 seconds
+    });
+
+
+    window.onload = function(){
+        document.getElementById("eventImgBox").scrollTo({top:0, left: 610, behavior:'instant'});
+    }
+    function doing() {
+        $.ajax({
+            url: "/api/get",
+            method: "POST",
+            data: { arrange: "O" },
+            success: function (data) {
+                const items = data.response.body.items.item;
+                let img = "";
+                let Info = "";
+                for (let i=0;i<items.length;i++) {
+                    const item = items[i];
+                    img += `<li class='evenImg index${i+1}' style='background:url(${item.firstimage}) no-repeat center/100%;'></li>`;
+
+                    const startmonth = (item.eventstartdate.charAt(4) == '0') ? item.eventstartdate.substring(5, 6) : item.eventstartdate.substring(4, 6);
+                    const startday = (item.eventstartdate.substring(6).charAt(0) == '0') ? item.eventstartdate.substring(7) : item.eventstartdate.substring(6);
+                    const startDate = startmonth + "/" + startday;
+
+                    const endmonth = (item.eventenddate.charAt(4) == '0') ? item.eventenddate.substring(5, 6) : item.eventenddate.substring(4, 6);
+                    const endday = (item.eventenddate.substring(6).charAt(0) == '0') ? item.eventenddate.substring(7) : item.eventenddate.substring(6);
+                    const endDate = endmonth + "/" + endday;
+                    Info += `<li class='eventInfo index${i+1}'>
+                        <span class='eventTitle'>${item.title}</span>
+                        <span class='eventAddr'>${item.addr1}</span>
+                        <span class='eventDate'>행사기간 : ${startDate}~${endDate}</span>
+                        </li>`;
+                }
+                $("#eventImgList").html(img);
+                $("#eventInfoList").html(Info);
+            },
+            error: function (data) {
+                console.log('실패');
+            }
+        })
+    }
+
+
+
+    const eventImgBox = document.getElementById("eventImgBox");
+    const prevbtn = document.getElementsByClassName("prev");
+    const nextbtn = document.getElementsByClassName("next");
+    const nowpagenum = document.getElementById("nowpagenum");
+    prevbtn[0].addEventListener("click",function(){
+        let index = Number(nowpagenum.innerText)-1;
+        if(index==0){
+            eventImgBox.scrollTo({top:0, left: 6710, behavior:'instant'});
+            index=10;
+        }
+        let value = 610*(index);
+        eventImgBox.scrollTo({top:0, left: value, behavior:'smooth'});
+        nowpagenum.innerText = index;
+
+    })
+    nextbtn[0].addEventListener("click",function(){
+        let index = Number(nowpagenum.innerText)+1;
+        if(index==11){
+            eventImgBox.scrollTo({top:0, left: 0, behavior:'instant'});
+            index = 1;
+        }
+        let value = 610*index;
+        eventImgBox.scrollTo({top:0, left: value, behavior:'smooth'});
+        nowpagenum.innerText = index;
+    })
+
+
+
+    document.addEventListener("DOMContentLoaded", function() {
+        const elements = document.querySelectorAll('.animate-on-scroll');
+
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);  // Stop observing the element once it has become visible
+                }
+            });
+        }, {
+            threshold: 0.1  // Trigger when 10% of the element is visible
+        });
+
+        elements.forEach(element => {
+            observer.observe(element);
+        });
+    });
+
+    // 소은
+    // var slides = document.querySelector('.slides'),
+    //     slide = document.querySelectorAll('.slides li'),
+    //     currentIdx = 0,
+    //     slideCount = slide.length,
+    //     slideWidth = 600,
+    //     slideMargin = 100,
+    //     leftbtn = document.querySelector('.leftbtn'),
+    //     rightbtn = document.querySelector('.rightbtn');
+    //
+    // makeClone();
+    //
+    // function makeClone(){
+    //     for(var i = 0; i<slideCount; i++){
+    //         //a.cloneNode(), a.cloneNode(true)
+    //         var cloneSlide = slide[i].cloneNode(true);
+    //         cloneSlide.classList.add('clone');
+    //         //a.appendChild(b)
+    //         slides.appendChild(cloneSlide);
+    //     }
+    //     for(var i = slideCount -2; i>=0; i--){
+    //         var cloneSlide = slide[i].cloneNode(true);
+    //         cloneSlide.classList.add('clone');
+    //         //a.prepend(b)
+    //         slides.prepend(cloneSlide);
+    //     }
+    //     updateWidth();
+    //     setInitialPos();
+    //     setTimeout(function (){
+    //         slides.classList.add('animated');
+    //     },100);
+    //
+    // }
+    // function  updateWidth(){
+    //     var currentSlides = document.querySelectorAll('.slides li');
+    //     var newSlideCount = currentSlides.length;
+    //
+    //     var newWidth = (slideWidth + slideMargin)*newSlideCount - slideMargin + 'px';
+    //     slides.style.width = newWidth;
+    // }
+
+    // function setInitialPos(){
+    //     var initialTranslateValue = -(slideWidth + slideMargin)*slideCount;
+    //     //slides { transform:translateX(-1000px);}
+    //     slides.style.transform = 'translateX(' +initialTranslateValue+'px)';
+    // }
+    //
+    // rightbtn.addEventListener('click',function (){
+    //     moveSlide(currentIdx + 1);
+    // });
+    // leftbtn.addEventListener('click',function (){
+    //     moveSlide(currentIdx - 1);
+    // });
+    // function moveSlide(num){
+    //     slides.style.left = -num * (slideWidth + slideMargin) +'px';
+    //     currentIdx = num;
+    //     console.log(currentIdx, slideCount);
+    //
+    //     if(currentIdx == slideCount || currentIdx == -slideCount){
+    //         setTimeout(function (){
+    //             slides.classList.remove('animated');
+    //             slides.style.left = '0px';
+    //             currentIdx = 0;
+    //         },900);
+    //         setTimeout(function (){
+    //             slides.classList.remove('animated');
+    //         },1000)
+    //     }
+    // }
+    // function autoSlide(num) {
+    //     setInterval(function () {
+    //         moveSlide(currentIdx + 1);
+    //     }, 2000); // 3초마다 슬라이드 이동
+    // }
+    //
+    // autoSlide();
+
+    // 이미지 js
+    // document.addEventListener("DOMContentLoaded", function() {
+    //     const img = document.getElementsByClassName("fade-image");
+    //     img.style.opacity = 1; // 이미지 불투명도를 1로 변경하여 서서히 나타나게 함
+    // });
+
+    //scroll down
+    function scrollDown() {
+        window.scrollTo({
+            top: 1200, // 스크롤할 위치 (픽셀 단위)
+            behavior: 'smooth' // 부드럽게 스크롤
+        });
+    }
+
+    // index에서만 header고정
+    document.addEventListener("DOMContentLoaded", function() {
+        // 현재 페이지가 index 페이지인지 확인 (예: index.html)
+        if (window.location.pathname === "/index.html") {
+            var header = document.getElementById("header");
+            var sticky = header.offsetTop;
+
+            window.onscroll = function() {
+                if (window.pageYOffset > sticky) {
+                    header.classList.add("sticky");
+                } else {
+                    header.classList.remove("sticky");
+                }
+            };
+        }
+    });
+</script>
+
+<script>
+    function goToBoard() {
+            window.location.href = './board/list';
+    }
+    function goToPlanner() {
+        window.location.href = './plan/create';
+    }
+    function goToInfo() {
+        window.location.href = './region/region';
+    }
+
+// introduce 부분 js
+    document.querySelectorAll('.introducebox').forEach(box => {
+        box.addEventListener('mouseenter', () => {
+            const inner = box.querySelector('.introinner');
+            inner.classList.toggle('show-back');
+        });
+    });
+
+</script>
+
+</html>

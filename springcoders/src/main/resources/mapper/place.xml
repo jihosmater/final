@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.demo.mapper.PlaceMapper">
+    <sql id="criteria">
+        <if test="cri.type != '' and cri.type != null">
+            <if test="cri.type != '좋아요'">
+                p.category like('%${cri.type}%')
+            </if>
+            <if test="cri.type == '좋아요'">
+                up.userid = #{userid}
+            </if>
+        </if>
+        and (placename like('%${cri.keyword}%') or category like('%${cri.keyword}%'))
+    </sql>
+
+    <select id="getList">
+        select p.* from place p left join user_place up
+        on p.placeid = up.placeid
+        where <include refid="criteria"/>
+        group by p.placeid order by count(up.userid) desc limit ${cri.startrow},${cri.amount}
+    </select>
+
+    <select id="getLikeCntList">
+        select count(up.userid) from place p left join user_place up
+        on p.placeid = up.placeid
+        where <include refid="criteria"/>
+        group by p.placeid order by count(up.userid) desc limit #{cri.startrow},#{cri.amount}
+    </select>
+
+    <select id="getListCnt">
+        select count(DISTINCT p.placeid) from place p left join user_place up
+        on p.placeid = up.placeid
+        where <include refid="criteria"/>
+    </select>
+
+    <insert id="insertPlace">
+        insert into place values(#{placeid},#{placename},#{addr},
+        #{phone},#{category})
+    </insert>
+
+    <select id="getPlaceById">
+        select * from place where placeid = #{placeid}
+    </select>
+
+    <insert id="insertCategory">
+        insert into category values(#{categoryname})
+    </insert>
+
+    <select id="getCategory">
+        select categoryname from category where categoryname = #{categoryname}
+    </select>
+
+    <insert id="insertPR">
+        insert into place_reply (placeid,replynum)
+        values(#{placeid},#{replynum})
+    </insert>
+
+    <select id="getPlaceListByPlannum">
+        select p.* from place p left join plan_place pp
+        on p.placeid = pp.placeid where pp.plannum = #{plannum}
+    </select>
+
+    <select id="findFavoritesByUserId">
+        SELECT p.* FROM place p
+        JOIN user_place l ON p.placeid = l.placeid
+        WHERE l.userid = #{userId}
+    </select>
+
+    <select id="getPlaceListByArea">
+        select * from place where addr like('%${area}%')
+    </select>
+
+</mapper>
+
+

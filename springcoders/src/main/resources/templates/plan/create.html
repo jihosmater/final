@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--<html lang="en" xmlns:th="http://www.thymeleaf.org">-->
+<head>
+    <meta charset="UTF-8">
+    <title>일정작성|PLANZ</title>
+    <link rel="stylesheet" href="/css/plan/create.css">
+</head>
+<body>
+<th:block th:replace="~{common/header::header(${session.loginUser})}"></th:block>
+<th:block th:if="${session.loginUser == null}">
+    <script>
+        alert("로그인 후 이용하세요!");
+        location.replace("/user/login");
+    </script>
+</th:block>
+<th:block th:if="${messages == 'createError'}">
+    <script>
+        alert("일정 생성에 오류가 발생했습니다 다시 시도해 주세요");
+    </script>
+</th:block>
+<div id="lodingWindow" class="disappear">
+    <span id="lodingText">잠시만 기다려주세요</span>
+    <span id="lodingBar">
+        <span id="lodinggauge" class="animation"></span>
+    </span>
+</div>
+<form action="/plan/create" id="planForm" name="planForm" method="post">
+    <div id="wrap">
+        <div id="stepbox">
+            <span class="stepsign">
+                <span>일정</span>
+                <span>></span>
+            </span>
+            <span class="stepsign btn" onclick="showSelectBox(1)">
+                <span>날짜 선택</span>
+                <span>></span>
+            </span>
+            <span class="stepsign btn" onclick="showSelectBox(2)">
+                <span>장소 선택</span>
+                <span>></span>
+            </span>
+            <span class="stepsign btn" onclick="showSelectBox(3)">
+                <span>스케줄 작성</span>
+                 <span></span>
+            </span>
+        </div>
+        <div id="selectBoxList">
+            <!-- 섹션1 -->
+            <div class="stepBox" id="inviteUsers">
+                <ul id="planInfoBox">
+                    <!-- 일정 정보 입력 -->
+                    <li class="planInfoRow">
+                        <div class="planInfoRowTitle">
+                            <img src="/image/planInfoImg.png" class="titleImg">
+                            <span class="mainTitle">일정 정보</span>
+                            <span class="subTitle">일정명, 내용 </span>
+                        </div>
+                        <div class="planInfoRowDetail">
+                            <label>일정명</label>
+                            <input type="text" name="plantitle" id="plantitle" maxlength="100">
+                            <label>내용</label>
+                            <textarea name="planmemo" id="planmemo" maxlength="200"></textarea>
+                        </div>
+                    </li>
+                    <!-- 일정 목적 입력 -->
+                    <li class="planInfoRow">
+                        <div class="planInfoRowTitle">
+                            <img src="/image/planPurposeImg.png" class="titleImg">
+                            <span class="mainTitle">목적</span>
+                            <span class="subTitle">카테고리 설정</span>
+                        </div>
+                        <div class="planInfoRowDetail">
+                            <input type="hidden" name="category" id="category" class="plancategory">
+                            <ul id="bigCategoryList" class="categoryBox">
+                                <li class="bct" id="bct1">지역</li>
+                                <li class="bct" id="bct2">음식</li>
+                                <li class="bct" id="bct3">명소</li>
+                            </ul>
+                            <ul id="middleCategoryList" class="categoryBox disappear">
+                                <li class="mct bct1 disappear" id="mct1">서울특별시</li>
+                                <li class="mct bct1 disappear" id="mct2">부산광역시</li>
+                                <li class="mct bct1 disappear" id="mct3">대구광역시</li>
+                                <li class="mct bct1 disappear" id="mct4">인천광역시</li>
+                                <li class="mct bct1 disappear" id="mct5">광주광역시</li>
+                                <li class="mct bct1 disappear" id="mct6">대전광역시</li>
+                                <li class="mct bct1 disappear" id="mct7">울산광역시</li>
+                                <li class="mct bct1 disappear" id="mct8">세종특별자치시</li>
+                                <li class="mct bct1 disappear" id="mct9">경기도</li>
+                                <li class="mct bct1 disappear" id="mct10">강원도</li>
+                                <li class="mct bct1 disappear" id="mct11">충청북도</li>
+                                <li class="mct bct1 disappear" id="mct12">충청남도</li>
+                                <li class="mct bct1 disappear" id="mct13">전라북도</li>
+                                <li class="mct bct1 disappear" id="mct14">전라남도</li>
+                                <li class="mct bct1 disappear" id="mct15">경상북도</li>
+                                <li class="mct bct1 disappear" id="mct16">경상남도</li>
+                                <li class="mct bct1 disappear" id="mct17">제주특별자치도</li>
+                                <!-- 음식 중 카테고리 -->
+                                <li class="mct bct2 disappear" id="mct18">종류별</li>
+                                <li class="mct bct2 disappear" id="mct19">스트리트 푸트</li>
+                                <li class="mct bct2 disappear" id="mct20">고급 레스토랑</li>
+                                <li class="mct bct2 disappear" id="mct21">디저트 및 카페</li>
+                                <!-- 명소 중 카테고리 -->
+                                <li class="mct bct3 disappear" id="mct22">자연 명소</li>
+                                <li class="mct bct3 disappear" id="mct23">역사/문화 명소</li>
+                                <li class="mct bct3 disappear" id="mct24">현대 명소</li>
+                                <li class="mct bct3 disappear" id="mct25">레저 활동</li>
+                                <li class="mct bct3 disappear" id="mct26">체험 활동</li>
+                                <li class="mct bct3 disappear" id="mct27">이벤트 및 페스티벌</li>
+                            </ul>
+                            <ul id="smallCategoryList" class="categoryBox disappear">
+                                <!-- 서울특별시 -->
+                                <li class="sct mct1 bct1 disappear" id="sct1">종로구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct2">중구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct3">용산구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct4">성동구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct5">광진구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct6">동대문구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct7">중랑구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct8">성북구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct9">강북구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct10">도봉구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct11">노원구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct12">은평구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct13">서대문구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct14">마포구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct15">양천구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct16">강서구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct17">구로구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct18">금천구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct19">영등포구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct20">동작구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct21">관악구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct22">서초구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct23">강남구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct24">송파구</li>
+                                <li class="sct mct1 bct1 disappear" id="sct25">강동구</li>
+                                <!-- 부산광역시 -->
+                                <li class="sct mct2 bct1 disappear" id="sct26">중구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct27">서구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct28">동구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct29">영도구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct30">부산진구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct31">동래구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct32">남구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct33">북구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct34">해운대구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct35">사하구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct36">금정구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct37">강서구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct38">연제구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct39">수영구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct40">사상구</li>
+                                <li class="sct mct2 bct1 disappear" id="sct41">기장군</li>
+                                <!-- 대구광역시 -->
+                                <li class="sct mct3 bct1 disappear" id="sct42">중구</li>
+                                <li class="sct mct3 bct1 disappear" id="sct43">동구</li>
+                                <li class="sct mct3 bct1 disappear" id="sct44">서구</li>
+                                <li class="sct mct3 bct1 disappear" id="sct45">남구</li>
+                                <li class="sct mct3 bct1 disappear" id="sct46">북구</li>
+                                <li class="sct mct3 bct1 disappear" id="sct47">수성구</li>
+                                <li class="sct mct3 bct1 disappear" id="sct48">달서구</li>
+                                <li class="sct mct3 bct1 disappear" id="sct49">달성군</li>
+                                <!-- 인천광역시 -->
+                                <li class="sct mct4 bct1 disappear" id="sct50">중구</li>
+                                <li class="sct mct4 bct1 disappear" id="sct51">동구</li>
+                                <li class="sct mct4 bct1 disappear" id="sct52">미추홀구</li>
+                                <li class="sct mct4 bct1 disappear" id="sct53">연수구</li>
+                                <li class="sct mct4 bct1 disappear" id="sct54">남동구</li>
+                                <li class="sct mct4 bct1 disappear" id="sct55">부평구</li>
+                                <li class="sct mct4 bct1 disappear" id="sct56">계양구</li>
+                                <li class="sct mct4 bct1 disappear" id="sct57">서구</li>
+                                <li class="sct mct4 bct1 disappear" id="sct58">강화군</li>
+                                <li class="sct mct4 bct1 disappear" id="sct59">옹진군</li>
+                                <!-- 광주광역시 -->
+                                <li class="sct mct5 bct1 disappear" id="sct60">동구</li>
+                                <li class="sct mct5 bct1 disappear" id="sct61">서구</li>
+                                <li class="sct mct5 bct1 disappear" id="sct62">남구</li>
+                                <li class="sct mct5 bct1 disappear" id="sct63">북구</li>
+                                <li class="sct mct5 bct1 disappear" id="sct64">광산구</li>
+                                <!-- 대전광역시 -->
+                                <li class="sct mct6 bct1 disappear" id="sct65">동구</li>
+                                <li class="sct mct6 bct1 disappear" id="sct66">중구</li>
+                                <li class="sct mct6 bct1 disappear" id="sct67">서구</li>
+                                <li class="sct mct6 bct1 disappear" id="sct68">유성구</li>
+                                <li class="sct mct6 bct1 disappear" id="sct69">대덕구</li>
+                                <!-- 울산광역시 -->
+                                <li class="sct mct7 bct1 disappear" id="sct70">중구</li>
+                                <li class="sct mct7 bct1 disappear" id="sct71">남구</li>
+                                <li class="sct mct7 bct1 disappear" id="sct72">동구</li>
+                                <li class="sct mct7 bct1 disappear" id="sct73">북구</li>
+                                <li class="sct mct7 bct1 disappear" id="sct74">울주군</li>
+                                <!-- 세종특별자치시 -->
+                                <li class="sct mct8 bct1 disappear" id="sct75">세종특별자치시</li>
+                                <!-- 경기도 -->
+                                <li class="sct mct9 bct1 disappear" id="sct76">수원시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct77">성남시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct78">의정부시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct79">안양시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct80">부천시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct81">광명시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct82">평택시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct83">동두천시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct84">안산시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct85">고양시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct86">과천시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct87">구리시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct88">남양주시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct89">오산시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct90">시흥시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct91">군포시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct92">의왕시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct93">하남시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct94">용인시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct95">파주시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct96">이천시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct97">안성시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct98">김포시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct99">화성시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct100">광주시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct101">양주시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct102">포천시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct103">여주시</li>
+                                <li class="sct mct9 bct1 disappear" id="sct104">연천군</li>
+                                <li class="sct mct9 bct1 disappear" id="sct105">가평군</li>
+                                <li class="sct mct9 bct1 disappear" id="sct106">양평군</li>
+                                <!-- 강원도 -->
+                                <li class="sct mct10 bct1 disappear" id="sct107">춘천시</li>
+                                <li class="sct mct10 bct1 disappear" id="sct108">원주시</li>
+                                <li class="sct mct10 bct1 disappear" id="sct109">강릉시</li>
+                                <li class="sct mct10 bct1 disappear" id="sct110">동해시</li>
+                                <li class="sct mct10 bct1 disappear" id="sct111">태백시</li>
+                                <li class="sct mct10 bct1 disappear" id="sct112">속초시</li>
+                                <li class="sct mct10 bct1 disappear" id="sct113">삼척시</li>
+                                <li class="sct mct10 bct1 disappear" id="sct114">홍천군</li>
+                                <li class="sct mct10 bct1 disappear" id="sct115">횡성군</li>
+                                <li class="sct mct10 bct1 disappear" id="sct116">영월군</li>
+                                <li class="sct mct10 bct1 disappear" id="sct117">평창군</li>
+                                <li class="sct mct10 bct1 disappear" id="sct118">정선군</li>
+                                <li class="sct mct10 bct1 disappear" id="sct119">철원군</li>
+                                <li class="sct mct10 bct1 disappear" id="sct120">화천군</li>
+                                <li class="sct mct10 bct1 disappear" id="sct121">양구군</li>
+                                <li class="sct mct10 bct1 disappear" id="sct122">인제군</li>
+                                <li class="sct mct10 bct1 disappear" id="sct123">고성군</li>
+                                <li class="sct mct10 bct1 disappear" id="sct124">양양군</li>
+                                <!-- 충청북도 -->
+                                <li class="sct mct11 bct1 disappear" id="sct125">청주시</li>
+                                <li class="sct mct11 bct1 disappear" id="sct126">충주시</li>
+                                <li class="sct mct11 bct1 disappear" id="sct127">제천시</li>
+                                <li class="sct mct11 bct1 disappear" id="sct128">보은군</li>
+                                <li class="sct mct11 bct1 disappear" id="sct129">옥천군</li>
+                                <li class="sct mct11 bct1 disappear" id="sct130">영동군</li>
+                                <li class="sct mct11 bct1 disappear" id="sct131">증평군</li>
+                                <li class="sct mct11 bct1 disappear" id="sct132">진천군</li>
+                                <li class="sct mct11 bct1 disappear" id="sct133">괴산군</li>
+                                <li class="sct mct11 bct1 disappear" id="sct134">음성군</li>
+                                <li class="sct mct11 bct1 disappear" id="sct135">단양군</li>
+                                <!-- 충청남도 -->
+                                <li class="sct mct12 bct1 disappear" id="sct136">천안시</li>
+                                <li class="sct mct12 bct1 disappear" id="sct137">공주시</li>
+                                <li class="sct mct12 bct1 disappear" id="sct138">보령시</li>
+                                <li class="sct mct12 bct1 disappear" id="sct139">아산시</li>
+                                <li class="sct mct12 bct1 disappear" id="sct140">서산시</li>
+                                <li class="sct mct12 bct1 disappear" id="sct141">논산시</li>
+                                <li class="sct mct12 bct1 disappear" id="sct142">계룡시</li>
+                                <li class="sct mct12 bct1 disappear" id="sct143">당진시</li>
+                                <li class="sct mct12 bct1 disappear" id="sct144">금산군</li>
+                                <li class="sct mct12 bct1 disappear" id="sct145">부여군</li>
+                                <li class="sct mct12 bct1 disappear" id="sct146">서천군</li>
+                                <li class="sct mct12 bct1 disappear" id="sct147">청양군</li>
+                                <li class="sct mct12 bct1 disappear" id="sct148">홍성군</li>
+                                <li class="sct mct12 bct1 disappear" id="sct149">예산군</li>
+                                <li class="sct mct12 bct1 disappear" id="sct150">태안군</li>
+                                <!-- 전라북도 -->
+                                <li class="sct mct13 bct1 disappear" id="sct151">전주시</li>
+                                <li class="sct mct13 bct1 disappear" id="sct152">군산시</li>
+                                <li class="sct mct13 bct1 disappear" id="sct153">익산시</li>
+                                <li class="sct mct13 bct1 disappear" id="sct154">정읍시</li>
+                                <li class="sct mct13 bct1 disappear" id="sct155">남원시</li>
+                                <li class="sct mct13 bct1 disappear" id="sct156">김제시</li>
+                                <li class="sct mct13 bct1 disappear" id="sct157">완주군</li>
+                                <li class="sct mct13 bct1 disappear" id="sct158">진안군</li>
+                                <li class="sct mct13 bct1 disappear" id="sct159">무주군</li>
+                                <li class="sct mct13 bct1 disappear" id="sct160">장수군</li>
+                                <li class="sct mct13 bct1 disappear" id="sct161">임실군</li>
+                                <li class="sct mct13 bct1 disappear" id="sct162">순창군</li>
+                                <li class="sct mct13 bct1 disappear" id="sct163">고창군</li>
+                                <li class="sct mct13 bct1 disappear" id="sct164">부안군</li>
+                                <!-- 전라남도 -->
+                                <li class="sct mct14 bct1 disappear" id="sct165">목포시</li>
+                                <li class="sct mct14 bct1 disappear" id="sct166">여수시</li>
+                                <li class="sct mct14 bct1 disappear" id="sct167">순천시</li>
+                                <li class="sct mct14 bct1 disappear" id="sct168">나주시</li>
+                                <li class="sct mct14 bct1 disappear" id="sct169">광양시</li>
+                                <li class="sct mct14 bct1 disappear" id="sct170">담양군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct171">곡성군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct172">구례군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct173">고흥군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct174">보성군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct175">화순군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct176">장흥군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct177">강진군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct178">해남군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct179">영암군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct180">무안군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct181">함평군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct182">영광군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct183">장성군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct184">완도군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct185">진도군</li>
+                                <li class="sct mct14 bct1 disappear" id="sct186">신안군</li>
+                                <!-- 경상북도 -->
+                                <li class="sct mct15 bct1 disappear" id="sct187">포항시</li>
+                                <li class="sct mct15 bct1 disappear" id="sct188">경주시</li>
+                                <li class="sct mct15 bct1 disappear" id="sct189">김천시</li>
+                                <li class="sct mct15 bct1 disappear" id="sct190">안동시</li>
+                                <li class="sct mct15 bct1 disappear" id="sct191">구미시</li>
+                                <li class="sct mct15 bct1 disappear" id="sct192">영주시</li>
+                                <li class="sct mct15 bct1 disappear" id="sct193">영천시</li>
+                                <li class="sct mct15 bct1 disappear" id="sct194">상주시</li>
+                                <li class="sct mct15 bct1 disappear" id="sct195">문경시</li>
+                                <li class="sct mct15 bct1 disappear" id="sct196">경산시</li>
+                                <li class="sct mct15 bct1 disappear" id="sct197">군위군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct198">의성군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct199">청송군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct200">영양군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct201">영덕군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct202">청도군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct203">고령군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct204">성주군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct205">칠곡군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct206">예천군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct207">봉화군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct208">울진군</li>
+                                <li class="sct mct15 bct1 disappear" id="sct209">울릉군</li>
+                                <!-- 경상남도 -->
+                                <li class="sct mct16 bct1 disappear" id="sct210">창원시</li>
+                                <li class="sct mct16 bct1 disappear" id="sct211">진주시</li>
+                                <li class="sct mct16 bct1 disappear" id="sct212">통영시</li>
+                                <li class="sct mct16 bct1 disappear" id="sct213">사천시</li>
+                                <li class="sct mct16 bct1 disappear" id="sct214">김해시</li>
+                                <li class="sct mct16 bct1 disappear" id="sct215">밀양시</li>
+                                <li class="sct mct16 bct1 disappear" id="sct216">거제시</li>
+                                <li class="sct mct16 bct1 disappear" id="sct217">양산시</li>
+                                <li class="sct mct16 bct1 disappear" id="sct218">의령군</li>
+                                <li class="sct mct16 bct1 disappear" id="sct219">함안군</li>
+                                <li class="sct mct16 bct1 disappear" id="sct220">창녕군</li>
+                                <li class="sct mct16 bct1 disappear" id="sct221">고성군</li>
+                                <li class="sct mct16 bct1 disappear" id="sct222">남해군</li>
+                                <li class="sct mct16 bct1 disappear" id="sct223">하동군</li>
+                                <li class="sct mct16 bct1 disappear" id="sct224">산청군</li>
+                                <li class="sct mct16 bct1 disappear" id="sct225">함양군</li>
+                                <li class="sct mct16 bct1 disappear" id="sct226">거창군</li>
+                                <li class="sct mct16 bct1 disappear" id="sct227">합천군</li>
+                                <!-- 제주특별자치도 -->
+                                <li class="sct mct17 bct1 disappear" id="sct228">제주시</li>
+                                <li class="sct mct17 bct1 disappear" id="sct229">서귀포시</li>
+                                <!-- 음식 종류별 -->
+                                <li class="sct mct18 bct2 disappear" id="sct230">한식</li>
+                                <li class="sct mct18 bct2 disappear" id="sct231">중식</li>
+                                <li class="sct mct18 bct2 disappear" id="sct232">일식</li>
+                                <li class="sct mct18 bct2 disappear" id="sct233">양식</li>
+                                <!-- 스트리트 푸트 -->
+                                <li class="sct mct19 bct2 disappear" id="sct234">포장마차</li>
+                                <li class="sct mct19 bct2 disappear" id="sct235">푸드트럭</li>
+                                <!-- 고급 레스토랑 -->
+                                <li class="sct mct20 bct2 disappear" id="sct236">미슐랭 스타 레스토랑</li>
+                                <li class="sct mct20 bct2 disappear" id="sct237">파인 다이닝</li>
+                                <!-- 디저트 및 카페 -->
+                                <li class="sct mct21 bct2 disappear" id="sct238">빵집</li>
+                                <li class="sct mct21 bct2 disappear" id="sct239">디저트 카페</li>
+                                <li class="sct mct21 bct2 disappear" id="sct240">프렌차이즈 카페</li>
+                                <!-- 자연 명소 -->
+                                <li class="sct mct22 bct3 disappear" id="sct241">국립공원</li>
+                                <li class="sct mct22 bct3 disappear" id="sct242">해변</li>
+                                <li class="sct mct22 bct3 disappear" id="sct243">산</li>
+                                <!-- 역사/문화 명소 -->
+                                <li class="sct mct23 bct3 disappear" id="sct244">유적지</li>
+                                <li class="sct mct23 bct3 disappear" id="sct245">박물관</li>
+                                <li class="sct mct23 bct3 disappear" id="sct246">전통 마을</li>
+                                <!-- 현대 명소 -->
+                                <li class="sct mct24 bct3 disappear" id="sct247">테마파크</li>
+                                <li class="sct mct24 bct3 disappear" id="sct248">전망대</li>
+                                <li class="sct mct24 bct3 disappear" id="sct249">현대 건축물</li>
+                                <!-- 레저 활동 -->
+                                <li class="sct mct25 bct3 disappear" id="sct250">하이킹</li>
+                                <li class="sct mct25 bct3 disappear" id="sct251">수상 스포츠</li>
+                                <li class="sct mct25 bct3 disappear" id="sct252">스키 리조트</li>
+                                <!--  체험 활동 -->
+                                <li class="sct mct26 bct3 disappear" id="sct253">전통 체험</li>
+                                <li class="sct mct26 bct3 disappear" id="sct254">문화 교실</li>
+                                <li class="sct mct26 bct3 disappear" id="sct255">요리 교실</li>
+                                <!-- 이벤트 및 페스티벌 -->
+                                <li class="sct mct27 bct3 disappear" id="sct256">음악 페스티벌</li>
+                                <li class="sct mct27 bct3 disappear" id="sct257">전통 축제</li>
+                                <li class="sct mct27 bct3 disappear" id="sct258">예술 전시회</li>
+                            </ul >
+                            <div id="selectCategoryList">
+                                <ul id="regionCatgory" class="categoryList"></ul>
+                                <ul id="foodCatgory" class="categoryList"></ul>
+                                <ul id="tractionCatgory" class="categoryList"></ul>
+                            </div>
+                        </div>
+                    </li>
+                    <!-- 여행 메이트 선택 -->
+                    <li class="planInfoRow">
+                        <div class="planInfoRowTitle">
+                            <img src="/image/friends.png" class="titleImg">
+                            <span class="mainTitle">여행메이트 초대</span>
+                            <span class="subTitle">동행 초대</span>
+                        </div>
+                        <div class="planInfoRowDetail">
+                            <ul id="inviteMateListBox">
+                                <span class="notice">여행메이트와 함께<br>여행을 떠나보세요</span>
+                            </ul>
+                            <div id="inviteMateBox">
+                                <input type="text" id="mateId" placeholder="메이트 아이디를 입력해주세요">
+                                <span id="searchMateBtn" class="btn" onclick="searchMate()"></span>
+                            </div>
+                            <span id="inviteMateBoxNotice"></span>
+                            <ul id="searchUserList"></ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <!-- 섹션2 -->
+            <div class="stepBox disappear" id="selectDate">
+                <div id="celendarOpacityBox" class="disappear">
+                    <div id="celendarNoticeBox">
+                        <div class="noticeText">
+                            여행일자를 수정하면<br>지금까지 작성한 스케줄이 삭제됩니다
+                        </div>
+                        <div class="noticeDate">
+                            <span id="startdateText">2024.06.09</span> ~ <span id="enddateText">2024.06.11</span>
+                        </div>
+                        <div class="noticeBtns">
+                            <input type="button" value="수정" class="mainBtn" id="modifyBtn" onclick="modifyDate()">
+                        </div>
+                    </div>
+                </div>
+                <div class="stepInfoBox">
+                    <h2>여행 기간이 어떻게 되시나요?</h2>
+                    <p>여행 일자는 <strong>최대 10일</strong>까지 설정 가능합니다.</p>
+                    <p>
+                        <input type="text" name="startdate" id="startdate" class="planstartdate" readonly><span class="dayOfWeek"></span> -
+                        <input type="text" name="enddate" id="enddate" class="planenddate" readonly><span class="dayOfWeek"></span>
+                    </p>
+                </div>
+                <div class="celendarBox">
+                    <div class="top">
+                        <input type="button" class="btn prevbtn" id="prevmonth">
+                        <div class="dateBox"><span></span>년 <span></span>월</div>
+                    </div>
+                    <table class="celendar one"></table>
+                </div>
+                <div class="celendarBox">
+                    <div class="top">
+                        <div class="dateBox"><span></span>년 <span></span>월</div>
+                        <input type="button" class="btn nextbtn" id="nextmonth">
+                    </div>
+                    <table class="celendar two"></table>
+                </div>
+            </div>
+            <!-- 섹션3 -->
+            <div class="stepBox disappear">
+                <!-- 장소 선택 -->
+                <div id="selectBox" class="smallPlaceListBox">
+                    <div id="selectBtnBox">
+                        <span class="btn select" onclick="changeBox(0)">장소 선택</span>
+                        <span class="btn" onclick="changeBox(1)">장소 찾기</span>
+                    </div>
+                    <div id="selectPlaceBox" class="placeBox">
+                        <div class="searchBox">
+                            <input type="text" id="searchPlace" class="searchTag" placeholder="장소명을 입력해주세요">
+                            <span class="btn" onclick="getPlaceList(1)"></span>
+                        </div>
+                        <ul id="categorySelect">
+                            <li class="btn category select">좋아요</li>
+                            <li class="btn category">명소</li>
+                            <li class="btn category">식당</li>
+                            <li class="btn category">카페</li>
+                            <li class="btn category">숙소</li>
+                        </ul>
+                        <ul id="placeList">
+                            <li class="noplace">
+                                <span>장소를 검색해주세요</span>
+                            </li>
+                        </ul>
+                        <ul class="pageBtnBox" id="cri">
+                            <!--getPlaceList() 함수로 돔 구현-->
+                        </ul>
+                    </div>
+                    <div id="menu_wrap" class="placeBox disappear">
+                        <div class="searchBox">
+                            <input type="text" id="seach" class="searchTag" value="" placeholder="장소명을 입력해주세요">
+                            <span class="btn" onclick="searchPlaces()"></span>
+                        </div>
+                        <ul id="placesList">
+                            <li class="noplace">
+                               <span>장소를 검색해주세요</span>
+                            </li>
+                        </ul>
+                        <ul id="pagination"></ul>
+                    </div>
+                </div>
+                <!-- 선택한 장소 -->
+                <div id="placeListBox" class="smallListBox">
+                    <!-- 영역 조절 버튼 -->
+                    <span class="controll btn next" onclick="sizeSelect(0)"></span>
+                    <!-- 일정에 들릴 장소 -->
+                    <div id="listInfo">
+                        <span id="placeCnt">0</span>
+                        <a href="">장소 삭제</a>
+                    </div>
+                    <ul id="selectList"></ul>
+                    <div id="modifyBox"></div>
+                </div>
+                <!-- 카카오멥 -->
+                <div id="planMap" class="largeMap">
+                    <div class="menuCategory">
+                        <ul>
+                            <li id="totalMenu" onclick="changeMarker('total')">
+                                <span class="ico_comm ico_total"></span>
+                                전체
+                            </li>
+                            <li id="attractionMenu" onclick="changeMarker('attraction')">
+                                <span class="ico_comm ico_attraction"></span>
+                                명소
+                            </li>
+                            <li id="cafeMenu" onclick="changeMarker('cafe')">
+                                <span class="ico_comm ico_cafe"></span>
+                                카페
+                            </li>
+                            <li id="restaurantMenu" onclick="changeMarker('restaurant')">
+                                <span class="ico_comm ico_restaurant"></span>
+                                식당
+                            </li>
+                            <li id="lodgingMenu" onclick="changeMarker('lodging')">
+                                <span class="ico_comm ico_lodging"></span>
+                                숙소
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="map" class="largeMap disappear"></div>
+<!--                <iframe src="https://place.map.kakao.com/13575898" id="iframeBox" class="disappear"></iframe>-->
+<!--                <input type="button" id="offIframeBtn" class="disappear" value="X" onclick="offIframe()">-->
+            </div>
+            <!-- 섹션4 -->
+            <div class="stepBox disappear">
+                <div id="scheduleOpacityBox">
+                    <div id="scheduleNoticeBox">
+                        <div class="noticeText">
+                            날짜를 선택하고<br>스케줄을 작성해주세요
+                        </div>
+                        <div class="noticeBtns">
+                            <input type="button" value="날짜 선택" class="mainBtn" id="goCelendarBtn" onclick="showSelectBox(1)">
+                        </div>
+                    </div>
+                </div>
+                <div id="scheduleDayBox">
+                    <ul id="datebunchBox"></ul>
+                    <ul id="scheduleDayList"></ul>
+                </div>
+                <span id="planDateText"></span>
+                <!-- 스케줄 작성 박스 리스트 -->
+                <div id="scheduleBoxList"></div>
+
+            </div>
+        </div>
+        <div id="btnBox">
+            <input type="button" class="btns disappear" id="planFormSubmit" value="등록">
+            <input type="button" class="btns" id="nextBtn" value="다음">
+        </div>
+    </div>
+</form>
+<div id="opacityBox" class="disappear">
+    <div id="sampleDayScheduleBox" class="dayScheduleBox disappear">
+        <input type="hidden" name="scheduleCnt" value="0">
+        <div class="header">
+            <div class="leftHeader">
+                <span>Schedule</span>
+                <span></span>
+                <span>Date</span>
+            </div>
+            <div class="rightHeader">
+                <ul class="hourBundle">
+                    <li>오후</li>
+                    <li>오전</li>
+                </ul>
+                <ul class="time">
+                    <li class='hour'>24</li>
+                    <li class='hour'>23</li>
+                    <li class='hour'>22</li>
+                    <li class='hour'>21</li>
+                    <li class='hour'>20</li>
+                    <li class='hour'>19</li>
+                    <li class='hour'>18</li>
+                    <li class='hour'>17</li>
+                    <li class='hour'>16</li>
+                    <li class='hour'>15</li>
+                    <li class='hour'>14</li>
+                    <li class='hour'>13</li>
+                    <li class='hour'>12</li>
+                    <li class='hour'>11</li>
+                    <li class='hour'>10</li>
+                    <li class='hour'>09</li>
+                    <li class='hour'>08</li>
+                    <li class='hour'>07</li>
+                    <li class='hour'>06</li>
+                    <li class='hour'>05</li>
+                    <li class='hour'>04</li>
+                    <li class='hour'>03</li>
+                    <li class='hour'>02</li>
+                    <li class='hour'>01</li>
+                    <li class='hour'>00</li>
+                </ul>
+            </div>
+        </div>
+        <ul class="dayScheduleList">
+            <li class="daySchedule">
+                <input type="text" class="scheduletitleArea" name="scheduletitle" readonly>
+                <textarea name="schedulememo" hidden="true" readonly></textarea>
+                <input type="text" name="schedulestarttime" readonly hidden="true">
+                <input type="text" name="scheduleendtime" readonly hidden="true">
+                <span class="timeBar"></span>
+                <ul class="time">
+                    <li class='hour 24'><span class="timeFlag"></span></li>
+                    <li class='hour 23'><span class="timeFlag"></span></li>
+                    <li class='hour 22'><span class="timeFlag"></span></li>
+                    <li class='hour 21'><span class="timeFlag"></span></li>
+                    <li class='hour 20'><span class="timeFlag"></span></li>
+                    <li class='hour 19'><span class="timeFlag"></span></li>
+                    <li class='hour 18'><span class="timeFlag"></span></li>
+                    <li class='hour 17'><span class="timeFlag"></span></li>
+                    <li class='hour 16'><span class="timeFlag"></span></li>
+                    <li class='hour 15'><span class="timeFlag"></span></li>
+                    <li class='hour 14'><span class="timeFlag"></span></li>
+                    <li class='hour 13'><span class="timeFlag"></span></li>
+                    <li class='hour 12'><span class="timeFlag"></span></li>
+                    <li class='hour 11'><span class="timeFlag"></span></li>
+                    <li class='hour 10'><span class="timeFlag"></span></li>
+                    <li class='hour 9'><span class="timeFlag"></span></li>
+                    <li class='hour 8'><span class="timeFlag"></span></li>
+                    <li class='hour 7'><span class="timeFlag"></span></li>
+                    <li class='hour 6'><span class="timeFlag"></span></li>
+                    <li class='hour 5'><span class="timeFlag"></span></li>
+                    <li class='hour 4'><span class="timeFlag"></span></li>
+                    <li class='hour 3'><span class="timeFlag"></span></li>
+                    <li class='hour 2'><span class="timeFlag"></span></li>
+                    <li class='hour 1'><span class="timeFlag"></span></li>
+                    <li class='hour 0'><span class="timeFlag"></span></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="footer">
+            <input type="button" class="addScheduleBtn btn" onclick="addSchedule(0)">
+        </div>
+    </div>
+    <iframe src="https://place.map.kakao.com/13575898" id="iframeBox" class="disappear"></iframe>
+    <input type="button" id="offIframeBtn" value="X" class="disappear" onclick="offIframe()">
+    <div id="addPlaceForm" name="addPlaceForm" class="disappear"></div>
+    <ul id="writeScheduleBox" class="disappear">
+        <li>
+            <label for="colorPicker">색상</label>
+            <span id="colorPicker" style="background-color: #00C88C;"></span>
+            <select name="colors" id="colors">
+                <option value="#00C88C">플랜즈</option>
+                <option value="red">Red</option>
+                <option value="green">Green</option>
+                <option value="blue">Blue</option>
+                <option value="yellow">Yellow</option>
+                <option value="orange">Orange</option>
+                <option value="purple">Purple</option>
+                <option value="pink">Pink</option>
+                <option value="brown">Brown</option>
+                <option value="gray">Gray</option>
+            </select>
+        </li>
+        <li>
+            <label>주제</label><input type="text" id="scheduletitleText" placeholder="주제를 입력해주세요" maxlength="10">
+        </li>
+        <li>
+            <label>메모</label><textarea id="schedulememoText" maxlength="100" placeholder="무슨 스케줄인가요?"></textarea>
+        </li>
+        <li>
+            <label>장소</label>
+            <div id="schedulePlace" class="btn" onclick="addschedulePlace()">
+
+            </div>
+        </li>
+        <li>
+            <label>시작시간</label>
+            <select id="startHour">
+                <option value='00'>0</option><option value='01'>1</option><option value='02'>2</option><option value='03'>3</option><option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option><option value='08'>8</option><option value='09'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option><option value='13'>13</option><option value='14'>14</option><option value='15'>15</option><option value='16'>16</option><option value='17'>17</option><option value='18'>18</option><option value='19'>19</option><option value='20'>20</option><option value='21'>21</option><option value='22'>22</option><option value='23'>23</option><option value='24'>24</option>
+            </select>
+            <span> : </span>
+            <select id="startMin">
+                <option value='00'>0</option><option value='01'>01</option><option value='02'>02</option><option value='03'>03</option><option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option><option value='08'>8</option><option value='09'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option><option value='13'>13</option><option value='14'>14</option><option value='15'>15</option><option value='16'>16</option><option value='17'>17</option><option value='18'>18</option><option value='19'>19</option><option value='20'>20</option><option value='21'>21</option><option value='22'>22</option><option value='23'>23</option><option value='24'>24</option><option value='25'>25</option><option value='26'>26</option><option value='27'>27</option><option value='28'>28</option><option value='29'>29</option><option value='30'>30</option><option value='31'>31</option><option value='32'>32</option><option value='33'>33</option><option value='34'>34</option><option value='35'>35</option><option value='36'>36</option><option value='37'>37</option><option value='38'>38</option><option value='39'>39</option><option value='40'>40</option><option value='41'>41</option><option value='42'>42</option><option value='43'>43</option><option value='44'>44</option><option value='45'>45</option><option value='46'>46</option><option value='47'>47</option><option value='48'>48</option><option value='49'>49</option><option value='50'>50</option><option value='51'>51</option><option value='52'>52</option><option value='53'>53</option><option value='54'>54</option><option value='55'>55</option><option value='56'>56</option><option value='57'>57</option><option value='58'>58</option><option value='59'>59</option>
+            </select>
+        </li>
+        <li>
+            <label>종료시간</label>
+            <select id="endHour">
+                <option value='00'>0</option><option value='01'>1</option><option value='02'>2</option><option value='03'>3</option><option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option><option value='08'>8</option><option value='09'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option><option value='13'>13</option><option value='14'>14</option><option value='15'>15</option><option value='16'>16</option><option value='17'>17</option><option value='18'>18</option><option value='19'>19</option><option value='20'>20</option><option value='21'>21</option><option value='22'>22</option><option value='23'>23</option><option value='24'>24</option>
+            </select>
+            <span> : </span>
+            <select id="endMin">
+                <option value='00'>0</option><option value='01'>1</option><option value='02'>2</option><option value='03'>3</option><option value='04'>4</option><option value='05'>5</option><option value='06'>6</option><option value='07'>7</option><option value='08'>8</option><option value='09'>9</option><option value='10'>10</option><option value='11'>11</option><option value='12'>12</option><option value='13'>13</option><option value='14'>14</option><option value='15'>15</option><option value='16'>16</option><option value='17'>17</option><option value='18'>18</option><option value='19'>19</option><option value='20'>20</option><option value='21'>21</option><option value='22'>22</option><option value='23'>23</option><option value='24'>24</option><option value='25'>25</option><option value='26'>26</option><option value='27'>27</option><option value='28'>28</option><option value='29'>29</option><option value='30'>30</option><option value='31'>31</option><option value='32'>32</option><option value='33'>33</option><option value='34'>34</option><option value='35'>35</option><option value='36'>36</option><option value='37'>37</option><option value='38'>38</option><option value='39'>39</option><option value='40'>40</option><option value='41'>41</option><option value='42'>42</option><option value='43'>43</option><option value='44'>44</option><option value='45'>45</option><option value='46'>46</option><option value='47'>47</option><option value='48'>48</option><option value='49'>49</option><option value='50'>50</option><option value='51'>51</option><option value='52'>52</option><option value='53'>53</option><option value='54'>54</option><option value='55'>55</option><option value='56'>56</option><option value='57'>57</option><option value='58'>58</option><option value='59'>59</option>
+            </select>
+        </li>
+        <li>
+            <input type="text" id="starttimeText" readonly value="00:00"><span> ~ </span><input type="text" id="endtimeText" readonly value="00:00">
+        </li>
+        <li>
+            <input type="button" value="등록" id="writeOkBtn">
+            <input type="button" value="취소" onclick="closeWriteScheduleBox()">
+        </li>
+    </ul>
+    <div id="detailScheduleBox" class="disappear">
+        <span id=detailTitle></span>
+        <span class="notice">날짜</span><span id=detailDate></span>
+        <span class="notice">시간</span><span id="detailTime"></span>
+        <span id=detailMemo></span>
+        <span id="detailPlace" class="disappear"></span>
+        <input type="button" id="deleteScheduleBtn" value="삭제">
+        <input type="button" id="closeDetailBoxBtn"  value="X"  onclick="closeDetailBox()">
+    </div>
+    <ul id="addSchedulePlaceBox" class="disappear">
+        <input type="button" class="closeBoxBtn" value="X" onclick="closeAddPlaceBox()">
+        <div id="addSchedulePlaceList">
+        </div>
+    </ul>
+</div>
+<th:block th:replace="~{common/footer::footer}"></th:block>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e4f2eef01c86acd5391623854b8233a6&libraries=services"></script>
+<script src="/js/plan/create.js"></script>
+</html>

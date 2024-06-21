@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            scroll-behavior: smooth;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        body * {
+            place-self: center;
+        }
+
+        body {
+            display: grid;
+            height: 100vh;
+        }
+
+        .Category_wrap {
+            display: flex;
+        }
+
+        .P_Category_title {
+            height: 50px;
+            padding: 10px;
+        }
+
+        .Category_wrap {
+            height: 100%;
+        }
+
+        .Category_Title {
+            position: fixed;
+            top: 60px;
+            left: 14px;
+            height: 100%;
+            width: 140px;
+            color: rgb(228, 228, 228);
+            background-color: rgb(228, 228, 228);
+        }
+
+        .Category_Title a {
+            color: gray;
+        }
+
+        .lodgment_title,
+        .restaurant_title,
+        .cafe_title {
+            text-align: center;
+            width: 100%;
+            height: 40px;
+            padding-top: 10px;
+            font-weight: bold;
+        }
+
+        .Category_Content {
+            width: 80%;
+            height: 100%;
+        }
+
+        .lodgment,
+        .restaurant,
+        .cate {
+            width: 100%;
+            height: 50px;
+            padding: 15px 0 0 20px;
+            font-weight: bold;
+        }
+
+        .send {
+            box-shadow:
+                inset var(--itemWidthMinus) var(--itemWidthMinus) 0 rgb(0, 200, 140),
+                inset var(--itemWidth) var(--itemWidthMinus) 0 green,
+                inset var(--itemWidthMinus) var(--itemWidth) 0 blue,
+                inset var(--itemWidth) var(--itemWidth) 0 yellow,
+                0 0 20px silver;
+            transition: box-shadow ease-in-out .6s, color ease-in-out .5s;
+            width: var(--itemWidth);
+            height: var(--itemWidth);
+            border-radius: 50%;
+            text-align: center;
+            background: center/50% no-repeat;
+            cursor: pointer;
+            display: grid;
+            color: white;
+            font-size: calc(var(--itemWidth) / 7);
+        }
+
+        .send:hover {
+            box-shadow:
+                inset 0 0 0 transparent,
+                inset 0 0 0 transparent,
+                inset 0 0 0 transparent,
+                inset 0 0 0 transparent,
+                0 0 20px silver;
+            color: transparent;
+        }
+
+        section {
+            --itemWidth: min(120px, 30vw);
+            --itemWidthMinus: calc(-1 * var(--itemWidth));
+            height: max-content;
+            width: max-content;
+            display: grid;
+            grid-template-rows: repeat(2, max-content);
+            grid-template-columns: repeat(3, calc(3vw + var(--itemWidth)));
+            position: relative;
+        }
+
+        .send p {
+            text-align: center;
+            padding-top: 40%;
+        }
+
+        .lodgment_wrap,
+        .restaurant_wrap,
+        .cafe_wrap {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            padding: 4px 12px;
+            gap: 4px 7px;
+        }
+
+        img {
+            width: 70px;
+            height: 70px;
+        }
+
+        /* 숙소 */
+        .Hotel {
+            background-image: url('/image/title_1.png');
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .Motel {
+            background-image: url('/image/title_2.png');
+        }
+
+        .Pension {
+            background-image: url('/image/title_3.png');
+        }
+
+        .Camping {
+            background-image: url('/image/title4.png');
+        }
+
+        .Home {
+            background-image: url('/image/title5.png');
+        }
+
+        .Guest_House {
+            background-image: url('/image/title6.png');
+        }
+
+        /* 식당 */
+        .korean_food {
+            background-image: url('/image/title7.png');
+        }
+
+        .Western_food {
+            background-image: url('/image/title8.png');
+        }
+
+        .japanese_food {
+            background-image: url('/image/title9.png');
+        }
+
+        .chinese_food {
+            background-image: url('/image/title10.png');
+        }
+
+        .snack_food {
+            background-image: url('/image/title5.png');
+        }
+
+        .other_food {
+            background-image: url('/image/title_3.png');
+        }
+
+        /* 카페 */
+        .c_other_food {
+            background-image: url('/image/title_1.png');
+        }
+    </style>
+    <link rel="stylesheet" href="/css/user/JoinCategory.css">
+</head>
+
+<body>
+	<title>Category</title>
+    <p class="P_Category_title" style="font-weight: bold;">Category</p>
+    <div class="Category_wrap">
+        <div class="Category_Title">
+            <div class="lodgment_title"><a href="#lodgment">숙박</a></div>
+            <div class="restaurant_title"><a href="#restaurant">식당</a></div>
+            <div class="cafe_title"><a href="#cafe">카페</a></div>
+        </div>
+        <section>
+            <div class="Category_Content">
+                <div class="lodgment">
+                    <p id="lodgment">숙박</p>
+                </div>
+                <div class="lodgment_wrap">
+                    <div class="Hotel send" id="Hotel" onclick="sendCategoryId('호텔·리조트')">
+                        <span>호텔·리조트</span>
+                    </div>
+                    <div class="Motel send" id="Motel" onclick="sendCategoryId('모텔')">
+                        <span>모텔</span>
+                    </div>
+                    <div class="Pension send" id="Pension" onclick="sendCategoryId('펜션·풀빌라')">
+                        <span>펜션·풀빌라</span>
+                    </div>
+                    <div class="Camping send" id="Camping" onclick="sendCategoryId('캠핑·글램핑')">
+                        <span>캠핑·글램핑</span>
+                    </div>
+                    <div class="Home send" id="Home" onclick="sendCategoryId('홈&빌라')">
+                        <span>홈·빌라</span>
+                    </div>
+                    <div class="Guest_House send" id="Guest_House" onclick="sendCategoryId('게하·한옥')">
+                        <span>게하·한옥</span>
+                    </div>
+                </div>
+                <div class="restaurant">
+                    <p id="restaurant">식당</p>
+                </div>
+                <div class="restaurant_wrap">
+                    <div class="korean_food send" id="korean_food" onclick="sendCategoryId('한식')">
+                        <span>한식</span>
+                    </div>
+                    <div class="Western_food send" id="Western_food" onclick="sendCategoryId('양식')">
+                        <span>양식</span>
+                    </div>
+                    <div class="japanese_food send" id="japanese_food" onclick="sendCategoryId('일식')">
+                        <span>일식</span>
+                    </div>
+                    <div class="chinese_food send" id="chinese_food" onclick="sendCategoryId('중식')">
+                        <span>중식</span>
+                    </div>
+                    <div class="snack_food send" id="snack_food" onclick="sendCategoryId('분식')">
+                        <span>분식</span>
+                    </div>
+                    <div class="other_food send" id="other_food" onclick="sendCategoryId('기타음식')">
+                        <span>기타음식</span>
+                    </div>
+                </div>
+                <div class="cate">
+                    <p id="cafe">카페</p>
+                </div>
+                <div class="cafe_wrap">
+                    <div class="other_food send" id="c_other_food" onclick="sendCategoryId('기타음식')">
+                        <span>기타음식</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="/js/user/user.js"></script>
+</body>
+
+</html>

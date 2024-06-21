@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>회원가입</title>
+</head>
+<link rel="stylesheet" href="/css/user/join.css">
+
+<body>
+	<div id="wrap" style="width: 1200px; margin: 0 auto;">
+		<div id="wrapbox">
+			<div style="display: flex; justify-content: center; padding-top: 40px;" id="title_image_div">
+				<a href="/user/login" id="title_image"><img style="width: 150px; height: 100px;" src="/image/logo.png"
+						alt="타이틀"></a>
+			</div>
+			<form method="post" action="/user/apijoin" name="joinForm">
+				<div style="text-align: center; width: 650px;">
+
+					<div th:if="${userid.contains('GOOGLE')}">
+						<h1 th:if="${#strings.substring(userid, 0, 6)}">
+							<span><span style="color:rgb(0, 128, 255)">[[${username}]]</span>님<span
+									style="color:rgb(0, 128, 255);"> Google</span>와 연결되었습니다!</span>
+						</h1>
+					</div>
+					<div th:if="${userid.contains('NAVER')}">
+						<h1 th:if="${#strings.substring(userid, 0, 5)}">
+							<span><span style="color: rgb(0, 255, 64)">[[${username}]]</span>님<span
+									style="color: rgb(0, 255, 64);"> Naver</span>와 연결되었습니다!</span>
+						</h1>
+					</div>
+					<div th:if="${userid.contains('KAKAO')}">
+						<h1 th:if="${#strings.substring(userid, 0, 5)}">
+							<span><span style="color: rgb(251, 215, 105)">[[${username}]]</span>님<span
+									style="color: rgb(251, 215, 105);"> Kakao</span>와 연결되었습니다!</span>
+						</h1>
+					</div>
+					<div>
+						<h1 style="margin: 21.44px 0 5px 0;">가입 정보 입력을 입력해주세요.</h1>
+						<p style="font-size: medium; margin: 0 0 21.44px 0 ;">서비스 이용에 사용되는 정보입니다. 정확하게 입력해주세요.</p>
+					</div>
+				</div>
+				<!--				<div class="hidden_info">
+					<div style="opacity: 0;">
+						<p>아이디</p>
+						<input type="text" name="userid" placeholder="아이디를 입력해주세요" th:value="${userid}" readonly>
+					</div>
+					<div style="opacity: 0;">
+						<p>비밀번호</p>
+						<input type="password" name="password" placeholder="비밀번호를 입력해주세요" th:value="${userpw}" readonly>
+					</div>
+					<div style="opacity: 0;">
+						<p>이름</p>
+						<input type="text" name="username" placeholder="이름을 입력해주세요" th:value="${username}" readonly>
+					</div>
+				</div>-->
+
+				<ul>
+					<br>
+					<br>
+					<li>
+						<p>전화 번호</p>
+						<input type="text" name="userphone" id="userphone" placeholder="숫자만 입력하세요">
+						<input type="button" value="중복확인" class="zipbtn" onclick="checkPN()">
+						<p style="font-size:11px; color: rgba(0, 0, 0, 0.5);"></p>
+					</li>
+					<li>
+						<p colspan="2" id="phresult"></p>
+					</li>
+					<li>
+						<p>이메일</p>
+						<input type="text" id="useremail" name="useremail" placeholder="이메일을 입력해주세요">
+						<input type="button" value="중복확인" class="zipbtn" onclick="checkemail()">
+					</li>
+					<li>
+						<p colspan="2" id="result2"></p>
+					</li>
+					<li>
+						<p>성별</p>
+						<div class="container" id="outerDiv">
+							<div class="inner-left" id="innerDiv1" onclick="changeGender()">여성</div>
+						</div>
+						<input type="text" name="usergender" value="여성" id="gender" hidden>
+					</li>
+
+					<li class="zipcode_area">
+						<p>우편번호</p>
+						<input type="text" name="zipcode" id="jo_zipcode" placeholder="우편번호" onclick="findAddr()"
+							readonly>
+						<input type="button" class="zipbtn" value="우편번호 찾기" onclick="findAddr()">
+					</li>
+					<br>
+					<li class="address_area">
+						<p>주소</p>
+						<input type="text" name="addr" id="jo_addr" placeholder="주소">
+					</li>
+					<br>
+					<li>
+						<p>상세주소</p>
+						<input type="text" name="addrdetail" id="jo_addrdetail" placeholder="상세주소">
+					</li>
+					<br>
+					<li>
+						<p>참고항목</p>
+						<input type="text" name="addretc" id="jo_addretc" placeholder="참고항목" readonly>
+					</li>
+					<br>
+					<li class="Category_area">
+						<p>카테고리</p>
+						<div class="Category_input">
+							<input type="text" id="receive_Category" readonly onclick="createCategory();"
+								placeholder="카테고리">
+							<input type="button" value="추가" class="zipbtn" onclick="addCategory();">
+							<br>
+							<div class="Category_list"></div>
+							<input type="hidden" value="" name="Category">
+							<br>
+						</div>
+					</li>
+				</ul>
+				<li id="submitbox">
+					<div class="submitbox">
+						<input type="button" class="submit" value="가입하기" onclick="senditapi()">
+					</div>
+				</li>
+				<div class="hidden_info">
+					<div style="opacity: 0;">
+						<p>아이디</p>
+						<input type="text" name="userid" placeholder="아이디를 입력해주세요" th:value="${userid}" readonly>
+					</div>
+					<div style="opacity: 0;">
+						<p>비밀번호</p>
+						<input type="password" name="userpw" placeholder="비밀번호를 입력해주세요" th:value="${userpw}" readonly>
+					</div>
+					<div style="opacity: 0;">
+						<p>이름</p>
+						<input type="text" name="username" placeholder="이름을 입력해주세요" th:value="${username}" readonly>
+					</div>
+			</form>
+		</div>
+	</div>
+</body>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+	const arCategory = [];
+	const emailPattern = /@.*\./;
+;
+	const useremail = joinForm.useremail;
+
+
+	function senditapi() {
+		const joinForm = document.joinForm;
+		const userphone = joinForm.userphone;
+		const username = joinForm.username;
+		const exp_name = /^[가-힣]+$/;
+		const exp_num = /^[0-9]*$/;
+
+		if (!exp_num.test(userphone.value)) {
+			alert("전화번호에는 숫자만 입력해주세요!");
+			userphone.focus();
+			return;
+		}
+		if (userphone.value.length < 9 || userphone.value.length > 12) {
+		alert("전화번호를 제대로 입력하신건가요?");
+		userphone.focus();
+		return;
+	  	}
+
+		/* const usergender = joinForm.usergender;
+		 if(!usergender[0].checked && !usergender[1].checked){
+			 alert("성별을 선택하세요!");
+			 return;
+		 }*/
+
+		const zipcode = joinForm.zipcode;
+		if (zipcode.value == "") {
+			alert("주소찾기를 진행해 주세요!");
+			findAddr();
+			return;
+		}
+		const addrdetail = joinForm.addrdetail;
+		if (addrdetail.value == "") {
+			alert("상세주소를 입력해 주세요!");
+			addrdetail.focus();
+			return;
+		}
+
+		if (arCategory.length == 0) {
+			alert("취미는 적어도 1개 이상 입력해 주세요!");
+			return;
+		}
+		const CategoryTag = joinForm.Category;
+		CategoryTag.value = arCategory.join("/");// "축구\농구\영화";
+		alert("회원가입에 성공하였습니다!");
+		joinForm.submit();
+	}
+	document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+		anchor.addEventListener('click', function (e) {
+			// Prevent the default action
+			e.preventDefault();
+
+			// Remove the highlight class from all sections
+			// document.querySelectorAll('h2').forEach(section => {
+			//     section.classList.remove('highlight');
+			// });
+
+			// Get the target element
+			const targetId = this.getAttribute('href').substring(1);
+			const targetElement = document.getElementById(targetId);
+
+			// Scroll to the target element
+			targetElement.scrollIntoView({behavior: 'smooth'});
+
+			// Add highlight class to the target element
+			// targetElement.classList.add('highlight');
+		});
+	});
+
+	function sendCategoryId(CategoryId) {
+		window.opener.document.getElementById("receive_Category").value = CategoryId;
+		window.close();
+	}
+
+	function createCategory() {
+		window.open("/user/JoinCategory", "Category", "width=750,height=500,left=100,top=50");
+	}
+
+	function addCategory() {
+		const joinForm = document.joinForm;
+		const Category_list = document.getElementsByClassName("Category_list")[0];
+		const receive_Category = joinForm.receive_Category;
+
+		if (receive_Category.value == "") {
+			alert("취미를 입력해 주세요!");
+			receive_Category.focus();
+			return;
+		}
+		if (arCategory.indexOf(receive_Category.value) != -1) {
+			alert("중복된 취미입니다!");
+			receive_Category.focus();
+			receive_Category.value = "";
+			return;
+		}
+		if (arCategory.length == 5) {
+			alert("취미는 5개 이하로 입력해주세요!");
+			return;
+		}
+
+		// span 태그 노드 생성
+		const inputCategory = document.createElement("span");
+		// span 태그 노드 클래스 값으로 userCategory
+		inputCategory.classList = "userCategory";
+		// span 태그 노드 name 값으로 userCategory
+		inputCategory.name = "userCategory";
+		inputCategory.id = "userCategory";
+		// span 태그 노드 내부 내용으로 입력한 취미 문자열 설정
+		inputCategory.innerHTML = receive_Category.value;
+		// 취미 목록 배열에 입력한 취미 문자열 추가
+		arCategory.push(receive_Category.value);
+
+		// span 태그 클릭 시 삭제 이벤트 설정
+		inputCategory.addEventListener('click', deleteCategory);
+
+		// 아래쪽의 취미 목록을 보여줄 div의 자식으로 span태그 추가
+		Category_list.appendChild(inputCategory);
+
+		receive_Category.value = "";
+		receive_Category.focus();
+
+		function deleteCategory(event) {
+			// 클릭한 span 태그를 삭제
+			Category_list.removeChild(event.target);
+
+			// 삭제된 취미 문자열을 배열에서도 제거
+			const index = arCategory.indexOf(event.target.innerHTML);
+			if (index > -1) {
+				arCategory.splice(index, 1);
+			}
+		}
+
+	}
+	function checkPN() {
+		const xhr = new XMLHttpRequest();
+		const userphone = document.joinForm.userphone;
+		console.log("ㅋㅋㅋ")
+		
+		if (userphone.value == "") {
+			alert("전화번호를 입력하세요!");
+			userphone.focus();
+			return;
+		}
+	
+		xhr.onreadystatechange = function() {
+			if (xhr.readyState == 4) {
+				if (xhr.status == 200) {
+					let txt = xhr.responseText.trim();
+					if (txt == "O") {
+						phresult.innerHTML = "이미 가입된 전화번호입니다!";
+						userphone.value = "";
+						userphone.focus();	
+					}
+					else {
+						phresult.innerHTML = "사용할 수 있는 전화번호입니다!";
+					}
+				}
+			}
+		}
+			
+		xhr.open("GET","/user/checkPN?userphone="+userphone.value);
+		xhr.send();
+	}
+
+	function findAddr() {
+		new daum.Postcode({
+			oncomplete: function (data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var addr = ''; // 주소 변수
+				var extraAddr = ''; // 참고항목 변수
+
+				//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					addr = data.roadAddress;
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					addr = data.jibunAddress;
+				}
+
+				// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+				if (data.userSelectedType === 'R') {
+					// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+						extraAddr += data.bname;
+					}
+					// 건물명이 있고, 공동주택일 경우 추가한다.
+					if (data.buildingName !== '' && data.apartment === 'Y') {
+						extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+					}
+					// 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+					if (extraAddr !== '') {
+						extraAddr = ' (' + extraAddr + ')';
+					}
+					// 조합된 참고항목을 해당 필드에 넣는다.
+					document.getElementById("jo_addretc").value = extraAddr;
+
+				} else {
+					document.getElementById("jo_addretc").value = '';
+				}
+
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				document.getElementById('jo_zipcode').value = data.zonecode;
+				document.getElementById("jo_addr").value = addr;
+				// 커서를 상세주소 필드로 이동한다.
+				document.getElementById("jo_addrdetail").focus();
+			}
+		}).open();
+	}
+	function checkId() {
+		const xhr = new XMLHttpRequest();
+		const userid = document.joinForm.userid;
+		console.log("ㅋㅋㅋ")
+
+		if (userid.value == "") {
+			alert("아이디를 입력하세요!");
+			userid.focus();
+			return;
+		}
+
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState == 4) {
+				if (xhr.status == 200) {
+					let txt = xhr.responseText.trim();
+					if (txt == "O") {
+						result.innerHTML = "중복된 아이디가 있습니다!";
+						userid.value = "";
+						userid.focus();
+					}
+					else {
+						result.innerHTML = "사용할 수 있는 아이디입니다!";
+						document.joinForm.password.focus();
+					}
+				}
+			}
+		}
+
+		xhr.open("GET", "/user/checkId?userid=" + userid.value);
+		xhr.send();
+	}
+
+useremail.addEventListener("input", validateEmail);
+
+function validateEmail() {
+	if (useremail.value == "") {
+        result2.innerHTML = "이메일을 입력하세요!";
+        useremail.focus();
+        return;
+    }
+    if (!emailPattern.test(useremail.value)) {
+        result2.innerHTML = "이메일 형식에 맞춰주세요!";
+        useremail.focus();
+        return;
+    }
+	result2.innerHTML = "사용할 수 있는 이메일형식입니다!";
+}
+
+function checkemail() {
+    if (useremail.value == "") {
+        alert("이메일을 입력하세요!");
+        useremail.focus();
+        return;
+    }
+
+    if (!emailPattern.test(useremail.value)) {
+        alert("이메일 형식에 맞춰주세요!");
+        useremail.focus();
+        return;
+    }
+	
+
+    const xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4) {
+            if (xhr.status == 200) {
+                let txt = xhr.responseText.trim();
+                if (txt == "O") {
+                    result2.innerHTML = "이미 있는 이메일입니다!";
+                    useremail.value = "";
+                    useremail.focus();
+                } else {
+                    result2.innerHTML = "사용할 수 있는 이메일입니다!";
+                }
+            }
+        }
+    }
+
+    xhr.open("GET", "/user/checkemail?useremail=" + useremail.value);
+    xhr.send();
+}
+
+	function changeGender() {
+		const btn = document.getElementById("innerDiv1");
+		const gender = document.getElementById("gender");
+		console.log(gender);
+		if (btn.innerText == "여성") {
+			btn.setAttribute("style", "animation: moverightbtn 0.2s ease-in-out forwards;");
+			btn.addEventListener('animationend', (event) => {
+				btn.style.left = "27px";
+				btn.innerText = "남성";
+				gender.setAttribute("value", "남성");
+				// gender.value = "남성";
+			});
+		}
+		else if (btn.innerText == "남성") {
+			btn.setAttribute("style", "animation: moveleftbtn 0.2s ease-in-out forwards;");
+			btn.addEventListener('animationend', (event) => {
+				btn.style.left = "2px";
+				btn.innerText = "여성";
+				gender.setAttribute("value", "여성");
+				// gender.value = "여성";
+			});
+		}
+	}
+	function deleteCategory(e) {
+		let deleteNode = null;
+		if (e.target.classList == "xBox") {
+			deleteNode = e.target.parentNode;
+		}
+		else {
+			deleteNode = e.target;
+		}
+
+		let txt = deleteNode.innerText;
+		console.log(txt);
+		for (let i in arCategory) {
+			if (arCategory[i] == txt) {
+				arCategory.splice(i, 1);
+				break;
+			}
+		}
+
+		deleteNode.remove();
+	}
+
+
+</script>
+
+</html>

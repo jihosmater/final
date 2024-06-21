@@ -1,0 +1,58 @@
+<th:block th:fragment="footer">
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" th:href="@{/css/footer.css}">
+    </head>
+    <body>
+    <!-- 푸터 시작 -->
+    <footer id="fo_footer">
+        <div class="fo_in">
+
+            <div class="fo_company_info">
+
+                <a href="" class="fo_logo">
+                    <img src="/image/planzlogo-removebg-preview.png" alt="" style="width: 179px; ">
+                </a>
+                <ul>
+                    <li>(주)플랜즈코리아</li>
+                    <li>사업자 등록번호 11-442-41230</li>
+                    <li class="fo_not">대표이사 우성문</li>
+                </ul>
+                <ul>
+                    <li>주소: 서울시 강남구 역삼동</li>
+                    <li class="fo_not">팩스: 03-5341-364</li>
+                </ul>
+                <ul>
+                    <li>본사 대표전화: 04-249-3864</li>
+                    <li>가맹상담전화: 04-347-0410</li>
+                    <li class="fo_not">고객센터: 1544-2360</li>
+                </ul>
+                <p class="fo_copy">COPYRIGHT&copy; 2018 PLANZ KOREA INC. ALL RIGHTS RESERVED</p>
+            </div>
+
+            <!--        <div class="fo_other_box">-->
+            <section class="fo_selectbox">
+                <h2 class="hidden"></h2>
+                <button type="button" class="fo_toggle-btn">
+                    패밀리사이트 바로가기
+                    <img src="/image/arrow_grey.png" alt="" class="ico-down" style="width: 15px; height: 15px; margin: 3px 0px 0px 5px;">
+                </button>
+                <ul class="fo_selectbox-option hide">
+                    <li><button type="button" class="option-btn">Python</button></li>
+                    <li><button type="button" class="option-btn">Java</button></li>
+                    <li><button type="button" class="option-btn">JavaScript</button></li>
+                    <li><button type="button" class="option-btn">C#</button></li>
+                    <li><button type="button" class="option-btn">C/C++</button></li>
+                </ul>
+            </section>
+        </div>
+    </footer>
+    <!-- 푸터 끝 -->
+    </body>
+    <script th:src="@{/js/common/footer.js}"></script>
+    </html>
+</th:block>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.demo.mapper.UserMapper">
+	<insert id="insertUser">
+		INSERT INTO user (
+		userid, userpw, username, userphone, useremail,
+		usergender, zipcode, addr, addrdetail, addretc,
+		 usercoin, category
+		) VALUES (
+		#{userid}, #{userpw}, #{username}, #{userphone}, #{useremail},
+		#{usergender}, #{zipcode}, #{addr}, #{addrdetail}, #{addretc},
+		 #{usercoin}, #{category}
+		)
+	</insert>
+	<select id="getUserById">
+		select * from user where userid=#{userid}
+	</select>
+	
+	<select id="checkPN">
+		select * from user where userphone = #{userphone}
+	</select>
+
+	<select id="getUserByEmail">
+		select * from user where useremail=#{useremail}
+	</select>
+
+	<update id="updateUser">
+		update user set usercoin = #{usercoin} where userid = #{userid}
+	</update>
+	<delete id="deleteUser">
+		delete from user where userid=#{userid}
+	</delete>
+
+	<insert id="addFavoriteList">
+		insert into user_place values(#{userid},#{placeid})
+	</insert>
+
+	<insert id="checkFavoritePlace">
+		select count(*) from user_place where userid = #{userid} and placeid = #{placeid}
+	</insert>
+
+	<update id="usercoinAdd">
+		update user set usercoin = usercoin + #{payment_coin}
+		where userid = #{userid}
+	</update>
+	<select id="getUserContainChatUser">
+		SELECT * FROM user WHERE userid IN (
+		SELECT userid
+		FROM chatuser
+		WHERE roomno = #{roomno}
+		);
+	</select>
+
+	<!-- 이메일을 통해서 아이디 찾기 -->
+	<select id="findByUserId">
+		select * from user where useremail=#{useremail};
+	</select>
+	<!-- 아이디와 이메일을 통해 비밀번호 설정하기 -->
+	<update id="CreateByPw">
+		UPDATE USER
+		SET userpw = LEFT(MD5(RAND()), 8)
+		WHERE userid=#{userid} AND useremail=#{useremail};
+	</update>
+	<select id="getUserrandpw">
+		select * from user where userid=#{userid} and useremail=#{useremail};
+	</select>
+	<select id="loginMatchId">
+      select * from user where userid=#{userid} and userpw=#{userpw};
+   </select>
+
+	<update id="chargeCoin"> update user set usercoin = usercoin + #{usercoin} where userid = #{userid} </update>
+
+	<select id="searchUserList">
+		select * from user where userid like('%${userid}%')
+	</select>
+	
+	<select id="checkPw">
+		select count(*)
+		from user
+		where userid = #{userid} and userpw = #{userpw}
+	</select>
+	
+	<!-- 유저 수정-->
+	
+	<select id="checkEmail">
+		select count(*)
+		from user
+		where useremail = #{userElement}
+	</select>
+	
+	<select id="checkPhone">
+		select count(*)
+		from user
+		where userphone = #{userElement}
+	</select>
+
+	<insert id="insertUserPlaceLike" >
+		insert into user_place (userid, placeid)
+		values (#{userid}, #{placeid})
+	</insert>
+
+	<delete id="deleteUserPlaceLike" >
+		delete from user_place
+		where userid = #{userid} and placeid = #{placeid}
+	</delete>
+
+	<select id="checkUserPlaceLike">
+		select count(*) from user_place
+		where userid = #{userid} and placeid = #{placeid}
+	</select>
+	
+	<update id="userModify" statementType="PREPARED" parameterType="map">
+		<choose>		 
+			 <when test="modifyTypeValue == 'pw'">
+				update user
+				set userpw = #{userElement}
+				where userid = #{userid}
+			 </when> 
+			 <when test="modifyTypeValue == 'phone'">
+				update user
+				set userphone = #{userElement}
+				where userid = #{userid}
+			 </when>
+			 <when test="modifyTypeValue == 'email'">
+				update user
+				set useremail = #{userElement}
+				where userid = #{userid}	
+			 </when>
+		</choose>
+	</update>
+	
+	<update id="addrmodify">
+		update user
+		set addr = #{addr},
+		addrdetail = #{addrdetail},
+		addretc = #{addretc},
+		zipcode = #{zipcode}
+		where userid = #{userid}
+	</update>
+	
+	<update id="fileReg">
+		update user
+		set userprofile = #{systemName}
+		where userid = #{userid}
+	</update>
+	
+	<select id="getUserPurchasedBoards" >
+        SELECT b.*
+        FROM board b
+        JOIN deal d ON b.boardnum = d.boardnum AND d.userid = #{userid}
+	</select>
+
+	<select id="getUserListByPlannum">
+		select u.* from user u join (select * from user_plan where plannum=#{plannum} order by part) up on u.userid = up.userid
+	</select>
+	<select id="userCnt">
+		select count(*) from user;
+	</select>
+</mapper>

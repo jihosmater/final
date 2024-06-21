@@ -1,0 +1,223 @@
+#re_wrap {
+    width: 1000px !important;
+    height: 1000px;
+    margin: 30px auto;
+}
+#re_wrap tr {
+    display: inline-block;
+    width: 1000px;
+    border: 2px solid #eeeeee;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+#re_wrap #fileaddbtn {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border-radius: 15px;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #eee;
+}
+
+#re_wrap #camera {
+    display: block;
+    width: 40px;
+    height: 40px;
+    background: url("/image/gallery.png") no-repeat center/100%;
+}
+
+#re_wrap #fileaddbtn span:last-child {
+    display: block;
+    width: 40px;
+    height: 20px;
+    font-size: 15px;
+    text-align: center;
+}
+
+#re_wrap #filecnt {
+    display: inline !important;
+}
+
+#re_wrap .file {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    margin-left: 10px;
+    border-radius: 15px;
+    position: relative;
+    border: 0.5px solid rgb(0, 199, 60);
+}
+
+#re_wrap .file [type=button] {
+    width: 20px;
+    height: 20px;
+    border-radius: 50px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    /*background-color: #eee;*/
+    border: none;
+    font-weight: bold;
+}
+
+#re_wrap #re_name td input, textarea {
+    width: 994px;
+    padding: 15px;
+    color: #666;
+    outline:none;
+}
+
+#re_wrap #price{
+    width: 794px;
+    padding: 15px;
+    color: #666;
+    outline: none;
+}
+textarea::placeholder{
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 15px;
+    font-weight: 400;
+}
+#re_wrap #freecheckbtn{
+    width: 200px;
+    padding: 15px;
+    color: #666;
+    cursor: pointer;
+}
+
+#re_wrap #itemcontents {
+    border: none;
+    outline:none;
+    font-weight:bold;
+    font-size:14px;
+}
+
+#re_wrap #paybox {
+    width: 744px;
+}
+
+#re_wrap #paybox button {
+    width: 744px;
+    background-color: white;
+    height: 50px;
+}
+
+#re_wrap #submit input {
+    width: 250px;
+    border: 1px solid;
+    height: 50px;
+    cursor: pointer;
+}
+
+
+
+#re_wrap .arrow{
+    /*    background-color: blue; */
+    width:47px;
+    padding: 15px;
+    color: #666;
+    font-weight:bold;
+    font-size:20px;
+}
+#re_wrap .itemcondition_check_box{float: left;}
+#re_wrap .itemcondition_check{
+    float:left;
+    width:195px;
+    padding: 15px;
+    font-weight:bold;
+    font-size:20px;
+    border-radius: 5px;
+    background-color: white;
+}
+#re_wrap .itemcondition_check.sec{margin-left: 10px;}
+
+
+#re_wrap #re_submit_box{ border: none !important; text-align: center }
+#re_wrap #re_submit{ height: 50px;}
+#re_wrap #re_submit input{float:left; width: 200px; height: 50px; margin-left: 250px;  font-size: 18px; font-weight: bold; background-color: #00c88c; color: white; border-radius: 10px;border: none; cursor: pointer; }
+#re_wrap #re_submit input:hover{background-color: #03bf85; color: white; border: none;}
+
+
+#re_wrap #re_cancel{ height: 50px;}
+#re_wrap #re_cancel input{float:left; width: 200px;cursor: pointer; height: 50px; margin-left: 100px;  font-size: 18px; font-weight: bold; background-color: #ccc; color: white; border-radius: 10px;border: none;}
+#re_wrap #re_cancel input:hover{background-color: #aaa; color: white; border: none;}
+
+#re_notice_box {
+    width: 300px;
+    margin: 0 auto;
+    background-color: #333;
+    color: white;
+    padding: 5px;
+    border-radius: 20px;
+    opacity: 0.2;
+    position: absolute;
+    bottom: 0;
+    right: 790px;
+}
+#re_notice_text{text-align: center;}
+
+@keyframes re_notice {
+    0% {
+        opacity: 0;
+        bottom: -30px;
+    }
+    10% {
+        opacity: 0.8;
+        bottom: 100px;
+    }
+
+    90% {
+        opacity: 0.8;
+        bottom: 100px;
+    }
+    100% {
+        opacity: 0;
+        bottom: -30px;
+        display: none;
+    }
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+.shake {
+    animation: shake 0.5s;
+}
+
+#calendar{
+    width: 35px;
+    height: 35px;
+    background-image: url("/image/calendar_btn.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    font-size: 15px;
+    text-align: center;
+    margin-right: 10px;
+}
+
+#reset_button{
+    width: 35px;
+    height: 35px;
+    background-image: url("/image/cancel.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    text-align: center;
+    margin-right: 10px;
+
+}
+
+#travelPlansStart,#travelPlansEnd{
+    cursor: pointer;
+}
+#boardcontents{
+    line-height: 20px;
+}

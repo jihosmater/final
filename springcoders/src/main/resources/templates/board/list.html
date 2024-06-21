@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>board</title>
+    <link rel="stylesheet" href="/css/board/list.css">
+	<style>
+		@font-face {
+		    font-family: 'GmarketSansMedium';
+		    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+		@font-face {
+		    font-family: 'ONE-Mobile-Regular';
+		    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-Regular.woff') format('woff');
+		    font-weight: normal;
+		    font-style: normal;
+		}
+		
+		*{
+		    font-family: 'GmarketSansMedium';
+		}
+	</style>
+</head>
+<body>
+<th:block th:replace="~{common/header::header(${session.loginUser})}"></th:block>
+<div id="wrap">
+    <!-- <th:block th:if="${session.loginUser != null}">
+        <script>
+           let loginUser = /*[[${session.loginUser}]]*/'';
+           alert(loginUser + '님 가입을 환영합니다~');
+           location.replace("/board/list")
+        </script>
+     </th:block> -->
+    <tbody>
+    <div id="board_title_area">
+        <p id="board_title">P L A N Z&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;M A R K E T</p>
+		<p id="board_semi_title">PLANZ에서 여행일정을 거래해보세요!</p>
+    </div>
+
+    <!-- 게시글 리스트 -->
+    <div id="board_list_area">
+        <table>
+            <!-- 최대 20개 -->
+            <tr id="toptitle" style="display: inline-block">
+                <th id="num" class="bold">게시글번호</th>
+                <th id="title" class="bold">게시글제목</th>
+                <th id="travelPlansDate" class="bold">일정</th>
+                <th id="created" class="bold">Date</th>
+                <th id="writer" class="bold">작성자</th>
+            </tr>
+            <tr th:if="${list == null or  list.size() <= 0}" class="row" >
+                <td class="no_list" colspan="5">게시글이 없습니다.</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr th:if="${list != null and list.size() > 0}" th:each="board:${list}" class="row get">
+                <td class="board_num"><a th:href="${board.boardnum}">[[${board.boardnum}]]</a></td>
+                <td th:text="${board.boardtitle}" class="board_name"></td>
+                <td th:with="formattedStartDate=${#dates.format(board.travelPlansStart, 'yyyy-MM-dd')},
+                              formattedEndDate=${#dates.format(board.travelPlansEnd, 'yyyy-MM-dd')}"
+                    th:text="${formattedStartDate + ' ~ ' + formattedEndDate}" class="board_keyword"></td>
+                <td th:text="${#dates.format(board.created, 'yyyy-MM-dd')}" class="board_date"></td>
+                <td   th:text="${board.userid}" class="board_writer"></td>
+            </tr>
+        </table>
+        <!-- 페이징부분 -->
+        <div id="pagination">
+            <tbody>
+            <tr>
+                <td>
+                    <a class="btn changePage" th:href="${pageMaker.startPage - 1}" th:if="${pageMaker.prev}">&lt;</a>
+                    <th:block th:each="i : ${#numbers.sequence(pageMaker.startPage, pageMaker.endPage)}">
+                        <span class="nowPage" th:if="${pageMaker.cri.pagenum == i}">[[${i}]]</span>
+                        <a class="btn changePage" th:href="${i}" th:unless="${pageMaker.cri.pagenum == i}">[[${i}]]</a>
+                    </th:block>
+                    <a class="btn changePage" th:href="${pageMaker.endPage+1}" th:if="${pageMaker.next}">&gt;</a>
+               </td>
+            </tr>
+            </tbody>
+        </div>
+    </div>
+    <div id="write_area">
+        <div id="board_write">
+            <div id="board_write_icon"></div>
+            <a th:href="${'/board/write'}"><div id="board_write_name" >글쓰기</div> </a>
+        </div>
+    </div>
+    <!-- 검색(필터)부분 -->
+    <div id="bottom_area">
+        <div class="search_area">
+            <form name="searchForm" id="searchForm" action="/board/list" onsubmit="return search(1)">
+                <select name="type" id="type">
+                    <option value="" th:selected="${pageMaker.cri.type == null}">조회 유형 선택</option>
+                    <option value="T" th:selected="${pageMaker.cri.type == 'T'}">제목</option>
+                    <option value="C" th:selected="${pageMaker.cri.type == 'C'}">일정</option>
+                    <option value="W" th:selected="${pageMaker.cri.type == 'W'}">작성자</option>
+                    <option value="TC" th:selected="${pageMaker.cri.type == 'TC'}">제목 또는 일정</option>
+                    <option value="TW" th:selected="${pageMaker.cri.type == 'TW'}">제목 또는 작성자</option>
+                    <option value="CW" th:selected="${pageMaker.cri.type == 'CW'}">일정 또는 작성자</option>
+                    <option value="TCW" th:selected="${pageMaker.cri.type == 'TCW'}">제목 또는 일정 또는 작성자</option>
+                </select>
+                <input type="search" id="keyword" name="keyword" th:value="${pageMaker.cri.keyword}"  placeholder="필터 선택 후 검색어를 입력하세요">
+                <a id="search-btn" class="btn" onclick="searchBtnHandler()"></a>
+                <input type="hidden" name="pagenum" id="pagenum" th:value="${pageMaker.cri.pagenum}">
+                <input type="hidden" name="amount" id="amount" th:value="${pageMaker.cri.amount}">
+            </form>
+        </div>
+        <!-- 글쓰기버튼 부분 -->
+    </div>
+
+    </tbody>
+</div>
+<th:block th:replace="~{common/footer::footer}"></th:block>
+</body>
+<script th:src="@{/js/common/footer.js}"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script th:inline="javascript">
+
+    // ------------------------------ 페이징 or 검색 시작 ------------------------------
+
+    const searchForm = $("#searchForm");
+
+    // 텍스트 작성 후 엔터로 폼 제출
+    // 페이지를 이동하고자 #changePage 요소를 클릭했을 때 호출되는 클릭 이벤트
+
+    function search(pagenum){
+        const keyword = document.getElementById("keyword");
+        const type = document.getElementById("type");
+        // 폼안에서 name이 pagenum인것을 찾아 그 value를 매개변수로 받은 pagenum으로 설정
+        searchForm.find("[name=pagenum]").val(pagenum);
+        // 유효성 검사
+        return true;
+    }
+
+    // 텍스트 작성 후 직접 클릭해서 제출
+    function searchBtnHandler(){
+        searchForm.find("[name=pagenum]").val(1);
+
+        var ss = document.getElementById("pagenum").value;
+        searchForm.submit();
+    }
+
+    $(".changePage").on("click",function(e){
+        // a태그는 누르는 순간 href를 보내버리기 때문에
+        // e(이벤트)의 기본 작동 막기
+
+
+        e.preventDefault();
+        // 여기서 this는 현재 실행 중인 이벤트를 말함
+        // .attr("href")은 선퇙된 요소의 href속성 값을 가져옴
+        // 클래스가 changePage인 요소들 중 선택(이벤트발생)된 요소의
+        // th:href="   이안의내용   " 을 가져옴
+        let pagenum = $(this).attr("href");
+        searchForm.attr("onsubmit",`search(${pagenum})`);
+        searchForm.submit();
+    })
+//     const loginUser = 
+// console.log(${session.loginUser});
+
+    $(".get").on("click",function(e){
+        e.preventDefault();
+        let boardnum = $(this).children(0).children(0).attr("href");
+        let listLink = /*[[${pageMaker.cri.listLink}]]*/''
+        console.log(listLink);
+        location.href = "/board/get"+listLink+"&boardnum="+boardnum
+    })
+</script>
+</html>

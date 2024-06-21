@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.demo.mapper.ScheduleMapper">
+    <insert id="insertSchedule">
+        insert into schedule(scheduletitle, schedulememo, starttime, endtime, plannum)
+        values(#{scheduletitle},#{schedulememo},#{starttime},#{endtime},#{plannum})
+    </insert>
+
+    <select id="getScheduleListByPlanNum">
+        select * from schedule where plannum = #{plannum} order by starttime
+    </select>
+</mapper>

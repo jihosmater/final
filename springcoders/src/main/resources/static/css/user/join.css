@@ -1,0 +1,317 @@
+html{
+    background-color: #fff;
+}
+:root {
+    --primary-color: #4EA685;
+    --secondary-color: #57B894;
+    --black: #000000;
+    --white: #ffffff;
+    --gray: #efefef;
+    --gray-2: #757575;
+
+    --facebook-color: #4267B2;
+    --google-color: #DB4437;
+    --twitter-color: #1DA1F2;
+    --insta-color: #E1306C;
+}
+.hobby_area > td > div{
+    display: flex;
+    width:360px;
+    flex-wrap: wrap;
+}
+.hobby_input{
+    border-bottom:1px solid #ccc;
+    padding-bottom: 10px;
+}
+.hobby_input > input[type=text]{
+	position: relative; top:0;
+}
+.hobby_input > input[type=button]{
+	margin-left:20px;
+	padding:10px 10px;
+	background-color:rgb(49 168 247);
+	color:WHITE;
+	font-size:14px; 
+	border:none; border-radius: 15px;
+	width:70px;
+}
+.hobby_area + tr > th{
+	text-align: center;
+}
+.hobby_list{
+	display: flex;
+	flex-wrap: wrap;
+}
+
+
+
+.userhobby{
+	color:#666;
+	height:30px;
+	display: flex;
+	background-color: #fff;
+	margin-left:10px; margin-top:5px;
+	border:1px solid #ccc;
+	border-radius: 50px;
+	padding:3px 10px;
+	cursor:pointer;
+	align-items: center;
+	font-size:14px;
+}
+#userid, #useremail, #userphone{
+	width: 287px;
+}
+#wrap{
+	background-color: #fff;
+}
+#wrapbox {
+    width: 600px;
+    margin: 0 auto;
+}
+ul{
+	background-color: #fff;
+	padding: 0;
+    width: 650px;
+    box-shadow: gray 8px 7px 5px -5px;
+    border: 1px solid #f0f0f0;
+    border-radius: 20px;
+}
+
+li {
+    padding: 3px;
+    list-style: none;
+	text-align: center;
+}
+
+li p {
+    line-height: 3px;
+    font-size: 12px;
+    color: rgb(161, 159, 159);
+	text-align: left;
+	padding-left: 115px;
+}
+
+li input[type=text], li input[type=password]{
+    height: 40px;
+    width: 410px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    line-height: 40px;
+    padding: 0 0 0 20px;
+}
+select{
+    height: 45px;
+    width: 430px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    line-height: 40px;
+    padding: 0 0 0 20px
+}
+/* .gender{
+    display: flex;
+    justify-content: space-between;
+    width: 64%;
+
+}
+.gender_wrap{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+.gender input[type="button"]{
+
+}
+
+#gender_btn{
+    width: 200px; height: 44px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #f0f0f0   ;
+    cursor: pointer;
+}
+#gender_btn:hover{
+    border: 1px solid gray;
+}
+.gd{
+    width: 200px;
+    height: 44px;
+} */
+#userCategory{
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #ffcc80;
+        color: #fff;
+        border-radius: 20px;
+        background-color: var(--secondary-color);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        margin: 6px;
+        transition: background-color 0.3s, transform 0.3s;
+}
+#userCategory:hover {
+    border: 1px solid var(--primary-color);
+    transform: translateY(-2px);
+}
+
+li input[type=text]:focus, li input[type=password]:hover{
+ 
+    border: 1px solid rgb(0, 0, 0);
+    
+}
+
+
+input::placeholder {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.2);
+    font-weight:800;
+    padding-left: 10px;
+}
+
+.zipbtn{
+    margin-left: 5px;
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    color: white;
+    width: 110px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: var(--secondary-color);
+    border: 1px solid var(--primary-color);
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+.zipbtn:hover{
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+/* 외부 div 스타일 */
+.container {
+    width: 180px;
+    height: 44px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 20px;
+    position: relative;
+    left: 115px;
+}
+.submitbox{
+	text-align: center;
+}
+#submitbox{
+	display: flex;
+	justify-content: center;
+    width: 650px;
+}
+#useremail, #jo_zipcode, #receive_Category{
+	width: 287px;
+}
+
+/* 내부 div가 왼쪽에 있을 때의 스타일 */
+.inner-left {
+    position: absolute;
+    left: 2px;
+    top: 2.5px;
+    width: 94px;
+    height: 38px;
+    border-radius: 20px;
+    background-color: var(--secondary-color);
+    color: white;
+    text-align: center;
+    line-height: 38px;
+    font-size: 16px;
+}
+
+/* 내부 div가 오른쪽에 있을 때의 스타일 */
+.inner-right {
+    position: absolute;
+    right: 0;
+    /* 오른쪽에 위치 */
+    top: 2px;
+    width: 94px;
+    height: 38px;
+    border-radius: 10px;
+    background-color:  var(--secondary-color);
+    color: white;
+
+}
+
+@keyframes moverightbtn {
+    0% {
+        left: 2px;
+    }
+
+    /* 20% {
+        left: 7px;
+    }
+
+    40% {
+        left: 12px;
+    }
+
+    60% {
+        left: 17px;
+    }
+
+    80% {
+        left: 22px;
+    } */
+
+    100% {
+        left: 80px;
+    }
+}
+
+@keyframes moveleftbtn {
+    0% {
+        left: 80px;
+    }
+/* 
+    20% {
+        left: 22px;
+    }
+
+    40% {
+        left: 17px;
+    }
+
+    60% {
+        left: 12px;
+    }
+
+    80% {
+        left: 7px;
+    } */
+
+    100% {
+        left: 2px;
+    }
+}
+.submitbox{
+    display: flex;
+    justify-content: center;
+    padding-top: 30px;
+    width: 650px;
+}
+.submit{
+    
+    width: 300px;
+    border-radius: 5px;
+    background-color: var(--secondary-color);
+    border: none;
+    height: 40px;
+    color: white;
+    font-size: 14px;
+    font-weight: bolder;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+.submit:hover{
+    background-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+

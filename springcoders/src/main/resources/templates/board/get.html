@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/board/get.css">
+</head>
+<body>
+<div class="overlay" id="overlay"></div>
+<th:block th:replace="~{common/header::header(${session.loginUser})}"></th:block>
+<div id="wrap">
+    <div id="go_listBox">
+        <a id="go_listA" class="btn" th:href="${'/board/list'+cri.listLink}">
+            <span id="go_list">목록</span>
+            <span id="go_text">목록으로 돌아가기</span>
+        </a>
+    </div>
+    <div id="top_section">
+        <button id="prevBtn" style="display: none;"></button>
+        <div id="img_box" >
+            <ul id="img_ul">
+                <li id="img_li" th:each="file : ${files[0]}">
+                    <img class="main_img" th:src="@{'/file/thumbnail?systemname=' + ${file.systemname}}" alt="Thumbnail" />
+                </li>
+            </ul>
+        </div>
+        <button id="nextBtn" style="display: none;"></button>
+        <script th:inline="javascript">
+            var files = /*[[${files}]]*/ [[]];
+
+            // 파일이 2개 이상일 경우 버튼 보이기
+            if (files.length > 0 && files[0].length > 1) {
+                document.getElementById('prevBtn').style.display = 'inline-block';
+                document.getElementById('nextBtn').style.display = 'inline-block';
+            } else {
+                document.getElementById('prevBtn').style.display = 'none';
+                document.getElementById('nextBtn').style.display = 'none';
+            }
+        </script>
+        <div id="info_box">
+            <div id="board_text">
+                <h3 id="board_title" th:text = "${board['boardtitle']}"></h3>
+                <div id="price_box">
+                    <div style="margin-bottom: 20px">
+                        <span style="font-weight: 900; font-size: 25px; color: #00C88C">가격 <span id="price" class="comma" th:text="${board['price']}"></span></span>
+                    </div>
+                    <div>
+                        <span style="color: #888; font-size: 16px">예약일자 <span th:text="${board['travelPlansStart'] + '  ~  ' + board['travelPlansEnd']}"></span></span>
+                        <br>
+                        <span style="color: #888; margin-top: 10px; font-size: 16px">판매자 <span id="user" th:value="${board['userid']}" th:text="${board['userid']}"></span></span>
+                    </div>
+                </div>
+                <p id="board_contents" th:text = "${board['boardcontents']}" >
+                </p>
+<!--                <div id="button_box">-->
+<!--                    <div id="loginBtn_box" th:if="${session.loginUser == null}">-->
+<!--                        <button id="loginBtn" onclick="location.href='/user/login'">로그인 하러가기</button>-->
+<!--                    </div>-->
+<!--                    <div id="userBtn_box" th:if="${board.userid == session.loginUser}">-->
+<!--                        <a th:href="${'/board/modify'+cri.listLink+'&boardnum='+board.boardnum}">-->
+<!--                            <button id="modifyBtn">수정</button>-->
+<!--                        </a>-->
+<!--                        <a id="deleteLink" th:href="${'/board/remove' + cri.listLink + '&boardnum=' + board.boardnum}" onclick="confirmDelete(event)">-->
+<!--                            <button id="deleteBtn">삭제</button>-->
+<!--                        </a>-->
+<!--                    </div>-->
+<!--                    <div id="chat_box" th:if="${session.loginUser != null && board.userid != session.loginUser}">-->
+<!--                        <button id="chat_btn">채팅하기</button>-->
+<!--                        <button id="buy_btn" >구매하기</button>-->
+<!--                        <br>-->
+<!--                        <span id="notice">※ 심한 욕설 및 상대방 비난시 채팅 이용이 제한될 수 있습니다.</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+                <div id="button_box">
+                    <div id="loginBtn_box" th:if="${session.loginUser == null}">
+                        <button id="loginBtn" onclick="location.href='/user/login'">로그인 하러가기</button>
+                    </div>
+                    <div id="userBtn_box" th:if="${board.userid == session.loginUser}">
+                        <div th:if="${buystate == 'O'}">
+                            <button class="already" disabled>거래 중인 상품입니다.</button>
+                        </div>
+                        <div th:if="${buystate == 'OO'}">
+                            <button class="already" disabled>이미 판매 완료된 상품입니다</button>
+                        </div>
+                        <div th:if="${buystate != 'O' and buystate != 'OO'}">
+<!--                            <a th:href="${'/board/modify'+cri.listLink+'&boardnum='+board.boardnum}">-->
+                            <a>
+                                <button id="modifyBtn" onclick="sorry()">수정</button>
+                            </a>
+                            <a id="deleteLink" th:href="${'/board/remove' + cri.listLink + '&boardnum=' + board.boardnum}" onclick="confirmDelete(event)">
+                                <button id="deleteBtn">삭제</button>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="chat_box" th:if="${session.loginUser != null && board.userid != session.loginUser}">
+                        <div th:if="${buystate == 'O'}">
+                            <button class="already" disabled>거래 중인 상품입니다.</button>
+                        </div>
+                        <div th:if="${buystate == 'OO'}">
+                            <button class="already" disabled>이미 판매 완료된 상품입니다</button>
+                        </div>
+                        <div style="margin-left: 40px" th:if="${buystate != 'O' and buystate != 'OO'}">
+                            <button id="chat_btn">채팅하기</button>
+                            <button id="buy_btn">구매하기</button>
+                            <br>
+                            <span id="notice">※ 심한 욕설 및 상대방 비난시 채팅 이용이 제한될 수 있습니다.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="buy_box">
+            <!-- 상품 정보 영역-->
+            <button class="close_btn" id="close_btn">닫기</button>
+            <div id="buy_info">
+            <h2>상품 정보</h2>
+                <div class="gallery">
+                    <div class="gallery-inner">
+                        <div th:each="file, iterStat : ${files[0]}" class="gallery-img-container">
+                            <img th:src="@{'/file/thumbnail?systemname=' + ${file.systemname}}" class="gallery-img" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation buttons -->
+                <button class="prev-btn">이전</button>
+                <button class="next-btn">다음</button>
+
+                <!-- Board information -->
+                <p id="board_tit" th:text="${board['boardtitle']}"></p>
+                <p id="board_price" th:text="${board['price']}"></p>
+            </div>
+            <div id="buyer_info" class="buyer-info">
+
+            </div>
+            <button class="custom-button" id="payButton">결제하기</button>
+
+            <!-- 결제 방법 영역-->
+        </div>
+    </div>
+    <div id="bottom_section">
+        <div id="recent_box">
+            <div th:if="${#lists.isEmpty(list)}">
+                <h2 style=" font-size: 25px; color: #777" >최근 게시물이 없습니다</h2>
+            </div>
+            <div th:if="${!#lists.isEmpty(list)}">
+                <h2 style=" font-size: 25px; color: #777">최근 게시물입니다</h2>
+                <div id="recent_list">
+                    <div id="recent_board1" class="recent_board get" th:if="${list.size() > 0}">
+                        <div class="recent_img">
+                            <img class="recent_file" th:src="${'/file/thumbnail?systemname=' + files[1][0].systemname}" alt="Thumbnail">
+                        </div>
+                        <ul class="recent_info">
+                            <li><input type="hidden" th:value="${list[0]['boardnum']}"></li>
+                            <li class="recent_title" th:text="${list[0]['boardtitle']}"></li>
+                            <li class="recent_price comma" th:text="${list[0]['price']}"></li>
+                            <li class="recent_contents" th:text="${list[0]['boardcontents']}"></li>
+                        </ul>
+                    </div>
+                    <div id="recent_board2" class="recent_board get" th:if="${list.size() > 1}">
+                        <div class="recent_img">
+                            <img class="recent_file" th:src="${'/file/thumbnail?systemname=' + files[2][0].systemname}" alt="Thumbnail">
+                        </div>
+                        <ul class="recent_info " >
+                            <li><input type="hidden" th:value="${list[1]['boardnum']}"></li>
+                            <li class="recent_title" th:text="${list[1]['boardtitle']}"></li>
+                            <li class="recent_price comma" th:text="${list[1]['price']}"></li>
+                            <li class="recent_contents" th:text="${list[1]['boardcontents']}"></li>
+                        </ul>
+                    </div>
+                    <div id="recent_board3" class="recent_board get" th:if="${list.size() > 2}">
+                        <div class="recent_img">
+                            <img class="recent_file" th:src="${'/file/thumbnail?systemname=' + files[3][0].systemname}" alt="Thumbnail">
+                        </div>
+                        <ul class="recent_info">
+                            <li><input type="hidden" th:value="${list[2]['boardnum']}"></li>
+                            <li class="recent_title" th:text="${list[2]['boardtitle']}"></li>
+                            <li class="recent_price comma" th:text="${list[2]['price']}"></li>
+                            <li class="recent_contents" th:text="${list[2]['boardcontents']}"></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<th:block th:replace="~{common/footer::footer}"></th:block>
+</body>
+
+<script src="/js/board/get.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!--  board/get으로 이동하기 위한 js 시작-->s
+<script th:inline="javascript">
+    $(".get").on("click", function(e) {
+        e.preventDefault();
+        let boardnum = $(this).find('input[type=hidden]').val();
+
+        console.log(boardnum);
+        let listLink = /*[[${pageMaker.cri.listLink}]]*/''
+        console.log(listLink);
+        location.href = "/board/get"+listLink+"&boardnum="+boardnum
+    });
+</script>
+<!--  board/get으로 이동하기 위한 js 끝-->
+<!-- 구매하기 버튼 시작-->
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        const buyBtn = document.getElementById("buy_btn");
+        if (buyBtn) {
+            let buyer = /*[[${session['loginUser']}]]*/'';
+            let usercoin;
+
+            buyBtn.addEventListener("click", function() {
+                document.getElementById("buy_box").style.display = "block";
+                document.getElementById("overlay").style.display = "block";
+            });
+
+            document.getElementById("close_btn").addEventListener("click", function() {
+                document.getElementById("buy_box").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
+            });
+
+            document.getElementById("overlay").addEventListener("click", function() {
+                document.getElementById("buy_box").style.display = "none";
+                document.getElementById("overlay").style.display = "none";
+            });
+
+            buyBtn.addEventListener("click", function() {
+                $.ajax({
+                    url: "/user/buyerInfo",
+                    data: {
+                        userid: buyer,
+                    },
+                    method: "POST",
+                    dataType: "json",
+                    success: function(data) {
+                        const buyer = data.buyer;
+                        const infoBox = document.getElementById("buyer_info");
+                        console.log(buyer);
+                        infoBox.innerHTML = `<h3>구매자 정보</h3>
+   <table id="buyer_table">
+   <tr>
+      <th>구매자</th>
+      <td>${buyer.username}</td>
+   </tr>
+    <tr>
+      <th>전화번호</th>
+      <td id="userphone">${buyer.userphone}</td>
+   </tr>
+    <tr>
+      <th>보유 잔액</th>
+      <td><input type="text" id="usercoin" value="${buyer.usercoin.toLocaleString()}원"></td>
+      <td><button id="chargeCoin" onclick="location.replace('/user/mypage')">충전하기</button></td>
+   </tr>
+   <tr>
+   <th></th>
+    <td ><input type="text" id="show_msg"/></td>
+    <td></td>
+</tr>
+</table>
+<div id="dealPay_box">
+    <div id="dealPay_div">
+     <span id="dealPay_text">결제 후 잔액</span> <input type="text" class="deal_pay" id="deal_pay">
+    </div>
+</div>
+`;
+
+                        const boardPriceText = document.getElementById('board_price').innerText;
+                        const boardPrice = parseFloat(boardPriceText.replace(/,/g, '').replace('원', ''));
+
+                        const usercoinPriceText = document.getElementById('usercoin').value;
+                        const usercoinPrice = parseFloat(usercoinPriceText.replace(/,/g, ''));
+
+                        const deal_pay = document.getElementById('deal_pay');
+                        const show_msg = document.getElementById('show_msg');
+
+
+                        if (boardPrice > usercoinPrice) {
+                            show_msg.value='※ 잔액이 부족합니다.';
+                            show_msg.classList.add('shake')
+                            show_msg.style.color="red";
+                            show_msg.style.fontWeight='bold';
+                            deal_pay.value = 0;
+                        } else {
+                            show_msg.value="";
+                            deal_pay.value = (usercoinPrice - boardPrice).toLocaleString() + "원";
+                            show_msg.classList.remove('shake');
+                        }
+
+                            // userphone 요소를 가져옵니다.
+                            let userphoneElement = document.getElementById('userphone');
+
+                            // userphone의 텍스트 내용을 가져옵니다.
+                            let userphone = userphoneElement.textContent.trim();
+
+                            // 전화번호 형식을 맞추기 위한 정규식 패턴을 적용합니다.
+                            // 예: 01012345678 => 010-1234-5678
+                            let formattedPhone = userphone.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+
+                            console.log("전번" +formattedPhone);
+                            // 형식화된 전화번호를 userphone 요소에 설정합니다.
+                            userphoneElement.textContent = formattedPhone;
+
+                        let usercoinString = document.getElementById('usercoin').value;
+                        let usercoin = parseInt(usercoinString.replace(/,/g, ''));
+                        let priceText = document.getElementById('price').innerText;
+                        let price = parseInt(priceText.replace('원', '').replace(/,/g, ''));
+
+                        var payButton = document.getElementById('payButton');
+
+                        if (usercoin >= price) {
+                            payButton.disabled = false;
+                            payButton.style.backgroundColor = '#000';
+                            payButton.style.color = '#fff';
+                            payButton.setAttribute('onclick', 'payment()');
+                        } else {
+                            payButton.disabled = true;
+                            payButton.style.cursor = 'not-allowed';
+                            payButton.style.backgroundColor = '#ccc';
+                            payButton.style.color = '#888';
+                        }
+                    },
+                    error: function(data) {
+                        // Handle error
+                    }
+                });
+            });
+        }
+    });
+</script>
+<!-- 구매하기 버튼 끝-->
+<script>
+</script>
+<script th:inline="javascript">
+    function payment(){
+        let boardnum = /*[[${board.boardnum}]]*/'';
+        console.log(boardnum);
+        if (confirm("구매를 진행하시겠습니까?") == true){    //확인
+            $.ajax({
+                url: "/board/boardPay",
+                data: {
+                    boardnum:boardnum
+                },
+                method: "POST",
+                dataType: "text",
+                success: function(data) {
+                    if (data == "O") {
+                        alert("구매가 완료되었습니다.")
+                        location.replace("/user/mypage?order=deal");
+                    }
+                    else if(data == 'Y'){
+                        alert("이미 판매완료된 상품입니다.")
+                    }
+                    else{
+                        alert("구매 실패, 오류를 확인하세요")
+                    }
+                },
+                error: function(data) {
+                    console.log("Error:", data);
+                    alert("상품 구매 중 오류가 발생했습니다.");
+                }
+            });
+        }
+        else{
+            return false;
+
+        }
+    }
+</script>
+<script>
+    function confirmDelete(event) {
+        event.preventDefault(); // 기본 링크 동작을 막습니다.
+        if (confirm("정말 삭제하시겠습니까?")) {
+            // 확인을 누르면 원래의 href 링크로 이동합니다.
+            window.location.href = event.currentTarget.getAttribute('href');
+        }
+    }
+</script>
+
+<script th:inline="javascript">
+    let adminid = /*[[${board.userid}]]*/'';
+    let roomname = /*[[${board.boardtitle}]]*/'';
+    $(document).ready(function () {
+		$("#chat_btn").on("click", function (e) {
+			$.ajax({
+            url: "/chat/room",
+            data: {
+                adminid:adminid,
+                roomname:roomname
+            },
+            method: "POST",
+            dataType: "text",
+            success: function(data) {
+                alert("채팅창이 개설되었습니다.");
+
+            },
+            error: function(data) {
+                alert("이미 생성된 채팅입니다.");
+            }
+        });
+		});
+	});
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var price = document.getElementById("board_price").textContent.trim();
+        console.log(price);
+
+        function formatPrice(price) {
+            // 1000원 단위로 쉼표(,) 추가
+            return price.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "원";
+        }
+
+        var formattedPrice = formatPrice(price);
+        document.getElementById("board_price").textContent = formattedPrice;
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const prevButton = document.querySelector(".prev-btn");
+        const nextButton = document.querySelector(".next-btn");
+        const galleryInner = document.querySelector(".gallery-inner");
+
+        let currentIndex = 0;
+        const totalSlides = document.querySelectorAll(".gallery-img-container").length;
+
+        // 초기 상태에서 버튼 숨김/표시 처리
+        toggleButtonVisibility();
+
+        // 다음 버튼 클릭 시
+        nextButton.addEventListener("click", function() {
+            if (currentIndex < totalSlides - 1) {
+                currentIndex++;
+                slideGallery();
+                toggleButtonVisibility();
+            }
+        });
+
+        // 이전 버튼 클릭 시
+        prevButton.addEventListener("click", function() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                slideGallery();
+                toggleButtonVisibility();
+            }
+        });
+
+        // 이미지 갤러리 슬라이드 함수
+        function slideGallery() {
+            const slideWidth = galleryInner.clientWidth;
+            galleryInner.style.transform = `translateX(-${slideWidth * currentIndex}px)`;
+        }
+
+        // 버튼 표시/숨김 처리 함수
+        function toggleButtonVisibility() {
+            if (currentIndex === 0) {
+                prevButton.style.display = "none";
+            } else {
+                prevButton.style.display = "block";
+            }
+
+            if (currentIndex === totalSlides - 1) {
+                nextButton.style.display = "none";
+            } else {
+                nextButton.style.display = "block";
+            }
+        }
+    });
+</script>
+<script>
+
+function sorry(){
+    alert("기능을 구현중입니다!");
+}
+</script>
+</html>
+

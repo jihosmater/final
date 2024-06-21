@@ -1,0 +1,269 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+ol, ul {
+    list-style: none;
+}
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+/*html {
+	width: 900px;
+    height: 300px;
+}
+body {
+	width: 900px;
+    height: 300px;
+}*/
+#charge_area {
+    width: 1300px;
+    height: 300px;
+    display: none;
+    margin: 5px 5px 5px 5px;
+}
+#pay_box {
+    width: 25%;
+    color: white;
+    background-color: #212121;
+}
+#title {
+    height: 50px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+#amount_area {
+    height: 50px;
+    display: flex;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+#amount {
+    width: 90%;
+    height: 40px;
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+    padding-right: 10px;
+    cursor: pointer;
+    position: absolute;
+    z-index: 1;
+}
+#amount_view {
+	width: 70%;
+	height: 38px;
+	text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: black !important;
+    color: white !important;
+    padding-right: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    cursor: pointer;
+    position: relative;
+    z-index: 2;
+    border: none;
+    box-shadow: none;
+}
+#amount_view:focus {
+	outline: none;
+}
+#option_select {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background-color: #212121;
+	font-size: 12px;
+	width: fit-content;
+    height: fit-content;
+    margin-left: 5px;
+    cursor: pointer;
+    display: none;
+}
+#choice {
+	width: 90%;
+    height: 40px;
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: black;
+    color: white;
+    padding-right: 10px;
+    cursor: pointer;
+}
+option {
+    background-color: white;
+    font-size: 15px;
+    color: black;
+}
+#coin_info {
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#coin_info table {
+    width: 90%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+tr, td {
+    width: 50%;
+    padding: 5px 5px 5px 5px;
+}
+#coin, #after_coin {
+    text-align: right;
+}
+#select_method {
+    width: 75%;
+    height: 100%;
+    background-color: 	#E2E2E2;
+}
+#top_area {
+    display: flex;
+    width: 100%;
+}
+#cancel {
+    font-weight: bold;
+    display: inline-block;
+    line-height: normal;
+    vertical-align: middle;
+    box-sizing: border-box;
+    width: fit-content;
+    height: fit-content;
+    margin-top: 12px;
+    margin-left: 165px;
+    cursor: pointer;
+}
+#logo {
+    width: 100px;
+    height: 110px;
+    margin: 0 auto;
+    background-image: url("../../images/planzlogo.png");
+    background-size: cover;
+    background-position: center;
+}
+#right_title {
+    height: 50px;
+    width: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding-left: 52px;
+    font-size: 15px;
+    font-weight: bold;
+}
+#charge_to_info {
+    width: 90%;
+    height: 70px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    background-color: white;
+}
+#method_name {
+    width: 80%;
+    height: 30px;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    padding-left: 20px;
+}
+#charge_btn_area {
+    height: 100%;
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#charge_btn {
+    width: 70%;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: bold;
+    color: white;
+    background-color: royalblue;
+    border-radius: 12px;
+    cursor: pointer;
+}
+#charge_btn:hover {
+	box-shadow: 1px 1px 2px royalblue;
+}
+#select {
+    width: 90%;
+    height: 100px;
+    margin-left: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    margin: 0 auto;
+}
+#select_table {
+    width: 95%;
+}
+#select_table tr {
+    height: 30px;
+}
+#select_table td {
+    border: 1px solid #a0a0a0;
+    width: 33.33%;
+    height: 30px;
+    font-size: 12px;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+}
+#charge_info {
+    width: 90%;
+    height: 50px;
+    margin: 0 auto;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+#charge_info table {
+    height: 100%;
+    width: 95%;
+}
+#charge_info td {
+    font-size: 12px;
+    font-weight: bold;
+}
+#i1 {
+    width: 20%;
+}
+#i2 {
+    width: 80%;
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.demo.mapper.ChatRoomMapper">
+	<select id="chatRoomGet">
+		select * from chatroom where roomno=#{roomno}
+	</select>
+	<insert id="chatRoomInsert">
+		insert into chatroom (roomname, adminid) values(#{roomname}, #{userid})
+	</insert>
+	<delete id="chatRoomDelete">
+		delete from chatroom where roomno=#{roomno}
+	</delete>
+	
+	<insert id="addBannedUser">
+		insert into banned_users (roomno, bannuser) values (#{roomno}, #{userid})
+	</insert>
+	
+	<select id="getAllRoomByUserId">
+		select * from chatroom where adminid=#{userid}
+	</select>
+	
+	<select id="chatRoomGetBynames">
+		select * from chatroom where roomno=#{roomno} and adminid=#{loginMember}
+	</select>
+	<select id="lastInsertRoomId">
+		select last_insert_id() as roomno;
+	</select>
+</mapper>

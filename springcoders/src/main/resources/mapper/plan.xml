@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.demo.mapper.PlanMapper">
+    <insert id="insertPlan">
+        insert into plan(plantitle,planmemo,startdate,enddate,category)
+        values(#{plantitle},#{planmemo},#{startdate},#{enddate},#{category})
+    </insert>
+
+    <insert id="insertUP">
+        insert into user_plan values(#{userid},#{plannum},#{part})
+    </insert>
+
+    <select id="getPlanByNum">
+        select * from plan where plannum = #{plannum}
+    </select>
+
+    <select id="getLastPlan">
+        select * from plan order by plannum desc limit 1
+    </select>
+
+    <select id="getLastPlanByUserid">
+        select p.* from plan p left join user_plan up
+        on p.plannum = up.plannum where up.userid=#{userid}
+        order by p.plannum desc limit 1;
+    </select>
+
+    <insert id="insertPP">
+        insert into plan_place values(#{plannum},#{placeid})
+    </insert>
+
+    <select id="getUserList">
+        select u.* from user u left join user_plan up
+        on u.userid= up.userid where up.plannum = #{plannum} and up.part = #{part}
+    </select>
+
+    <select id="getPlanCnt">
+        select count(*) from plan
+        <where>
+            <if test="type != 'none'">
+                category like('%${type}%')
+            </if>
+            <if test="type != 'none' and keyword != 'none'">
+                and
+            </if>
+            <if test="keyword != 'none'">
+                (plantitle like('%${keyword}%') or category like('%${keyword}%'))
+            </if>
+        </where>
+    </select>
+
+    <select id="getPlans">
+        select * from plan
+        <where>
+            <if test="type != 'none'">
+                category like('%${type}%')
+            </if>
+            <if test="type != 'none' and keyword != 'none'">
+                and
+            </if>
+            <if test="keyword != 'none'">
+                (plantitle like('%${keyword}%') or category like('%${keyword}%'))
+            </if>
+        </where>
+        order by plannum desc limit #{startrow},#{amount}
+    </select>
+
+    <select id="getPlanListByUserid">
+        select p.* from plan p join (select * from user_plan where userid = #{userid}) up on p.plannum = up.plannum order by p.plannum desc limit #{startrow},8
+    </select>
+</mapper>

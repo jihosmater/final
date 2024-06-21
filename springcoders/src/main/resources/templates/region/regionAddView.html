@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/regionAddView.css">
+</head>
+<body>
+	<div id="lodingWindow" class="disappear">
+	  <span id="lodingText">잠시만 기다려주세요</span>
+	  <span id="lodingBar">
+	        <span id="lodinggauge" class="animation"></span>
+	    </span>
+	</div>
+<th:block th:replace="~{common/header::header(${session.loginUser})}"></th:block>
+<div id="wrap">
+	<div class="showcase_bg" style="background-color: rgba(235,235,235,0.4); height: 550px"></div>
+    <div id="content_box">
+        <div id="title_area">
+            <div id="top">
+                <h1 id="top1"><span>PLANZ</span>의 여행지 추천!</h1>
+            </div>
+            <div id="top_semi">
+                <p>한국관광공사 관광정보 데이터 기반의</p>
+                <p>지역별 인기 여행지를 확인해보세요!</p>
+            </div>
+            <hr>
+        </div>
+
+        <div id="slide_box">
+            <div id="slide_btn" class="prev"></div>
+            <div id="area_slide">
+                <ul>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_seoul.png"/>
+                            <span class="area_select" onclick="doing('서울',1)">서울</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_incheon.png"/>
+                            <span class="area_select" onclick="doing('인천',2)">인천</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_daejeon.png"/>
+                            <span class="area_select" onclick="doing('대전',3)">대전</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_daegu.png"/>
+                            <span class="area_select" onclick="doing('대구',4)">대구</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_gwangju.png"/>
+                            <span class="area_select" onclick="doing('광주',5)">광주</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_busan.png"/>
+                            <span class="area_select" onclick="doing('부산',6)">부산</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_soeun.png"/>
+                            <span class="area_select" onclick="doing('울산',7)">울산</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_sejong.png"/>
+                            <span class="area_select" onclick="doing('세종',8)">세종</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_gyeunggi.png"/>
+                            <span class="area_select" onclick="doing('경기',31)">경기</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_gwangwon.png"/>
+                            <span class="area_select" onclick="doing('강원',32)">강원</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_jeju.png"/>
+                            <span class="area_select" onclick="doing('제주',39)">제주</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_jeonam.png"/>
+                            <span class="area_select" onclick="doing('전남',38)">전남</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_jeonbuk.png"/>
+                            <span class="area_select" onclick="doing('전북',37)">전북</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_chungbuk.png"/>
+                            <span class="area_select" onclick="doing('충북',33)">충북</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_chungnam.png"/>
+                            <span class="area_select" onclick="doing('충남',34)">충남</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_gyengnam.png"/>
+                            <span class="area_select" onclick="doing('경남',36)">경남</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a>
+                            <img class="select_img" src="/image/region_gyengbuk.png"/>
+                            <span class="area_select" onclick="doing('경북',35)">경북</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <hr>
+            <div id="slide_btn" class="next"></div>
+        </div>
+        <form action="/region/get" method="post" name="regionGetForm" id="regionGetForm">
+            <input type="hidden"  id="contendIdValue" name="contendIdValue">
+            <input type="hidden"  id="contentTypeIdValue" name="contentTypeIdValue">
+        <div id="area_info"></div>
+        </form>
+
+        <input type="hidden" id="area_value" value="">
+        <input type="hidden" id="area_num" value="">
+
+        <div id="line_add_view_box">
+            <div id="line_add_view" onclick="addBtnClick()"></div>
+        </div>
+
+    </div>
+
+</div>
+<th:block th:replace="~{common/footer::footer}"></th:block>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+
+    // --------------------------- 페이지가 열림과 동시에 ajax요청 시작 ---------------
+
+    document.addEventListener("DOMContentLoaded", function () {
+        doing('서울',1);
+    });
+
+    // --------------------------- 페이지가 열림과 동시에 ajax요청 끝 -----------------
+
+    // --------------------------- 상단 지역 슬라이드 ------------------------------
+    var slideIndex = 0;
+    var totalSlides = $("#area_slide li").length;
+    var prevBtn = $(".prev");
+    var nextBtn = $(".next");
+    var area_slide_ul =  $("#area_slide ul");
+
+    $(document).ready(function() {
+        // 이전 버튼 클릭 이벤트
+        prevBtn.on("click", function() {
+            clickPrev();
+        })
+
+        nextBtn.on("click", function() {
+            clickNext();
+        })
+
+        updateSlideCount();
+    })
+
+    // 슬라이드 개수 업데이트
+    function updateSlideCount() {
+        totalslides = $("#area_slide ul li").length;
+    }
+
+    // 이전 버튼 클릭
+    function clickPrev() {
+        if(slideIndex > 0) {
+            slideIndex --;
+            updateSilde();
+            updateControlle();
+        }
+    }
+
+    // 다음 버튼 클릭
+    function clickNext() {
+
+        if(slideIndex < totalSlides - 6) {
+            slideIndex ++;
+            updateSilde();
+            updateControlle();
+        }
+    }
+
+    // 슬라이드 위치 업데이트
+    function updateSilde() {
+
+        var slideWidth = 200;
+        var newPosition = -slideWidth * slideIndex;
+        area_slide_ul.css("transform", "translateX(" + newPosition + "px)");
+    }
+
+    // 이전과 다음 버튼 업데이트
+    function updateControlle() {
+
+        var pBtn = $(".prev");
+        var nBtn = $(".next");
+
+        if (slideIndex === 0) {
+            pBtn.css("opacity", "0");
+        } else {
+            pBtn.css("opacity", "1");
+        }
+
+        // 현재 슬라이드가 마지막 슬라이드인 경우
+        if (slideIndex === totalSlides - 5) {
+            nBtn.css("opacity", "0");
+        } else {
+            nBtn.css("opacity", "1");
+        }
+    }
+
+    updateControlle();
+
+    // --------------------------- 상단 지역 슬라이드 끝 ---------------------------------
+
+
+
+    // --------------------------- bodyinfo -----------------------------------------
+
+    // --------------------------- 지역선택이벤트 시작 -----------------------------------
+	let ajaxCnt=1;
+	
+    $(document).ready(function() {
+        $('.area_select').click(function() {
+            // 지역을 선택할 때마다 area_info 내용 초기화
+            $('#area_info').empty();
+            console.log("지역선택 초기화 완료");
+
+            var clickedText = $(this).text();
+            $('#area_value').val(clickedText);
+
+            switch(clickedText) {
+
+                case '서울':
+                    $('#area_num').val(1);
+                    break;
+                case '인천':
+                    $('#area_num').val(2);
+                    break;
+                case '대전':
+                    $('#area_num').val(3);
+                    break;
+                case '대구':
+                    $('#area_num').val(4);
+                    break;
+                case '광주':
+                    $('#area_num').val(5);
+                    break;
+                case '부산':
+                    $('#area_num').val(6);
+                    break;
+                case '울산':
+                    $('#area_num').val(7);
+                    break;
+                case '세종':
+                    $('#area_num').val(8);
+                    break;
+                case '경기':
+                    $('#area_num').val(31);
+                    break;
+                case '강원':
+                    $('#area_num').val(32);
+                    break;
+                case '제주':
+                    $('#area_num').val(39);
+                    break;
+                case '전남':
+                    $('#area_num').val(38);
+                    break;
+                case '전북':
+                    $('#area_num').val(37);
+                    break;
+                case '충북':
+                    $('#area_num').val(33);
+                    break;
+                case '충남':
+                    $('#area_num').val(34);
+                    break;
+                case '경남':
+                    $('#area_num').val(36);
+                    break;
+                case '경북':
+                    $('#area_num').val(35);
+                    break;
+                default: console.log("알 수 없는 지역입니다.")
+            }
+
+            console.log("지역 선택 hidden : "+clickedText);
+
+        });
+    });
+
+
+    // --------------------------- 지역선택이벤트 끝 -------------------------------------
+
+    // --------------------------- 이미지클릭 시작 ---------------------------------------
+
+    $(document).ready(function() {
+        $('.select_img').on('click', function() {
+			ajaxCnt = 1;
+            $(this).next('.area_select').click();
+        });
+    });
+
+    // --------------------------- 이미지클릭 끝 ----------------------------------------
+
+    // --------------------------- 더보기버튼 시작 ---------------------------------------
+
+    const line_add_view = document.getElementById("line_add_view");
+
+    function addBtnClick() {
+
+        var area_value = $('#area_value').val();
+        var area_num = $('#area_num').val();
+
+        if(area_value === null || area_value === "",
+        area_num === null || area_num ==="") {
+
+            area_value = '서울';
+            area_num = 1;
+        }
+
+        doing(area_value, area_num);
+
+    }
+
+    // --------------------------- 더보기버튼 끝 -----------------------------------------
+
+    // --------------------------- 공공데이터 ajax 시작 -----------------------------------
+
+    // ajax통신
+    function doing(element,areacode) {
+		
+		showLoding();
+		
+        console.log("지역 선택 : "+element);
+		
+		console.log("카운트번호 : "+ajaxCnt);
+        $.ajax({
+            url: "/api/regionAddView",
+            method: "POST",
+            data:{
+                keyword: element,
+                numOfRows: 8,
+                pageNo: ajaxCnt,
+                areacode : areacode
+            },
+            // 성공
+            success: function(data) {
+
+                console.log("공공데이터포털 ajax요청 성공 : "+   data);
+                // 공공데이터 포털에서 반환받은 값 저장
+                const itemlist = data.response.body.items;
+                let str = "";
+                const area_info = document.getElementById("area_info");
+                console.log(itemlist);
+                console.log(itemlist.item);
+
+                for(let i = 0; i < 8; i++) {
+                    const currentItem = itemlist.item[i];
+                    if(i==0){
+                        str +=`<ul id="area_info_line">`;
+                    } else if(i==4){
+                        str +=`</ul><ul id="area_info_line">`;
+                    }
+                    str+=
+                        `<li onclick="get('${currentItem.contentid}', '${currentItem.contenttypeid}')">
+                       <a id="show${(ajaxCnt-1)*8+i+1}" class="showAlla">
+                           <img class="" src="${currentItem.firstimage}" alt="" />
+                     <span>
+                         <p id="">${currentItem.title}</p>
+                         <p>${currentItem.addr1+currentItem.addr2}</p>
+                     </span>
+                       </a>
+                   </li>`
+                }
+                str +=`</ul>`;
+                area_info.innerHTML +=str;
+                ajaxCnt++;
+            },
+            // 실패
+            error: function(xhr, status, error) {
+                console.log("공공데이터포털 ajax요청 실패");
+                console.log("Status : "+status);
+                console.dir("xhr : "+xhr);
+
+                console.log("Response object(xhr Object) : " + JSON.stringify(xhr));
+
+                // 상태 코드와 응답 텍스트를 출력합니다.
+                console.log("Response status code : " + xhr.status);
+                console.log("Response text : " + xhr.responseText);
+            },
+        });
+    }
+
+    // --------------------------- 공공데이터 ajax 끝 -----------------------------------
+    // --------------------------- region/get 이동 시작 -----------------------------------
+    function get(contentId,contenttypeid){
+        console.log(contentId);
+        $("#contendIdValue").attr('value',contentId);
+        $("#contentTypeIdValue").attr('value',contenttypeid);
+
+
+
+        // regionGetForm을 제출
+        $("#regionGetForm").submit();
+
+    }
+    // --------------------------- region/get 이동 끝 -----------------------------------
+	
+	function showLoding(){
+	    const lodingWindow = document.getElementById("lodingWindow");
+	    lodingWindow.classList.remove("disappear");
+	    const lodingBar = document.getElementById("lodinggauge");
+	    lodingBar.classList.add("animation");
+	    lodingBar.addEventListener("animationend",()=>{
+	        lodingBar.classList.remove("animation");
+	        lodingWindow.classList.add("disappear");
+	    })
+	}
+
+
+
+</script>
+</body>
+</html>

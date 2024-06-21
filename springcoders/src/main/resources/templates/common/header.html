@@ -1,0 +1,80 @@
+<th:block th:fragment="header(loginUser)">
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" th:href="@{/css/header.css}">
+    </head>
+    <body>
+    <header>
+        <div id="he_logo">
+            <a href="/"><span id="he_logo_img"></span></a>
+        </div>
+        <div id="he_bar">
+            <div id="he_gnb">
+                <button class="he_btn he_btn-6" onclick="location.href='/' "><span>홈</span></button>
+                <button class="he_btn he_btn-6" onclick="location.href='/board/list' "><span >커뮤니티</span></button>
+                <button class="he_btn he_btn-6" onclick="location.href='/region/region' "><span>관광정보</span></button>
+                <button class="he_btn he_btn-6" onclick="location.href='/plan/list' "><span>MY플래너</span></button>
+                <th:block th:if="${loginUser == null}">
+                    <button class="" onclick="location.href='/user/login'"><span>로그인</span></button>
+                </th:block>
+                <th:block th:if="${loginUser != null}">
+                <button id="he_profilebtn" type="button">
+                    <img id="he_profile" src="/file/loginprofile" alt="" style="width: 55px; height: 55px;">
+                </button>
+                </th:block>
+            </div>
+            <div id="he_profilebox" style="display: none" >
+                <ul id="he_click_box">
+					<li><button type="button" onclick="location.href='/user/mypage'" class="he_user_box">마이페이지</button></li>
+					<li th:if="${loginUser != null and loginUser.contains('GOOGLE')}"><button th:if="${#strings.substring(userid, 0, 6)}" type="button" onclick="location.href='/google/logout'" class="he_user_box margin">로그아웃</button></li>
+					<li th:if="${loginUser != null and loginUser.contains('NAVER')}"><button th:if="${#strings.substring(userid, 0, 5)}" type="button" onclick="location.href='/naver/logout'" class="he_user_box margin">로그아웃</button></li>
+					<li th:if="${loginUser != null and loginUser.contains('KAKAO')}"><button th:if="${#strings.substring(userid, 0, 5)}" type="button" onclick="location.href='/kakao/logout'" class="he_user_box margin">로그아웃</button></li>
+					<li><button type="button" onclick="location.href='/user/logout'" class="he_user_box margin">로그아웃</button></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+	<th:block th:replace="~{chat/chatButton::chatButton}"></th:block>
+    <div id="topBtn_box" style="display: none">
+        <div id="topBtn" ></div>
+    </div>
+    </body>
+    <script>
+        let he_profilebox = document.getElementById('he_profilebox');
+        let he_profilebtn = document.getElementById('he_profilebtn');
+
+        if(he_profilebtn != null){
+            he_profilebtn.addEventListener("click", function(e) {
+                e.preventDefault();
+                if (he_profilebox.style.display === "none") {
+                    he_profilebox.style.display = "inline-block";
+                } else {
+                    he_profilebox.style.display = "none";
+                }
+            });
+        }
+        // topBtn이 클릭되었을 때 화면 상단으로 스크롤 이동
+        document.getElementById("topBtn").addEventListener("click", function() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        // 스크롤 시 topBtn이 화면을 따라다니도록 설정
+        window.onscroll = function() {scrollFunction()};
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                document.getElementById("topBtn_box").style.display = "block";
+            } else {
+                document.getElementById("topBtn_box").style.display = "none";
+            }
+        }
+    </script>
+    </html>
+</th:block>

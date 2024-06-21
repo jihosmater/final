@@ -1,0 +1,576 @@
+*{
+    list-style: none;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+#wrap {
+    width: 1400px;
+    margin: 0 auto;
+    padding: 50px;
+}
+#top_section {
+    margin: 0 auto 50px;
+    width: 1200px;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+#prevBtn , #nextBtn{
+    background: white;
+    width: 50px;
+    height: 50px;
+    margin-top: 190px;
+    border: none;
+}
+
+#prevBtn{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background: url("/image/prev_img.png");
+}
+#prevBtn:hover{
+    background: url("/image/prevhover_img.png");
+}
+#nextBtn{
+    background: url("/image/next_img.png");
+}
+#nextBtn:hover{
+    background: url("/image/nexthover_img.png");
+}
+#img_box {
+    width: 420px;
+    height: 400px;
+}
+
+#img_ul {
+    width: 420px;
+    height: 400px;
+    overflow: hidden;
+    position: relative; /* 부모 요소로부터의 상대 위치 설정 */
+}
+
+#img_ul li {
+    position: absolute; /* 절대 위치 설정 */
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out; /* 투명도 전환 효과 */
+    list-style-type: none;
+    width: 100%; /* 부모 요소에 맞춰 전체 너비 설정 */
+    height: 100%; /* 부모 요소에 맞춰 전체 높이 설정 */
+}
+
+#img_ul li.active {
+    opacity: 1;
+}
+
+.main_img {
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    width: 100%; /* 이미지 요소에 맞춰 너비 설정 */
+    height: 100%; /* 이미지 요소에 맞춰 높이 설정 */
+    object-fit: cover; /* 이미지가 요소에 꽉 채워지도록 설정 */
+}
+#info_box {
+    width: 650px;
+    height: 400px;
+}
+
+#info_box #board_text {
+    padding: 30px;
+    margin: 0 auto;
+}
+#board_title{
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+#price_box{
+    padding: 5px;
+    margin-bottom: 20px;
+    font-size: 19px;
+}
+#price{
+    /*font-weight: bold;*/
+}
+#board_contents{
+    border: 1px solid #ddd;
+    padding: 20px;
+    line-height: 30px;
+    margin-bottom: 40px;
+    min-height: 150px;
+}
+#button_box{
+    /*border: 1px solid black;*/
+    margin: 0 auto;
+}
+
+#button_box :not(.already){
+    cursor: pointer;
+}
+#loginBtn_box{
+    text-align: center;
+ }
+#loginBtn_box #loginBtn{
+    border-radius: 10px;
+    width: 500px;
+    height: 55px;
+    background-color: black;
+    color: aliceblue;
+    font-size: 20px;
+    letter-spacing: 7px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+#userBtn_box{
+    text-align: center;
+}
+
+#modifyBtn ,#deleteBtn{
+    border-radius: 10px;
+    width: 250px;
+    height: 55px;
+    font-size: 20px;
+    letter-spacing: 7px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    border: 3px solid black;
+}
+
+#modifyBtn{
+    background-color: black;
+    color: aliceblue;
+}
+#deleteBtn{
+    background-color: white;
+    color: black;
+}
+#chat_box_g{
+    /* margin-top: */
+    /* border: 1px solid red; */
+    text-align: center;
+}
+/*#chat_box #chat_btn{*/
+/*    !* border: 1px solid black; *!*/
+/*    border-radius: 10px;*/
+/*    width: 500px;*/
+/*    height: 55px;*/
+/*    background-color: black;*/
+/*    color: aliceblue;*/
+/*    font-size: 20px;*/
+/*    letter-spacing: 7px;*/
+/*    font-weight: 600;*/
+/*    margin-bottom: 10px;*/
+
+/*}*/
+
+#chat_btn ,#buy_btn{
+    border-radius: 10px;
+    width: 250px;
+    height: 55px;
+    font-size: 20px;
+    letter-spacing: 7px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    border: 3px solid black;
+}
+#chat_btn{
+    background-color: black;
+    color: aliceblue;
+}
+#buy_btn{
+    background-color: white;
+    color: black;
+}
+#chat_box #notice{
+    /* margin-top: 20px; */
+    /* border: 1px solid black; */
+    /* padding: 10px; */
+    color: #aaa;
+    font-size: 14px;
+
+
+}
+#go_listBox{
+}
+#go_listA{
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    text-decoration: none;
+
+}
+#go_list {
+    width: 30px;
+    height: 30px;
+    background: url("/image/go_list.png") no-repeat center;
+    background-size: cover;
+    display: inline-block; /* 링크가 인라인 블록으로 동작하도록 설정 */
+    overflow: hidden; /* 텍스트가 보이지 않도록 설정 */
+    text-indent: -9999px; /* 텍스트가 시각적으로 보이지 않도록 설정 */
+    margin-right: 10px;
+    opacity: 0.6;
+}
+
+
+#go_text{
+    display: inline-block; /* 링크가 인라인 블록으로 동작하도록 설정 */
+    width: 150px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 15px;
+    color: #888;
+    font-weight: 900;
+
+}
+#bottom_section {
+    /*border: 1px solid #ccc;*/
+    clear: both;
+    padding: 30px;
+    margin-top: 150px;
+    width: 1200px;
+}
+
+#recent_box{
+    height: 400px;
+    padding: 30px;
+    margin-left: 100px;
+
+}
+#recent_list{
+    /* border: 1px solid black; */
+    width: 1100px;
+    margin: 40px auto;
+    display:  flex;
+    justify-content: flex-start;
+    gap: 70px; /* 원하는 간격으로 설정 */
+}
+
+.recent_board{
+    border-radius: 20px;
+    box-shadow: 1px 2px 2px 2px #ddd;
+    width: 300px;
+    height: 290px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.recent_board:hover {
+    transform: scale(1.03);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+.recent_img{
+    margin: 0 auto;
+    width: 100%;
+    height: 140px;
+    /*border: 1px solid black;*/
+    /*margin-bottom: 10px;*/
+}
+.recent_file{
+    width: 100%;
+    height: 140px;
+    border-radius: 15px;
+    /*border: 1px solid #ccc;*/
+    margin: 0 auto;
+}
+.recent_info{
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    margin-top: 25px;
+    padding: 10px;
+    text-align: left;
+    height: 100px;
+}
+.recent_title{
+    font-weight: bold;
+    font-size: 19px;
+    width: 200px;
+    height: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+}
+.recent_contents{
+    margin-bottom: 20px;
+    width: 260px;
+    height: 20px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #777;
+
+}
+.recent_price{
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #00cc8c;
+}
+.already{
+    width: 500px;
+    border-radius: 20px;
+    background: #eee;
+    border: none;
+    outline: none;
+    color: #666;
+    font-size: 20px;
+    height: 50px;
+    cursor: not-allowed
+}
+/*buy_box*/
+#buy_box {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 800px;
+    height: 850px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    text-align: center;
+}
+#buy_box #buy_info{
+    text-align: center;
+    margin: 30px auto 20px;
+    height: 480px;
+}
+ .close_btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 10px 2px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+ .close_btn:hover {
+    background-color: #222222;
+     color: white;
+}
+.close_btn {
+    background-color: #555;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 10px;
+    margin: 0;
+    font-weight: 700;
+}
+.overlay {
+    border: 1px solid black;
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+}
+#buy_info {
+     text-align: center;
+     padding: 15px;
+     background-color: #fff;
+     border: 2px solid #ccc;
+     border-radius: 10px;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+     position: relative;
+     width: 600px;
+     margin: 0 auto;
+ }
+
+.gallery {
+    overflow: hidden;
+    position: relative;
+    width: 500px;
+    height: 350px;
+    border-radius: 10px;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+.gallery-inner {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+.gallery-img-container {
+    flex: 0 0 auto;
+    width: 100%;
+}
+
+.gallery-img {
+    max-width: 100%;
+    height: 300px;
+    display: block;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.prev-btn,
+.next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    height: 50px;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 10;
+    text-indent: -9999px;
+}
+
+.prev-btn {
+    background: url("/image/prev_img.png");
+    left: 10px;
+}
+
+.next-btn {
+    background: url("/image/next_img.png");
+    right: 10px;
+}
+
+.prev-btn:hover{
+    background: url("/image/prevhover_img.png");
+}
+.next-btn:hover {
+    background: url("/image/nexthover_img.png");
+}
+.custom-button {
+    width: 200px;
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    background-color: #00C88C;
+    border: 2px solid #00C88C;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+    margin-top: 15px;
+}
+
+.custom-button:hover {
+    box-shadow: 0 2px 10px 0 #b1dfd2;
+}
+
+.custom-button:active {
+    transform: translateY(1px);
+}
+#board_tit{
+    font-weight: 700;
+    font-size: 21px;
+    font-family: sans-serif;
+    border: 1px solid #eee;
+    background-color: #f6f6f6;
+    border-radius: 10px;
+    color: #555555;
+    margin-top: 10px;
+}
+#board_price{
+    color: #00c88c;
+    font-size: 20px;
+    font-weight: 500;
+}
+.buyer-info {
+    border: 1px solid #ccc;
+    margin: 0 auto;
+    padding: 20px;
+    width: 600px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+#buyer_table{
+    width: 400px;
+    margin: 5px auto;
+    text-align: center;
+}
+#buyer_table th{
+    color: #444;
+}
+#buyer_table td{
+    color: #888;
+}
+
+.buyer-info input[type="text"]:not(#deal_pay,#show_msg) {
+    width: 120px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: 3px;
+    font-size: 14px;
+}
+
+.buyer-info button {
+    padding: 8px 15px;
+    background-color: black;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.buyer-info button:hover {
+    background-color: rgba(0, 200, 140, 0.78);
+}
+
+
+#dealPay_box{
+    text-align: left;
+    border-top: 1px solid #ccc;
+}
+#dealPay_div{
+    margin-top: 10px;
+    margin-left: 90px;
+}
+#dealPay_text{
+    width: 110px;
+    display: inline-block;
+    font-weight: bold;
+}
+#deal_pay{
+    display: inline-block;
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+}
+
+#show_msg {
+    margin-left: 50px;
+    display: inline-block; /* 애니메이션을 적용하기 위해 필요한 속성 */
+}
+
+/* 흔들림 애니메이션 정의 */
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+    100% { transform: translateX(0); }
+}
+
+/* 흔들림 애니메이션 적용 */
+#show_msg.shake {
+    animation: shake 0.4s ease-in-out 1 /* 무한 반복 */
+}

@@ -1,0 +1,226 @@
+*{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    box-sizing: border-box;
+}
+
+header{
+    width: 100%;
+    height: 120px;
+    background-color: #fff;
+    box-shadow: 6px 3px 10px 1px rgba(185, 185, 193, 0.3);
+    display: flex;
+    justify-content: space-between;
+}
+#he_logo{
+    width: 130px;
+    /*height: 120px;*/
+    margin-left: 50px;
+
+}
+#he_logo #he_logo_img {
+    display: inline-block;
+    background-image: url(/image/planzlogo.png/);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 200px;
+    height: 120px;
+}
+#he_bar{
+    /* border: 1px solid black; */
+}
+
+#he_gnb{
+    text-align: center;
+    padding: 30px;
+    display: flex;
+    justify-content: space-between;
+}
+#he_gnb button{
+    font-family: "Noto Sans KR", sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    color: #222;
+    cursor: pointer;
+    color: #333333;
+}
+#he_gnb button{
+    margin-right: 40px;
+}
+#he_gnb button:last-child{
+    border: none;
+    background-color: white;
+    border-radius: 10px;
+}
+/*#he_gnb button:last-child:hover{*/
+/*    background-color: rgba(0, 200, 140, 0.78);*/
+/*    height: 35px;*/
+/*    line-height: 13px;*/
+/*    margin-top: 13.5px;*/
+/*}*/
+
+.he_btn-6 {
+    background: #fff;
+    color: #fff;
+    line-height: 42px;
+    padding: 10px;
+    border: none;
+}
+.he_btn-6 span {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+.he_btn-6:before,
+.he_btn-6:after {
+    position: absolute;
+    content: "";
+    height: 0%;
+    width: 2px;
+    background: #000;
+}
+.he_btn-6:before {
+    right: 0;
+    top: 0;
+    transition: all 200ms ease;
+}
+.he_btn-6:after {
+    left: 0;
+    bottom: 0;
+    transition: all 200ms ease;
+}
+.he_btn-6:hover{
+    color: #000;
+    background: transparent;
+}
+.he_btn-6:hover:before {
+    transition: all 200ms ease;
+    height: 100%;
+}
+.he_btn-6:hover:after {
+    transition: all 200ms ease;
+    height: 100%;
+}
+.he_btn-6 span:before,
+.he_btn-6 span:after {
+    position: absolute;
+    content: "";
+    background: #000;
+}
+.he_btn-6 span:before {
+    left: 0;
+    top: 0;
+    width: 0%;
+    height: 2px;
+    transition: all 200ms ease;
+}
+.he_btn-6 span:after {
+    right: 0;
+    bottom: 0;
+    width: 0%;
+    height: 2px;
+    transition: all 200ms ease;
+}
+.he_btn-6 span:hover:before {
+    width: 100%;
+}
+.he_btn-6 span:hover:after {
+    width: 100%;
+}
+
+/*profile css*/
+#he_profile{
+    border-radius: 50%;
+    border: none;
+}
+#he_profilebtn{
+    margin-right: 1px;
+    background-color: white;
+}
+#he_profilebox{
+    position: absolute;
+    top: 100px;
+    right: 25px;
+    width: 140px;
+    height: 110px;
+    float: right;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 2px 0 4px #eeeeee;
+    padding-top: 10px;
+}
+#he_click_box{
+    width: 100%;
+    height: 120px;
+    border-radius: 5px;
+    padding:0 3px;
+    /*background-color: white;*/
+}
+#he_click_box li{
+    text-align: center;
+    border-bottom: 2px solid white;
+}
+#he_click_box button{
+    border: 1px solid #F8F8F8;
+    border-radius: 5px;
+}
+/*.he_user_box{*/
+/*    width: 80%;*/
+/*    height: 40px;*/
+/*    background-color: #ffff;*/
+/*    margin-top: 10px;*/
+/*    border-radius: 30px;*/
+/*    border: 1px solid #F8F8F8;*/
+/*    cursor: pointer;*/
+/*    background-color: #F8F8F8;*/
+/*}*/
+.he_user_box {
+    width: 100%;
+    height: 40px;
+    /*border-bottom: 1px solid #777777;*/
+    cursor: pointer;
+    background-color: #F8F8F8;}
+
+
+.he_user_box:hover {
+    /*background-color: #e2e2e2;*/
+    background-color: #bbbbbb;
+    color: white;
+    font-weight: bold;
+}
+
+/*#he_click_box button:hover {*/
+/*    background-color: #999999;*/
+/*}*/
+
+
+/* top 버튼 디자인 시작*/
+#topBtn_box{
+    width: 50px;
+    height: 50px;
+    right: 40px;
+    bottom: 100px;
+    position: fixed;
+    z-index: 999;
+}
+
+#topBtn{
+    height: 50px;
+    width: 50px;
+    background: url("/image/top_btn.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    opacity: 0.5;
+}
+
+#topBtn:hover{
+    scale: 1.1;
+    opacity: 1;
+}
+/* top 버튼 디자인 끝*/

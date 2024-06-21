@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>일정목록|PLANZ</title>
+    <link rel="stylesheet" href="/css/plan/list.css">
+</head>
+<body>
+<th:block th:replace="~{common/header::header(${session.loginUser})}"></th:block>
+    <div id="wrap">
+        <a href="/plan/create" id="createBtn">일정 작성</a>
+        <div id="planList">
+            <a class="plan" th:each="plan:${planList}" th:href="${'http://localhost:8080/plan/get?plannum='+plan.plannum}">
+                <span class="plantitle">[[${plan.plantitle}]]</span>
+                <span class="planmemo">[[${plan.planmemo}]]</span>
+                <ul class="userList">
+                    <th:block th:with="userList=${userListByPlannum.get(plan.plannum+'')}">
+                        <li class="user" th:with="user=${userList[userList.size()-1]}">
+                            <img class="userprofile creater" th:src="'/file/thumbnail?systemname='+${user.userprofile=='planz'?'default-user.webp':user.userprofile}" th:alt="${user.userid}">
+                        </li>
+                        <li class="user" th:each="user:${userList}" th:if="${(userStat.index != userList.size()-1) && (userStat.index<3)}">
+                            <img class="userprofile" th:src="'/file/thumbnail?systemname='+${user.userprofile=='planz'?'default-user.webp':user.userprofile}" th:alt="${user.userid}">
+                        </li>
+                        <span class="userCnt" th:if="${userList.size()>4}" th:text="${'외 '+(userList.size()-4)+'명'}"></span>
+                    </th:block>
+                </ul>
+                <span class="plandate">
+                    <span class="startdate" th:with="dates=${plan.startdate.split('_')}">[[${dates[0]+'년 '+(dates[1].charAt(0)=='0'.charAt(0)?dates[1].charAt(1):dates[1])+'월 '+(dates[2].charAt(0)=='0'.charAt(0)?dates[2].charAt(1):dates[2])+'일'}]]</span>
+                    ~
+                    <span class="enddate" th:with="dates=${plan.enddate.split('_')}">[[${dates[0]+'년 '+(dates[1].charAt(0)=='0'.charAt(0)?dates[1].charAt(1):dates[1])+'월 '+(dates[2].charAt(0)=='0'.charAt(0)?dates[2].charAt(1):dates[2])+'일'}]]</span>
+                </span>
+                <ul class="planCategory" th:with="bcts=${#strings.arraySplit(plan.category,'|bct|')}">
+                    <li class="category" th:each="ct:${bcts}">
+                        <span># [[${ct}]]</span>
+                    </li>
+                </ul>
+            </a>
+        </div>
+        <div id="pageBtnBox" th:with="cri=${pageMaker.cri}">
+            <div id="pageBtn">
+                <a class="pagebtn prev" th:if="${pageMaker.prev}" th:href="${'http://localhost:8080/plan/list?amount=8&pagenum='+(pageMaker.startPage - 1)+'&keyword='+(cri.keyword==null?'':cri.keyword)}"></a>
+                <th:block th:each="num:${#numbers.sequence(pageMaker.startPage,pageMaker.endPage)}">
+                    <th:block th:if="${num == cri.pagenum}">
+                        <span class="pagebtn select" th:text="${num}"></span>
+                    </th:block>
+                    <th:block th:if="${num!=cri.pagenum}">
+                        <a class="pagebtn" th:text="${num}" th:href="${'http://localhost:8080/plan/list?amount=8&pagenum='+num+'&keyword='+(cri.keyword==null?'':cri.keyword)}"></a>
+                    </th:block>
+                </th:block>
+                <a class="pagebtn next" th:if="${pageMaker.next}" th:href="${'http://localhost:8080/plan/list?amount=8&pagenum='+(pageMaker.endPage + 1)+'&keyword='+(cri.keyword==null?'':cri.keyword)}"></a>
+            </div>
+            <div id="searchBox">
+                <input type="text" id="keyword" placeholder="키워드를 입력해주세요" th:value="${cri.keyword==null?'':cri.keyword}">
+                <input type="button" id="searchBtn" onclick="search()">
+            </div>
+        </div>
+    </div>
+<th:block th:replace="~{common/footer::footer}"></th:block>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="/js/plan/list.js"></script>
+</html>

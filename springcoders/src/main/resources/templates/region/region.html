@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>region</title>
+  <style>
+    #lodingWindow{position: absolute; top: 0; left: 0;  width: 100%; height: 3500px; overflow: hidden; z-index: 10000; background-color: rgba(0, 0, 0, 0.7);}
+    #lodingText{
+      position: absolute;
+      left: 50%;
+      top: 500px;
+      width: 400px;
+      margin-left: -200px;
+      text-align: center;
+      font-size: 36px;
+      font-weight: bolder;
+      color: #00C88C;
+    }
+    #lodingBar{
+      position: absolute;
+      left: 50%;
+      top: 560px;
+      width: 500px;
+      height: 15px;
+      margin-left: -250px;
+      color: #00C88C;
+      border: 1px solid;
+      border-radius: 10px;
+    }
+    #lodinggauge{
+      float: left;
+      width: 100%;
+      height: 100%;
+      background: #00c88c;
+    }
+    #lodinggauge.animation{
+      animation:loding 1.5s linear 0s 1;
+    }
+    @keyframes loding {
+      from {
+        width: 0;
+      }
+      to {
+        width: 100%;
+      }
+    }
+    .disappear{display: none !important; width: 0; height: 0;}
+  </style>
+<!--  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.css"/>-->
+  <link rel="stylesheet" href="/css/region/calender.css">
+
+  <link rel="stylesheet" href="/css/region/region.css"/>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.7.0/main.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+<div id="lodingWindow" class="disappear">
+  <span id="lodingText">잠시만 기다려주세요</span>
+  <span id="lodingBar">
+        <span id="lodinggauge" class="animation"></span>
+    </span>
+</div>
+<th:block th:replace="~{common/header::header(${session.loginUser})}"></th:block>
+<div id="wrap">
+  <div class="showcase_bg" style="background-color: rgba(235,235,235,0.4); height: 550px"></div>
+  <div id="cont_wrap">
+    <div id="tit">
+      <h1><span>플랜즈</span>가 추천하는 국내여행 명소</h1>
+      <p></p>
+    </div>
+  </div>
+  <!-- 지역 선택 -->
+  <div id="slide_box">
+    <div class="slide_wrapper">
+      <ul class="slides flex">
+        <li>
+          <a href="#" onclick="setLocal(1)">
+            <img class="select_img" src="/image/region_seoul.png" alt="" />
+            <span>서울</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(2)">
+            <img class="select_img" src="/image/region_incheon.png" alt="" />
+            <span>인천</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(3)">
+            <img class="select_img" src="/image/region_daejeon.png" alt="" />
+            <span >대전</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(4)">
+            <img class="select_img" src="/image/region_daegu.png" alt="" />
+            <span >대구</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(5)">
+            <img class="select_img" src="/image/region_gwangju.png" alt="" />
+            <span >광주</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(6)">
+            <img class="select_img" src="/image/region_busan.png" alt="" />
+            <span >부산</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(7)">
+            <img class="select_img" src="/image/region_ulsan.png" alt="" />
+            <span >울산</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(8)">
+            <img class="select_img" src="/image/region_sejong.png" alt="" />
+            <span >세종</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(31)">
+            <img class="select_img" src="/image/region_gyeunggi.png" alt="" />
+            <span >경기</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(32)">
+            <img class="select_img" src="/image/region_gwangwon.png" alt="" />
+            <span >강원</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(39)">
+            <img class="select_img" src="/image/region_jeju.png" alt="" />
+            <span >제주</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(38)">
+            <img class="select_img" src="/image/region_jeonam.png" alt="" />
+            <span >전남</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(37)">
+            <img class="select_img" src="/image/region_jeonbuk.png" alt="" />
+            <span >전북</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(33)">
+            <img class="select_img" src="/image/region_chungbuk.png" alt="" />
+            <span >충북</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(34)">
+            <img class="select_img" src="/image/region_chungnam.png" alt="" />
+            <span >충남</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(36)">
+            <img class="select_img" src="/image/region_gyengnam.png" alt="" />
+            <span >경남</span>
+          </a>
+        </li>
+        <li>
+          <a href="#" onclick="setLocal(35)">
+            <img class="select_img" src="/image/region_gyengbuk.png" alt="" />
+            <span >경북</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <p class="controls">
+      <span class="prev" onclick="movePrev()"><i class="fas fa-chevron-left"></i>⬅</span>
+      <span class="next" onclick="moveNext()">➡<i class="fas fa-chevron-right"></i></span>
+    </p>
+  </div>
+  <div class="ha"></div>
+
+  <!-- 지역별 장소 리스트 정보 -->
+  <div id="zone_box">
+    <div id="logo_box">
+      <div id="logo">
+        <div>
+          <span id="ddaompyo">"<strong id="logo_local">서울</strong>"</span><span id="pic_all">사진 몰아보기!</span>
+        </div>
+      </div>
+      <div id="switch_wrap">
+        <!--        https://www.sto.or.kr/index-->
+        <!--        <a href="https://tour.chungbuk.go.kr/www/index.do"-->
+        <a id="homepage_local" href="https://www.sto.or.kr/index"
+           style="color: #000; font-size: 14px; font-weight: 900">
+          <em id="switch_local">서울</em>
+          관광공사
+        </a>
+      </div>
+    </div>
+
+    <div id="testbox">
+      <div class="test">
+      </div>
+    </div>
+
+
+    <!-- 우리지역 핫플 -->
+    <div id="contents">
+      <div id="hot_place">
+        <h2>소문난 핫플레이스</h2>
+        <div id="hot_list">
+          <form action="/region/get" method="post" name="regionGetForm" id="regionGetForm">
+            <input type="hidden"  id="contendIdValue" name="contendIdValue">
+            <input type="hidden"  id="contentTypeIdValue" name="contentTypeIdValue">
+            <div id="recommend">
+              <!-- 지역별 여행지 추천 -->
+              <div class="cont_wrap">
+                <h4>
+                  <strong id="recommend_local">서울</strong>
+                  추천 여행지
+                </h4>
+                <ul>
+                  <li>
+                <span id="spot1" >
+                  <span id="recommend_img1" class="img"></span>
+                  <strong id="recommend_title1"></strong>
+                  <span id="recommend_addr1" class="area"></span>
+                </span>
+                  </li>
+                  <li>
+                <span id="spot2" >
+                  <span id="recommend_img2" class="img"></span>
+                  <strong id="recommend_title2"></strong>
+                  <span id="recommend_addr2" class="area"></span>
+                </span>
+                  </li>
+                  <li>
+                <span id="spot3" >
+                  <span id="recommend_img3" class="img"></span>
+                  <strong id="recommend_title3"></strong>
+                  <span id="recommend_addr3" class="area"></span>
+                </span>
+                  </li>
+                  <li>
+                <span id="spot4" >
+                  <span id="recommend_img4" class="img"></span>
+                  <strong id="recommend_title4"></strong>
+                  <span id="recommend_addr4" class="area"></span>
+                </span>
+                  </li>
+                </ul>
+                <div class="more_btn">
+                  <input type="button" onclick="location.href='/region/regionAddView'" value="더보기">
+                </div>
+              </div>
+
+              <!-- 지역별 맛집 -->
+              <div class="cont_wrap">
+                <h4>
+                  <strong id="food_local">서울</strong>
+                  추천 맛집
+                </h4>
+                <ul>
+                  <li>
+                <span id="food1">
+                  <span id="stay_img1" class="img"></span>
+                  <strong id="stay_title1"></strong>
+                  <span id="stay_addr1" class="area"></span>
+                </span>
+                  </li>
+                  <li>
+                 <span id="food2">
+                  <span id="stay_img2" class="img"></span>
+                  <strong id="stay_title2"></strong>
+                  <span id="stay_addr2" class="area"
+                  ></span
+                  >
+                 </span>
+                  </li>
+                  <li>
+                 <span id="food3">
+                  <span id="stay_img3" class="img"></span>
+                  <strong id="stay_title3"></strong>
+                  <span id="stay_addr3" class="area"></span>
+                 </span>
+                  </li>
+                  <li>
+                 <span id="food4">
+                  <span id="stay_img4" class="img"></span>
+                  <strong id="stay_title4"></strong>
+                  <span id="stay_addr4" class="area"
+                  ></span
+                  >
+                </span>
+                  </li>
+                </ul>
+                <div class="more_btn">
+                  <input type="button" onclick="location.href='/region/regionAddView'" value="더보기">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- 달력부분 -->
+      <div id="calendarBox">
+        <div>
+          <label for="location">지역 선택 : </label>
+          <select id="location" style="outline: none">
+            <!--          <option onclick="doing(0)" value="0">전체</option>-->
+            <option onclick="doing(1)" value="1">서울</option>
+            <option onclick="doing(2)" value="2">인천</option>
+            <option onclick="doing(3)" value="3">대전</option>
+            <option onclick="doing(4)" value="4">대구</option>
+            <option onclick="doing(5)" value="5">광주</option>
+            <option onclick="doing(6)" value="6">부산</option>
+            <option onclick="doing(7)" value="7">울산</option>
+            <option onclick="doing(8)" value="8">세종</option>
+            <option onclick="doing(31)" value="31">경기</option>
+            <option onclick="doing(32)" value="32">강원</option>
+            <option onclick="doing(39)" value="39">제주</option>
+            <option onclick="doing(38)" value="38">전남</option>
+            <option onclick="doing(37)" value="37">전북</option>
+            <option onclick="doing(33)" value="33">충북</option>
+            <option onclick="doing(34)" value="34">충남</option>
+            <option onclick="doing(36)" value="36">경남</option>
+            <option onclick="doing(35)" value="35">경북</option>
+            <!-- 다른 지역 옵션들을 추가할 수 있습니다 -->
+          </select>
+        </div>
+        <div id="calendar"></div>
+      </div>
+
+      <div id="eventModal">
+        <div id="eventModalContent">
+          <span id="closeEventModal">&times;</span>
+          <div id="eventDetails">
+            <h2 id="eventTitle"></h2>
+            <img id="eventImage" src="" alt="Event Image" />
+            <!-- 이미지 표시를 위한 공간 -->
+            <div id="eventdate_box">
+              <div><p>행사일자</p></div>
+              <span id="eventDate"></span>
+              <div><p>주소</p></div>
+              <span id="eventAddr1"></span>
+              <div><p>tel</p></div>
+              <span id="eventTel"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<th:block th:replace="~{common/footer::footer}"></th:block>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="/js/region/region.js"></script>
+
+</html>

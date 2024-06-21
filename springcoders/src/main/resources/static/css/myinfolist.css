@@ -1,0 +1,844 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+ol, ul {
+    list-style: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+#wrap{
+    width: 1300px;
+    margin: 0 auto;
+    /* border: 1px solid black; */
+}
+#top_section{
+    padding: 70px;
+    /* border: 1px solid black; */
+}
+#top_section #info{
+    float: left;
+    /* border: 1px solid black; */
+}
+
+#top_section #info #pic{
+    float: left;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+#pic_image {
+	border-radius: 50px;
+}
+
+#top_section #info #name{
+    float: left;
+    padding: 10px;
+    /* border-bottom: 2px solid black; */
+}
+
+#bottom_section{
+    margin-top: 50px;
+    /* border: 1px solid black; */
+}
+#name{
+    font-weight: bold;
+    font-size: 40px;
+}
+#btn_box{
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 0;
+    margin-bottom: 20px;
+}
+
+#btn_box button{
+    width: 216.5px;
+    height: 40px;
+    background-color: #fff;
+    outline: none;
+    border: none;
+    line-height: 40px;
+    border-bottom: 1px solid rgba( 0,0,0,0.2);
+    font-size: 17px;
+    cursor: pointer;
+}
+
+#btn_box button:hover
+{
+    width: 216.5px;
+    /* border-bottom: 5px solid #00C88C; */
+    font-weight: bold;
+}
+#btn_box .select{
+    width: 216.5px;
+    border-bottom: 5px solid #00C88C;
+}
+
+#my_schedule{
+    margin: 0 auto;
+    width: 1198px;
+    /* border: 1px solid black; */
+    padding: 40px;
+}
+
+#ddaybox{
+    display: inline-block;
+    width: 30px;
+    text-align: center;
+    background-color:#00C88C;
+    border-radius: 5px;
+}
+#trip_box{
+    width: 1100px;
+    border: 1px solid #dbdfdf;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    justify-items: center;
+}
+#trip_pic{
+    /* border: 1px solid black; */
+    width: 400px;
+    height: 200px;
+    background: url(./psictrip/images/KakaoTalk_20240517_121037644.jpg);
+    background-position: center;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border-radius: 20px;
+}
+#trip_info{
+    /* border: 1px solid black; */
+    padding: 30px;
+}
+#trip_btn{
+    margin-left: 310px;
+    width: 100px;
+}
+#share{
+    margin-top: 35px;
+}
+#share, #delete, #update{
+    border: 2px solid #70cfb3;
+    background-color: rgb(30, 30, 43)z;
+    border-radius: 5px;
+    width: 80px;
+    height: 30px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    line-height: 30px;
+    color: #030303;
+    text-align: center;
+    font-weight: 500;
+}
+#info_text{
+    padding-bottom: 20px;
+    display: flex;
+    justify-content: left;
+    /* border: 1px solid black; */
+    padding-top: 10px;
+    font-size: 18px;
+}
+#info_text #title{
+    font-weight: bold;
+    font-size: 19px;
+    margin-left: 30px;
+    text-decoration: underline;
+
+}
+#trip_name{
+    padding-bottom: 20px;
+    font-size: 18px;
+}
+#info_day{
+    color: #aaa;
+}
+
+#favorites{
+    width: 1300px;
+    /* border: 1px solid black; */
+}
+#favor_box{
+    border: 1px solid rgba( 0,0,0,0.2);
+    border-radius: 10px;
+    width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: flex-start;
+}
+#favor_box .favor_list{
+    width: 300px;
+    height: 300px;
+    /* border: 1px solid red; */
+    margin-bottom: 20px;
+    box-shadow: 2px 0px 5px #ccc;
+    margin-right:  125px;
+}
+#favor_box .favor_list:nth-child(3n){margin-right: 0;}
+
+#favor_box .favor_list .favor_img{
+    width: 100%;
+    height: 200px;
+    /* border: 1px solid black; */
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    background-image: url(./psictrip/images/ricenoodle.png);
+}
+
+#favor_box .favor_list .favor_name{
+    padding: 10px;
+    font-weight: bold;
+    color: #444 ;
+    text-align: center;
+
+}
+
+#favor_box .favor_list .favor_tag{
+    padding: 18px;
+    text-align: left;
+    font-size: 13px;
+    color: #777;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+
+}
+.favorimg{
+    width: 300px;
+    height: 200px;
+}
+.favorName{
+
+}
+.favor_addr{
+    text-align: center;
+}
+.favorAddr{
+    color: #ccc;
+}
+#follow{
+    width: 1200px;
+    margin: 0 auto;
+}
+#followtop{
+    display: flex;
+    justify-content: center;
+}
+#follower, #following{
+    height: 100px;
+    width: 550px;
+    text-align: center;
+    padding: 20px;
+}
+#follower{
+    border-right: 1px solid rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+#following{
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+
+}
+#followlist ul li{
+    height: 100px;
+    border-radius: 10px;
+    box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    list-style-type: none;
+    display: flex;
+    line-height: 100px;
+}
+#followlist{
+    /* border-top: 1px solid rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.3); */
+}
+#followlist span{
+    margin-left: 40px;
+}
+#btnbox button{
+    width: 65px;
+    height: 30px;
+    border-radius: 5px;
+    background-color: #102042;
+    border: none;
+    color: white;
+}
+#loginsns img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    /* border: 1px solid black; */
+    margin-top: 20px;
+    margin-left: 50px;
+}
+#pibox{
+    /* border: 1px solid black; */
+    width: 1020px;
+    padding: 20px;
+    display: flex;
+
+}
+#pibox img{
+    width: 60px;
+    height: 60px;
+    border: 1px solid black;
+    border-radius: 50px;
+}
+#pibox span{
+    /* border: 1px solid black; */
+    vertical-align: baseline;
+    line-height: 60px;
+}
+#purchased_boards{
+    display: none;
+}
+.board-list {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+/* 테이블 헤더 스타일 */
+.board-list th {
+    background-color: #f2f2f2;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    width: 150px;
+}
+
+/* 테이블 셀 스타일 */
+.board-list td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    width: 150px;
+}
+
+/* 짝수 번째 행 배경색 추가 */
+.board-list tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.min_height{
+    min-height: 1000px;
+}
+
+@font-face {
+    font-family: 'GmarketSansMedium';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'ONE-Mobile-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/ONE-Mobile-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    font-family: 'GmarketSansMedium', sans-serif;
+}
+
+#bottom_section {
+    width: 100%;
+}
+
+#myinfolist {
+    width: 100%;
+    display: none;
+    font-family: 'GmarketSansMedium', sans-serif;
+    font-size: 15px;
+}
+
+#title_area {
+    width: 100%;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
+
+#title_area h2 {
+	font-size: 30px;
+}
+
+#myinfo_table {
+    width: 80%;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+#myinfo_table tr, #myinfo_table td, #myinfo_table th {
+    text-align: center; /* 가로 중앙 정렬 */
+    vertical-align: middle; /* 세로 중앙 정렬 */
+    padding-left: 10px;
+}
+
+#myinfo_table tr {
+    height: 80px;
+    border-bottom: 1px solid #E2E2E2;
+}
+
+#myinfo_table td {
+    height: 80px;
+}
+
+.text1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 534.45px;
+}
+
+#myinfo_table th, #myinfo_table td {
+    height: 80px;
+}
+
+textarea {
+    width: 300px;
+    height: 20px;
+    resize: none;
+    vertical-align: middle; /* 텍스트 세로 중앙 정렬 */
+    line-height: 20px; /* textarea 높이와 일치 */
+    border: none;
+}
+
+#quituser {
+    margin-left: 25px;
+    padding: 4px 4px 4px 4px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+.semi_btn {
+    border: 1px solid black;
+    display: inline-block;
+    border-radius: 50px;
+    padding: 4px;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#semi_btn_box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 90%;
+}
+
+#logininfo_box {
+	width: 534.45px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+}
+
+#logininfo {
+	width: 50px;
+	height: 50px;
+	margin: 0 auto;
+	background-size: cover; /* 요소 크기에 맞게 이미지 크기 조정 */
+    background-repeat: no-repeat; /* 이미지 반복 없음 */
+    background-position: center; /* 이미지를 요소의 가운데에 배치 */
+}
+
+#file_area {
+	height: 130px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-bottom: 1px solid #E2E2E2;
+}
+
+#image_area {
+	height: 130px;
+	width: 130px;
+	border-radius: 50px;
+	margin-bottom: 40px;
+/*	background-image: url(../images/basic.png); */
+	background-size: cover; /* 요소 크기에 맞게 이미지 크기 조정 */
+    background-repeat: no-repeat; /* 이미지 반복 없음 */
+    background-position: center; /* 이미지를 요소의 가운데에 배치 */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  	pointer-events: none;
+}
+
+#imgbox {
+	height: 130px;
+	width: 130px;
+	border-radius: 70px;
+}
+
+#file {
+	display: none;
+}
+
+#semi_tab {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+#tab_area {
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 50px;
+}
+
+#tab_area li {
+	width: 130px;
+	height: 30px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0px 10px 0px 10px;
+	cursor: pointer;
+	font-size: 15px;
+	transition: transform 0.3s ease;
+	border-radius: 10px;
+	box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#tab_area li:hover {
+	transform: scale(1.1);
+}
+
+#new_password1, #new_password2, #newphone, #newemail, #newaddr {
+	width: 100%;
+}
+
+#completeBtn_area {
+	margin-top: 50px;
+	width: 100%;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	display: none;
+}
+
+#completeBtn {
+	height: 35px;
+	font-size: 18px;
+	border: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: white;
+	cursor: pointer;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	padding: 5px 5px 5px 5px;
+	transition: transform 0.3s ease;
+}
+
+#completeBtn:hover {
+	transform: scale(1.1);
+}
+
+#addr_table {
+	width: 80%;
+	margin: 0 auto;
+	display: none;
+}
+
+#addr_table th, #addr_table td {
+	height: 80px;
+	text-align: center; /* 가로 중앙 정렬 */
+    vertical-align: middle; /* 세로 중앙 정렬 */
+    border-bottom: 1px solid #E2E2E2;
+}
+
+#addr_table th {
+	width: 490px;
+}
+
+#addr_table td {
+	width: 548px;
+}
+
+#addr_table td input {
+	width: 100%;
+	height: 20px;
+	padding-left: 10px;
+	border: none;
+}
+
+#addr_search_btn_area { 
+	margin-top: 5px;
+	width: 100%;
+	height: 30px;
+	display: flex;
+	justify-content: end;
+	align-items: flex-start;
+	display: none;
+}
+
+#phonecheck_btn_area {
+	margin-top: 5px;
+	width: 100%;
+	height: 30px;
+	display: flex;
+	justify-content: end;
+	align-items: flex-start;
+	display: none;
+}
+
+#addr_search {
+	height: 35px;
+	padding: 0px 5px 0px 5px;
+	font-size: 18px;
+	margin-right: 130px;
+	border: none;
+	background-color: white;
+	cursor: pointer;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	margin-top: 10px;
+	border-radius: 10px;
+	transition: transform 0.3s ease;
+	box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+#addr_search:hover {
+	transform: scale(1.1);
+}
+
+
+#phonecheck {
+	width: 80%;
+	margin: 0 auto;
+	display: none;
+}
+
+#phonecheck td {
+	width: 548px;
+}
+
+#phonecheck td, #phonecheck th {
+	height: 80px;
+	text-align: center; /* 가로 중앙 정렬 */
+    vertical-align: middle; /* 세로 중앙 정렬 */
+    border-bottom: 1px solid #E2E2E2;
+}
+
+#phonecheck td input {
+	width: 100%;
+	height: 20px;
+	padding-left: 10px;
+	border: none;
+}
+
+#userDeleteBtn_area {
+	margin-top: 50px;
+	width: 100%;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	display: none;
+}
+
+#userDeleteBtn {
+	height: 35px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 5px 5px 5px 5px;
+	font-size: 18px;
+	border: none;
+	background-color: white;
+	cursor: pointer;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	transition: transform 0.3s ease;
+	box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+#userDeleteBtn:hover {
+	transform: scale(1.1);
+}
+
+#charge_area { 
+	height: 500px;
+	font-family: 'GmarketSansMedium', sans-serif;
+}
+
+#logo {
+	margin: 0 auto;
+	margin-top: 120px;
+}
+
+#select {
+	height: 300px;
+}
+
+#select td {
+	height: 100px;
+}
+
+#coin_info td {
+	height: 30px;
+}
+
+#amount_area {
+	margin-bottom: 30px;
+}
+
+#amount_view {
+	margin-left: 8px;
+}
+
+#select_method {
+	font-size: 25px;
+	height: 500px;
+}
+
+#charge_btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	transition: transform 0.3s ease;
+	height: 40px;
+	font-size: 15px;
+}
+
+#charge_btn:hover {
+	transform: scale(1.1);
+}
+
+#charge_info td {
+	font-size: 13px;
+}
+
+#method_name {
+	font-size: 20px;
+}
+
+#select_table td {
+	font-size: 15px;
+	transition: transform 0.3s ease;
+}
+
+#select_table td:hover {
+	transform: scale(1.1);
+}
+
+#right_title { 
+	font-size: 20px;
+}
+
+#pay_box {
+	height: 500px;
+}
+
+#pic_image {
+    width: 100px;
+    height: 100px;
+    pointer-events: none;
+}
+
+#phonecheck_btn_area {
+	height: 40px;
+}
+
+#phonecheck_btn {
+	height: 40px;
+	padding: 5px 5px 5px 5px;
+	font-size: 18px;
+	margin-right: 130px;
+	border: none;
+	background-color: white;
+	cursor: pointer;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 10px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10px;
+	text-align: center;
+	transition: transform 0.3s ease;
+	box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+#phonecheck_btn:hover {
+	transform: scale(1.1);
+}
+
+/* myinfo 영역 */
+#my_schedule{
+    margin: 0 auto;
+    width: 1198px;
+    padding: 40px;
+}
+#myPlanBox{float: left; width: 100%;}
+#myPlanBox .plan{float: left; width: 250px; height: 200px; margin-right: 39px; margin-bottom: 30px;
+    border-radius: 10px; border: 1px solid rgb(0,0,0,0.4); padding: 10px; cursor: pointer; color: black;}
+#myPlanBox .plan:hover{border-color: #00C88C; scale: 1.05;}
+#myPlanBox .plan:hover .plantitle{color: #00C88C;}
+#myPlanBox .plan:nth-child(4n){margin-right: 0;}
+
+#myPlanBox .plantitle{float: left; width: 100%; height: 25px; font-weight: bold; line-height: 25px;}
+#myPlanBox .planmemo{float: left; width: 100%; height: 30px; color:rgb(0,0,0,0.5); font-size: 14px;
+    line-height: 30px;}
+#myPlanBox .userList{float: left; width: 100%; height: 36px; padding: 3px 0;}
+#myPlanBox .userList .userprofile{float:left; width: 30px;height: 30px; margin-right: 10px;
+    border-radius: 15px;}
+#myPlanBox .userList .userprofile.creater{border: 0.5px solid rgb(0, 200, 140,0.3);}
+#myPlanBox .userList .userCnt{float:left; width: 55px; height: 30px; line-height: 30px;
+    color:rgb(0,0,0,0.5);font-size: 14px;}
+#myPlanBox .plandate{float: left; width: 100%; height: 24px; line-height: 24px;
+    font-weight: bold; color:rgb(0,0,0,0.5);font-size: 12px;}
+#myPlanBox .planCategory{float: left; width: 100%; height: 45px; overflow: hidden; margin-top: 10px;}
+#myPlanBox .planCategory .category{float: left; padding: 2px 5px; border-radius: 5px;
+    margin-right: 5px; margin-bottom: 3px; font-size: 11px; background-color: rgba(204, 204, 204, 0.5); font-weight: bold;}
+
+#getPlanBtn{display:block; width: 30px; height: 30px; background: url('/image/plus.png') no-repeat center/100%; margin: 0 auto; cursor: pointer; border: none;}
+#getPlanBtn:hover{background: url('/image/plus_hover.gif') no-repeat center/100%;}
+
+
+

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>회원가입</title>
+</head>
+<link rel="stylesheet" href="/css/user/join.css">
+<style>
+
+</style>
+
+<body>
+	<div id="wrap" style="width: 1200px; margin: 0 auto;">
+		<div id="wrapbox">
+			<div style="display: flex; justify-content: center; padding-top: 40px;" id="title_image_div">
+				<a href="/user/login" id="title_image"><img style="width: 150px; height: 100px;" src="/image/logo.png" alt="타이틀"></a>
+			</div>
+			<div style="text-align: center;">
+				<div style="width: 650px;"> 
+					<h1 style="margin: 0 0 10px 0;">가입 정보 입력을 입력해주세요.</h1>
+					<p style="font-size: medium; margin: 0 0 21.44px 0 ;">서비스 이용에 사용되는 정보입니다. 정확하게 입력해주세요.</p>
+				</div>
+			</div>
+				<form method="post" action="/user/join" name="joinForm">
+				<ul>
+					<br>
+					<li>
+						<p>아이디</p>
+						<input type="text" placeholder="아이디를 입력해주세요" name="userid" id="userid">
+						<input type="button" value="중복확인" class="zipbtn" onclick="checkId()">
+					</li>
+					<li>
+						<p colspan="2" id="result"></p>
+					</li>
+					<li>
+						<p>비밀번호</p>
+						<label for="password"></label>
+						<input type="password" id="password" name="userpw" placeholder="비밀번호를 입력해주세요">
+					</li>
+					<li>
+						<p colspan="2" id="passwordResult"></p>
+					</li>
+					<li>
+						<p>비밀번호 확인</p>
+						<label for="password"></label>
+						<input type="password" id="passwordcheck" name="passwordcheck" placeholder="비밀번호를 다시 입력해주세요">
+					</li>
+					<li>
+						<p colspan="2" id="pwcheck"></p>
+					</li>
+					<li>
+						<p>이름</p>
+						<input type="text" id="username" name="username" placeholder="이름을 입력해주세요">
+					</li>
+					<li>
+						<p>전화 번호</p>
+						<input type="text" name="userphone" id="userphone" placeholder="숫자만 입력하세요">
+						<input type="button" value="중복확인" class="zipbtn" onclick="checkPN()">
+						<p style="font-size:11px; color: rgba(0, 0, 0, 0.5);"></p>
+					</li>
+					<li>
+						<p colspan="2" id="phresult"></p>
+					</li>
+					<li>
+						<p>이메일</p>
+						<input type="text" name="useremail" id="useremail" placeholder="이메일을 입력해주세요">
+						<input type="button" value="중복확인" class="zipbtn" onclick="checkemail()">
+					</li>
+					<li>
+						<p colspan="2" id="result2"></p>
+					</li>
+					 <li>
+						<p>성별</p>
+						<div class="container" id="outerDiv">
+							<div class="inner-left" id="innerDiv1" onclick="changeGender()">여성</div>
+						</div>
+						<input type="text" name="usergender" value="여성" id="gender" hidden>
+					</li> 
+					<!-- <li>
+						<p>성별</p>
+						<div class="gender_wrap">
+							<div class="gender">
+								<div class="male gd"><input type="button" value="남성" id="gender_btn"></div>
+								<div class="female gd"><input type="button" value="여성" id="gender_btn"></div>
+							</div>
+						</div>
+					</li> -->
+					<li class="zipcode_area">
+						<p>우편번호</p>
+						<input type="text" name="zipcode" id="jo_zipcode" placeholder="우편번호" onclick="findAddr()"
+							readonly>
+						<input type="button" class="zipbtn" value="우편번호 찾기" onclick="findAddr()">
+					</li>
+					<li class="address_area">
+						<p>주소</p>
+						<input type="text" name="addr" id="jo_addr" placeholder="주소">
+					</li>
+					<li>
+						<p>상세주소</p>
+						<input type="text" name="addrdetail" id="jo_addrdetail" placeholder="상세주소">
+					</li>
+					<li>
+						<p>참고항목</p>
+						<input type="text" name="addretc" id="jo_addretc" placeholder="참고항목" readonly>
+					</li>
+					<li class="Category_area">
+						<p>카테고리</p>
+						<div class="Category_input">
+							<input type="text" id="receive_Category" readonly onclick="createCategory();"
+								placeholder="카테고리">
+							<input type="button" value="추가" class="zipbtn" onclick="addCategory();">
+							<br>
+							<br>
+							<div class="Category_list"></div>
+							<input type="hidden" value="" name="Category">
+						</div>
+						<br>
+					</li>
+					
+				</ul>
+				<li>
+					<div class="submitbox">
+						<input type="button" class="submit" value="가입하기" onclick="sendit()">
+					</div>
+					<br>
+					<br>
+				</li>
+				<a href="/src/main/resources/templates/user/JoinCategory.html"></a>
+			</form>
+		</div>
+	</div>
+</body>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/user/user.js"></script>
+<script>
+	const joinForm = document.joinForm;
+	const userid = joinForm.userid;
+	const userPw = joinForm.password;
+	const userPwCh = joinForm.passwordcheck;
+	const useremail = joinForm.useremail;
+	const useridResult = document.getElementById("result");
+	const passwordResult = document.getElementById("passwordResult");
+	const only_num = /^[0-9]*$/;
+	const exp_password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#])[\da-zA-Z!@#]{8,}$/;
+	const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  
+	userid.addEventListener("input", function() {
+		validateId();
+	});
+
+	function validateId() {
+		if (userid.value.length < 5 || userid.value.length > 12) {
+			result.innerHTML = "아이디는 5자 이상 12자 이하로 입력하세요!";
+			userid.focus();
+			return;
+		}else{
+			result.innerHTML = "";
+		}
+
+		if (only_num.test(userid.value)){
+			result.innerHTML = "아이디는 숫자만 입력 할 수 없어요";
+			userid.focus();
+			return;
+		}
+		else{
+			result.innerHTML = "";
+		}
+		result.innerHTML = "사용할 수 있는 아이디예요!"
+	}
+	
+	
+	
+	userPw.addEventListener("input", function() {
+		validatePassword();
+		});
+  
+	function validatePassword() {
+	  if (userPw.value === "") {
+		passwordResult.innerHTML = "비밀번호를 입력해주세요!";
+		return;
+	  }
+	  if (userPw.value.length < 5 || userPw.value.length > 12) {
+		passwordResult.innerHTML = "비밀번호는 5자 이상 12자 이하로 입력하세요!";
+		return;
+	  }
+	  if (!exp_password.test(userPw.value)) {
+		passwordResult.innerHTML = "숫자와 알파벳 대, 소문자가 포함되어있나요?";
+		return;
+	  }
+	  passwordResult.innerHTML = "사용할 수 있는 비밀번호예요!.";
+	}
+
+	userPwCh.addEventListener("input", function() {
+		CheckPassword();
+	});
+	function CheckPassword(){
+		if(userPw.value == userPwCh.value){
+			pwcheck.innerHTML = "비밀번호가 일치합니다!";
+
+		}else{
+			pwcheck.innerHTML = "비밀번호가 일치하지 않아요..";
+
+		}
+	}
+	
+	useremail.addEventListener("input", function() {
+		validateEmail();
+});
+	function validateEmail(){
+		if (useremail.value == "") {
+        result2.innerHTML = "이메일을 입력하세요!";
+		
+        useremail.focus();
+        return;
+    }
+		if (!emailPattern.test(useremail)) {
+			result2.innerHTML = "이메일 형식에 맞춰주세요!";
+			useremail.focus();
+			return;
+	}
+	result2.innerHTML = "사용할 수 있는 이메일형식이예요!"
+	}
+  </script>
+</html>

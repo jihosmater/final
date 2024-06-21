@@ -1,0 +1,203 @@
+*{box-sizing: border-box; margin: 0; padding: 0; outline: none; border: none;}
+ul,li{list-style: none;}
+a{text-decoration: none;}
+
+/* 공통 css 시작 */
+.btn{width: 70px;height: 30px; font-weight:bold; border-radius:5px; background-color: white; color: rgb(0,0,0,0.2); cursor: pointer;}
+.btn:hover{background-color:rgb(0,0,0,0.2); color: black;}
+.mainBtn{width: 70px;height: 30px; font-weight:bold; border-radius:5px; background-color: rgb(0, 200, 140,0.5); color: white; cursor: pointer;}
+.mainBtn:hover{background-color:rgb(0, 200, 140);}
+.disappear{display: none!important;}
+/* 공통 css 끝 */
+/*box-shadow: 0 2px 10px 0 rgba(31,38,135,0.1);*/
+/* 메인 컬러 rgb(0, 200, 140) */
+
+#wrap{width: 1200px; height: 700px; margin: 100px auto; box-shadow: 0 8px 24px 0 rgba(0, 0, 0, 0.1);padding: 30px;}
+
+/* 왼쪽 사이드바 너비 대략250px - padding 5px; */
+#leftAside{float: left; width: 27%; height: 100%; border-right: 1px solid rgb(0,0,0,0.2); position: relative;}
+
+#createrInfo{float: left;width: 100%;height: 50px;}
+#createrInfo #createrid{float: left; width: 100%; height: 50px; font-size: 24px; line-height: 35px; padding: 5px; font-weight: bold;}
+
+#planInfo{float: left; width: 100%; max-height: 250px;}
+#planInfo .row{float: left; width: 100%; padding: 10px 5px; font-size: 15px; font-weight: bold; color: rgb(0,0,0,0.8);}
+#plantitle{max-height: 50px; line-height: 21px; overflow: hidden;}
+#planmemo{max-height: 93px; line-height: 21px; overflow: hidden;}
+#planInfo #plandate{height: 55px; position: relative;}
+#planInfo #plandate #celendarBox{display: none; position: absolute; width: 290px; top: 50px;
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: 0 2px 10px 0 rgba(31,38,135,0.1);
+    background-color: white;
+    z-index: 1;
+}
+#planInfo #plandate #celendarBox.large{width: 570px;}
+#planInfo #plandate #celendarBox .celendar{float: left; width: 270px;}
+#planInfo #plandate #celendarBox .celendar:nth-child(2){margin-left: 5px;border-left: 1px solid rgb(0, 0, 0, 0.1);padding-left: 4px;width: 275px;}
+#celendarBox .celendar th{height: 37px;}
+#celendarBox .celendar .day{border-radius: 100px;}
+#celendarBox .celendar .day.sat{color: blue;}
+#celendarBox .celendar .day.sun{color: red;}
+#celendarBox .celendar .day.select{background-color: rgb(0, 200, 140); color: white;}
+
+
+#planInfo #plandate img{float: left; width: 30px;height: 30px;}
+#planInfo #plandate img:hover + #celendarBox{display: block;}
+#planInfo #plandate span{height: 40px; line-height: 30px; padding: 10px 5px;}
+#plancategory .planct{float: left; padding: 5px; box-shadow: 0 2px 10px 0 rgba(31,38,135,0.1); border: 1px solid rgb(221,221,221); border-radius: 10px; background-color: #f9f9f9; margin-right: 10px; margin-bottom: 10px; color: rgb(0, 0, 0, 0.7);}
+
+/* mate는 최대 8명 */
+#planMateList{position: absolute; width: 100%;height: 120px; left: 0; bottom: 0; padding-right:25px; overflow: hidden;}
+#planMateList .mate{position: relative; float: left; width: 50px; height: 50px; border-radius: 50%; margin: 0 20px 15px 0;}
+#planMateList .mate .profile{float: left; width: 50px; height: 50px; border-radius: 50%;}
+#planMateList .mate .mateInfo{display: none; position: absolute; background-color: rgb(250,250,250); height: 35px;left: 20px; top: 65px;margin-left: -10px; border-radius:5px; padding: 5px 10px;font-weight: bold;font-size: 16px;box-shadow: 0 2px 10px 0 rgba(31,38,135,0.1);}
+#planMateList .mate .mateInfo:after{
+    border-top: 0px solid transparent;
+    border-bottom: 10px solid rgb(250,250,250);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 5px;
+}
+#planMateList .mate:hover .mateInfo{display: inline-block;}
+
+
+/* main 시작 */
+#main{float: left; width: 46%; height: 100%;border-right: 1px solid rgb(0,0,0,0.2);}
+
+/* 카카오멥 */
+#kakaomap{display: block; width: 500px; height: 500px; margin: 0 auto; border-radius: 5px;}
+#searchLoad{display: block; width: 500px; height: 100px; margin: 0 auto; border-radius: 5px; margin-top: 40px;}
+
+/* main 끝 */
+
+
+
+/* rightAside 시작 */
+#rightAside{float: left; width: 27%; height: 100%;}
+/* btn영역 최대 140px 패딩포함 */
+#scheduledateBtn{float: left; width: 100%; padding: 5px 10px;}
+#scheduledateBtn .scheduledate{float: left; width: 45px;height: 45px;margin:0 5px 15px 5px; border-radius: 5px; text-align: center; font-size: 10px; border: 1px solid rgb(0,0,0,0.2); padding: 1.5px; cursor: pointer; color: rgb(0,0,0,0.4);}
+#scheduledateBtn .scheduledate strong{font-size: 20px; font-weight: bold;}
+#scheduledateBtn .scheduledate.select{cursor: auto; color: rgb(0, 200, 140); border-color: rgb(0, 200, 140,0.5);}
+#scheduledateBtn .scheduledate:not(.select):hover{color: black; border-color: rgb(0,0,0,0.8);}
+
+/* 스케줄 영역 너비 최대 300px 높이 최대 500px 패딩포함 */
+#scheduleBox{float: left; width: 100%;}
+#scheduleBox .scheduleList{float: left; width: 100%; max-height: 500px; padding: 5px 10px;  position: relative;}
+#scheduleBox .scheduleList .scheduleInfo{float: left; width: 280px; height: 45px; margin-bottom: 5px; border-radius: 5px; box-shadow: 0 2px 10px 0 rgba(31,38,135,0.1);}
+#scheduleBox .scheduleList .scheduleInfo .marker{float:left; width:36px; height:37px; margin: 4px 4.5px;  border-radius: 5px;background:url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png) no-repeat;}
+.marker_1 {background-position: 0 -10px !important;}
+.marker_2 {background-position: 0 -56px !important;}
+.marker_3 {background-position: 0 -102px !important;}
+.marker_4 {background-position: 0 -148px !important;}
+.marker_5 {background-position: 0 -194px !important;}
+.marker_6 {background-position: 0 -240px !important;}
+.marker_7 {background-position: 0 -286px !important;}
+.marker_8 {background-position: 0 -332px !important;}
+.marker_9 {background-position: 0 -378px !important;}
+.marker_10 {background-position: 0 -423px !important;}
+#scheduleBox .scheduleList .scheduleInfo > .scheduletitle{float: left; width: 230px; height: 24px;  margin-left: 5px; font-size: 18px; font-weight: bold; }
+#scheduleBox .scheduleList .scheduleInfo > .scheduletime{float: left; width: 230px; height: 21px;  margin-left: 5px; font-size: 14px; font-weight: bold; color: rgb(0,0,0,0.4);}
+#scheduleBox .scheduleList .scheduleInfo .detailInfo{
+    position: absolute;
+    display: none;
+    width: 320px;
+    /*height: 280px;*/
+    padding: 10px;
+    background-color: white;
+    z-index: 1;
+    border-radius: 5px;
+    left: -415px;
+    top: 0;
+    /*border: 1px solid rgb(0,0,0,0.4);*/
+    box-shadow: 0 2px 10px 0 rgba(31,38,135,0.1);
+}
+#scheduleBox .scheduleList .scheduleInfo:hover .detailInfo{display: block;}
+
+#scheduleBox .scheduleList .scheduleInfo .detailInfo .scheduletitle{
+    float: left;
+    width: 300px;
+    height: 40px;
+    font-size: 24px;
+    font-weight: bold;
+}
+#scheduleBox .scheduleList .scheduleInfo .detailInfo .schedulememo{
+    float: left;
+    width: 300px;
+    max-height: 150px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(0,0,0,0.7);
+    border-radius: 5px;
+    padding: 5px 0;
+    overflow: scroll;
+    margin-bottom: 10px;
+}
+#scheduleBox .scheduleList .scheduleInfo .detailInfo .schedulememo::-webkit-scrollbar{display: none;}
+#scheduleBox .scheduleList .scheduleInfo .detailInfo .scheduletime{
+    float: left;
+    width: 300px;
+    font-size: 16px;
+    font-weight: bold;
+    color: rgb(0,0,0,0.5);
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgb(0,0,0,0.1);
+}
+#scheduleBox .scheduleList .scheduleInfo .detailInfo .placeImg{
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin: 11px 5px 0 0;
+    border-radius: 5px;
+}
+#scheduleBox .scheduleList .scheduleInfo .detailInfo .placename{
+    float: left;
+    width: 195px;
+    max-height: 45px;
+    font-size: 20px;
+    font-weight: bold;
+    overflow: hidden;
+    margin: 5px 0;
+}
+#scheduleBox .scheduleList .scheduleInfo .detailInfo .addr{
+    float: left;
+    width: 195px;
+    max-height: 36px;
+    margin-bottom: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    overflow: hidden;
+    color: rgb(0,0,0,0.7);
+}
+#scheduleBox .scheduleList .scheduleInfo .detailInfo .phone{
+    float: left;
+    width: 195px;
+    font-size: 14px;
+    font-weight: bold;
+    overflow: hidden;
+    color: rgb(0,0,0,0.5);
+}
+#scheduleBox .scheduleList .scheduleInfo .detailInfo .categoryBox{
+    clear: both;
+    float: left;
+    width: 300px;
+    max-height: 100px;
+    overflow: hidden;
+    padding: 5px;
+}
+#scheduleBox .scheduleList .scheduleInfo .detailInfo .category{
+    float: left;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px 0 rgba(31,38,135,0.1);
+    margin: 5px 8px 0 0;
+}
+
+/* rightAside 끝 */
+
+
+

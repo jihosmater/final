@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+
+   :root {
+      --primary-color: #4EA685;
+      --secondary-color: #57B894;
+      --black: #000000;
+      --white: #ffffff;
+      --gray: #efefef;
+      --gray-2: #757575;
+
+      --facebook-color: #4267B2;
+      --google-color: #DB4437;
+      --twitter-color: #1DA1F2;
+      --insta-color: #E1306C;
+   }
+
+   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600&display=swap');
+
+   * {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+   }
+
+   html,
+   body {
+      height: 100vh;
+      overflow-x: hidden; /* 가로 스크롤 방지 */
+      overflow-y: auto; /* 세로 스크롤 가능하게 */
+   }
+
+   .container {
+      position: relative;
+      min-height: 100vh;
+      overflow-x: hidden; /* 가로 스크롤 방지 */
+      overflow-y: auto; /* 세로 스크롤 가능하게 */
+   }
+   ul li {
+      display: flex;
+      justify-content: space-around;
+   }
+
+   .row {
+      display: flex;
+      flex-wrap: wrap;
+      height: 100vh;
+   }
+
+   .col {
+      width: 50%;
+   }
+
+   .align-items-center {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+   }
+
+   .form-wrapper {
+      width: 100%;
+      max-width: 28rem;
+   }
+
+   .form {
+      padding: 1rem;
+      background-color: var(--white);
+      border-radius: 1.5rem;
+      width: 100%;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      transform: scale(0);
+      transition: .5s ease-in-out;
+      transition-delay: 0.3s;
+   }
+
+   .input-group {
+      position: relative;
+      width: 100%;
+      margin: 1rem 0;
+   }
+
+   .input-group i {
+      position: absolute;
+      top: 50%;
+      left: 1rem;
+      transform: translateY(-50%);
+      font-size: 1.4rem;
+      color: var(--gray-2);
+   }
+
+   .input-group input {
+      width: 100%;
+      padding: 1rem 3rem;
+      font-size: 1rem;
+      background-color: var(--gray);
+      border-radius: .5rem;
+      border: 0.125rem solid var(--white);
+      outline: none;
+   }
+
+   .input-group input:focus {
+      border: 0.125rem solid var(--primary-color);
+   }
+   select {
+      width: 100%;
+      padding: 1rem 3rem;
+      font-size: 1rem;
+      background-color: var(--gray);
+      border-radius: .5rem;
+      border: 0.125rem solid var(--white);
+      outline: none;
+   }
+   .google_btn {
+      background-image: url(/images/socai_btn/google_btn.png);
+      display: block;
+      width: 50px;
+      height: 50px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 86px 86px;
+      border-radius: 50%;
+   }
+
+   .naver_btn {
+
+      background-image: url(/images/socai_btn/naver_btn.png);
+      display: block;
+      width: 50px;
+      height: 50px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 86px 86px;
+      border-radius: 50%;
+   }
+
+   .kakao_btn {
+
+      background-image: url(/images/socai_btn/kakao_btn.png);
+      display: block;
+      width: 50px;
+      height: 50px;
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 86px 86px;
+      border-radius: 50%;
+   }
+   .form .submit {
+      cursor: pointer;
+      width: 100%;
+      padding: .6rem 0;
+      border-radius: .5rem;
+      border: none;
+      background-color: var(--primary-color);
+      color: var(--white);
+      font-size: 1.2rem;
+      outline: none;
+   }
+
+   .form p {
+      margin: 1rem 0;
+      font-size: 15px;
+   }
+
+   .flex-col {
+      flex-direction: column;
+   }
+
+   .social-list {
+      margin: 2rem 0;
+      padding: 1rem;
+      border-radius: 1.5rem;
+      width: 100%;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      transform: scale(0);
+      transition: .5s ease-in-out;
+      transition-delay: 1.2s;
+   }
+
+   .social-list>div {
+      color: var(--white);
+      margin: 0 .5rem;
+      padding: .7rem;
+      cursor: pointer;
+      border-radius: .5rem;
+      cursor: pointer;
+      transform: scale(0);
+      transition: .1s ease-in-out;
+   }
+
+   .social-list>div:nth-child(1) {
+      transition-delay: 1.4s;
+   }
+
+   .social-list>div:nth-child(2) {
+      transition-delay: 1.6s;
+   }
+
+   .social-list>div:nth-child(3) {
+      transition-delay: 1.8s;
+   }
+
+   .social-list>div:nth-child(4) {
+      transition-delay: 2s;
+   }
+
+   .social-list>div>i {
+      font-size: 1.5rem;
+      transition: .1s ease-in-out;
+   }
+
+   .social-list>div:hover i {
+      transform: scale(1.5);
+   }
+
+   .facebook-bg {
+      background-color: var(--facebook-color);
+   }
+
+   .google-bg {
+      background-color: var(--google-color);
+   }
+
+   .twitter-bg {
+      background-color: var(--twitter-color);
+   }
+
+   .insta-bg {
+      background-color: var(--insta-color);
+   }
+
+   .pointer {
+      cursor: pointer;
+   }
+   ul li {
+      display: flex;
+      justify-content: space-around;
+   }
+
+   .container.sign-in .form.sign-in,
+   .container.sign-in .social-list.sign-in,
+   .container.sign-in .social-list.sign-in>div,
+   .container.sign-up .form.sign-up,
+   .container.sign-up .social-list.sign-up,
+   .container.sign-up .social-list.sign-up>div {
+      transform: scale(1);
+   }
+
+   .content-row {
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 6;
+      width: 100%;
+   }
+
+   .text {
+      margin: 4rem;
+      color: var(--white);
+   }
+
+   .text h2 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin: 2rem 0;
+      transition: 1s ease-in-out;
+   }
+
+   .text p {
+      font-weight: 600;
+      transition: 1s ease-in-out;
+      transition-delay: .2s;
+   }
+
+   .img img {
+      width: 30vw;
+      transition: 1s ease-in-out;
+      transition-delay: .4s;
+   }
+
+   .text.sign-in h2,
+   .text.sign-in p,
+   .img.sign-in img {
+      transform: translateX(-250%);
+   }
+   #userCategory{
+      display: inline-block;
+      padding: 10px 20px;
+      background-color: var(--secondary-color);
+      border: 1px solid #1df288;
+      color: #fff;
+      border-radius: 20px;
+      /* border: 1px solid #ffa726; */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      margin: 6px;
+      transition: background-color 0.3s, transform 0.3s;
+   }
+   #userCategory:hover {
+      background-color: var(--primary-color);
+      transform: translateY(-2px);
+   }
+   ul a {
+      display: flex;
+      justify-content: space-around;
+   }
+   a{
+      text-decoration-line: none;
+      font-size: 15px;
+      color: #000000;
+   }
+   #loginForm span{
+      font-size: 15px;
+   }
+
+   .text.sign-up h2,
+   .text.sign-up p,
+   .img.sign-up img {
+      transform: translateX(250%);
+   }
+
+   .container.sign-in .text.sign-in h2,
+   .container.sign-in .text.sign-in p,
+   .container.sign-in .img.sign-in img,
+   .container.sign-up .text.sign-up h2,
+   .container.sign-up .text.sign-up p,
+   .container.sign-up .img.sign-up img {
+      transform: translateX(0);
+   }
+
+   /* BACKGROUND */
+
+   .container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 1200px;
+      width: 300vw;
+      transform: translate(35%, 0);
+      background-image: linear-gradient(-45deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+      transition: 1s ease-in-out;
+      z-index: 6;
+      box-shadow: rgba(0, 0, 0, 0.35)    0px 5px 15px;
+      border-bottom-right-radius: max(50vw, 50vh);
+      border-top-left-radius: max(50vw, 50vh);
+   }
+
+   .container.sign-in::before {
+      transform: translate(0, 0);
+      right: 50%;
+   }
+
+   .container.sign-up::before {
+      transform: translate(100%, 0);
+      right: 50%;
+   }
+
+   /* RESPONSIVE */
+
+   @media only screen and (max-width: 425px) {
+
+      .container::before,
+      .container.sign-in::before,
+      .container.sign-up::before {
+         height: 100vh;
+         border-bottom-right-radius: 0;
+         border-top-left-radius: 0;
+         z-index: 0;
+         transform: none;
+         right: 0;
+      }
+
+      /* .container.sign-in .col.sign-up {
+           transform: translateY(100%);
+       } */
+
+      .container.sign-in .col.sign-in,
+      .container.sign-up .col.sign-up {
+         transform: translateY(0);
+      }
+
+      .content-row {
+         align-items: flex-start !important;
+      }
+
+      .content-row .col {
+         transform: translateY(0);
+         background-color: unset;
+      }
+
+      .col {
+         width: 100%;
+         position: absolute;
+         padding: 2rem;
+         background-color: var(--white);
+         border-top-left-radius: 2rem;
+         border-top-right-radius: 2rem;
+         transform: translateY(100%);
+         transition: 1s ease-in-out;
+      }
+
+      .row {
+         align-items: flex-end;
+         justify-content: flex-end;
+      }
+
+      .form,
+      .social-list {
+         box-shadow: none;
+         margin: 0;
+         padding: 0;
+      }
+
+      .text {
+         margin: 0;
+      }
+
+      .text p {
+         display: none;
+      }
+
+      .text h2 {
+         margin: .5rem;
+         font-size: 2rem;
+      }
+
+      li {
+         list-style-type: none;
+      }
+   }
+
+</style>
+
+<body>
+<div id="container" class="container">
+   <!-- FORM SECTION -->
+   <div class="row">
+      <!-- SIGN UP -->
+      <div class="col align-items-center flex-col sign-up">
+         <div class="form-wrapper align-items-center">
+            <div class="form sign-up">
+               <form method="post" action="/user/join" name="joinForm">
+                  <div>
+                     <p colspan="2" id="result"></p>
+                  </div>
+                  <div class="input-group">
+                     <i class='bx bxs-user'></i>
+                     <input type="text" name="userid" id="userid" placeholder="UserID">
+                     <input type="button" value="중복확인" class="zipbtn" onclick="checkId()">
+                  </div>
+                  <div class="input-group">
+                     <i class='bx bxs-user'></i>
+                     <input type="password" id="password" name="userpw" placeholder="비밀번호">
+                  </div>
+
+                  <div class="input-group">
+                     <i class='bx bxs-user'></i>
+                     <input type="password" id="passwordcheck" name="passwordcheck" placeholder="비밀번호 확인">
+                  </div>
+                  <div class="input-group">
+                     <i class='bx bxs-user'></i>
+                     <input type="text" id="username" name="username" placeholder="이름">
+                  </div>
+                  <div class="input-group">
+                     <i class='bx bxs-user'></i>
+                     <input type="text" id="useremail" name="useremail" placeholder="이메일">
+                     <input type="button" value="중복확인" class="zipbtn" onclick="checkemail()">
+                  </div>
+                  <div class="input-group">
+                     <i class='bx bxs-user'></i>
+                     <input type="text" id="userphone" name="userphone" placeholder="전화번호">
+                     <input type="button" value="중복확인" class="zipbtn" onclick="checkPN()">
+                  </div>
+                  <div class="input-group">
+                     <i class='bx bxs-user'></i>
+                     <select name="usergender">
+                        <option value="남성" id="man usergender" name="man" >남성</option>
+                        <option value="여성" id="woman usergender" name="woman">여성</option>
+                     </select>
+                  </div>
+                  <div class="input-group">
+                     <i class='bx bxs-user'></i>
+                     <input type="text" name="zipcode" id="jo_zipcode" placeholder="우편번호"
+                            onclick="findAddr()" readonly>
+                  </div>
+                  <div class="input-group">
+                     <i class='bx bxs-user'></i>
+                     <input type="text" name="addr" id="jo_addr" placeholder="주소" onclick="findAddr()" readonly>
+                  </div>
+                  <div class="input-group">
+                     <i class='bx bxs-user'></i>
+                     <input type="text" name="addrdetail" id="jo_addrdetail" placeholder="상세주소">
+                  </div>
+                  <div class="input-group">
+                     <i class='bx bx-mail-send'></i>
+                     <input type="text" id="receive_Category" readonly placeholder="카테고리" onclick="createCategory();">
+                     <input type="button" value="추가" class="zipbtn" onclick="addCategory();">
+                     <div class="Category_list"></div>
+                     <input type="hidden" value="" name="Category">
+                  </div>
+                  <input type="button" class="submit" value="회원가입" onclick="sendit()">
+               </form>
+               <p>
+                     <span>
+                        계정이 있으신가요?
+                     </span>
+                  <b id="toggle_g" onclick="toggle()" class="pointer">
+                     로그인하기
+                  </b>
+               </p>
+            </div>
+         </div>
+
+      </div>
+      <!-- END SIGN UP -->
+      <!-- SIGN IN -->
+      <div class="col align-items-center flex-col sign-in">
+         <div class="form-wrapper align-items-center">
+            <div class="form sign-in">
+               <form method="post" action="/user/login" id="loginForm" name="loginForm">
+                  <div class="input-group">
+                     <i class='bx bxs-user'></i>
+                     <input type="text" placeholder="UserID" id="loginuserid" name="userid">
+                  </div>
+                  <div class="input-group">
+                     <i class='bx bxs-lock-alt'></i>
+                     <input type="password" placeholder="Password" id="loginuserpw" name="userpw">
+                  </div>
+                  <div>
+                     <p id="show_box"></p>
+                  </div>
+                  <input type="submit" class="submit" value="로그인">
+                  <p>
+                     <a href="/user/findid" id="find_id">아이디 찾기</a>
+                     <span> | </span>
+                     <a href="/user/findpw" id="find_pw">비밀번호 찾기</a>
+                  </p>
+                  <ul>
+                     <li>
+                        <a href="/googlelogin/getGoogleAuthUrl" class="google_btn"></a>
+                        <a href="/naverlogin/getNaverAuthUrl" class="naver_btn"></a>
+                        <a href="/kakaologin/getKakaoAuthUrl" class="kakao_btn"></a>
+                     </li>
+                  </ul>
+                  <p>
+                     <span>
+                        계정이 없으신가요?
+                     </span>
+                     <b onclick="toggle()" class="pointer" style="font-size: 15px;">
+                        회원가입하기
+                     </b>
+                  </p>
+               </form>
+            </div>
+         </div>
+         <div class="form-wrapper">
+
+         </div>
+      </div>
+      <!-- END SIGN IN -->
+   </div>
+   <!-- END FORM SECTION -->
+   <!-- CONTENT SECTION -->
+   <div class="row content-row">
+      <!-- SIGN IN CONTENT -->
+      <div class="col align-items-center flex-col">
+         <div class="text sign-in">
+            <h2>
+               Welcome Planz!
+            </h2>
+
+         </div>
+         <div class="img sign-in">
+
+         </div>
+      </div>
+      <!-- END SIGN IN CONTENT -->
+      <!-- SIGN UP CONTENT -->
+      <div class="col align-items-center flex-col">
+         <div class="img sign-up">
+
+         </div>
+         <div class="text sign-up">
+            <h2>
+               Planz 에
+               <br>
+               오신걸
+               <br>
+               환영합니다!
+            </h2>
+
+         </div>
+      </div>
+      <!-- END SIGN UP CONTENT -->
+   </div>
+   <!-- END CONTENT SECTION -->
+</div>
+</body>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/user/user.js"></script>
+<script>
+
+   let container = document.getElementById('container')
+
+   toggle = () => {
+      container.classList.toggle('sign-in')
+      container.classList.toggle('sign-up')
+   }
+
+   setTimeout(() => {
+      container.classList.add('sign-in')
+   }, 200)
+</script>
+<script>
+
+   const joinForm = document.joinForm;
+   const userid = joinForm.userid;
+   const userPw = joinForm.password;
+   const userPwCh = joinForm.passwordcheck;
+   const useremail = joinForm.useremail;
+   const useridResult = document.getElementById("result");
+   const passwordResult = document.getElementById("passwordResult");
+   const only_num = /^[0-9]*$/;
+   const exp_password = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#])[\da-zA-Z!@#]{8,}$/;
+   const emailPattern = /@.*\./;
+
+
+   userid.addEventListener("input", function() {
+      validateId();
+   });
+
+   function validateId() {
+      if (userid.value.length < 5 || userid.value.length > 12) {
+         result.innerHTML = "아이디는 5자 이상 12자 이하로 입력하세요!";
+         userid.focus();
+         return;
+      }else{
+         result.innerHTML = "";
+      }
+
+      if (only_num.test(userid.value)){
+         result.innerHTML = "아이디는 숫자만 입력 할 수 없어요";
+         userid.focus();
+         return;
+      }
+      else{
+         result.innerHTML = "";
+      }
+      result.innerHTML = "사용할 수 있는 아이디예요!"
+   }
+
+
+
+   userPw.addEventListener("input", function() {
+      validatePassword();
+   });
+
+   function validatePassword() {
+      if (userPw.value === "") {
+         result.innerHTML = "비밀번호를 입력해주세요!";
+         return;
+      }
+      if (userPw.value.length < 5 || userPw.value.length > 12) {
+         result.innerHTML = "비밀번호는 5자 이상 12자 이하로 입력하세요!";
+         return;
+      }
+      if (!exp_password.test(userPw.value)) {
+         result.innerHTML = "숫자와 알파벳 대, 소문자가 포함되어있나요?";
+         return;
+      }
+      result.innerHTML = "사용할 수 있는 비밀번호예요!.";
+   }
+
+   userPwCh.addEventListener("input", function() {
+      CheckPassword();
+   });
+   function CheckPassword(){
+      if(userPw.value == userPwCh.value){
+         result.innerHTML = "비밀번호가 일치합니다!";
+
+      }else{
+         result.innerHTML = "비밀번호가 일치하지 않아요..";
+
+      }
+   }
+
+   useremail.addEventListener("input", function() {
+      validateEmail();
+   });
+   function validateEmail(){
+      if (useremail.value == "") {
+         result.innerHTML = "이메일을 입력하세요!";
+
+         useremail.focus();
+         return;
+      }
+      if (!emailPattern.test(useremail.value)) {
+         result.innerHTML = "이메일 형식에 맞춰주세요!";
+         useremail.focus();
+         return;
+      }
+      result.innerHTML = "사용할 수 있는 이메일형식이예요!"
+   }
+
+</script>
+</html>

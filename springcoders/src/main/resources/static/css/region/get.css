@@ -1,0 +1,627 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    box-sizing: border-box;
+    text-decoration: none;
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    background-color: #f5f5f5;
+    color: #333;
+}
+/* 전체 스크롤바 스타일 */
+::-webkit-scrollbar {
+    width: 12px; /* 스크롤바의 너비 */
+}
+
+/* 스크롤바 트랙 */
+::-webkit-scrollbar-track {
+    background: #f1f1f1; /* 트랙의 배경색 */
+    border-radius: 10px; /* 트랙의 모서리 둥글게 */
+}
+
+/* 스크롤바 손잡이 */
+::-webkit-scrollbar-thumb {
+    background: #00cc8c; /* 손잡이의 배경색 */
+    border-radius: 10px; /* 손잡이의 모서리 둥글게 */
+}
+
+/* 손잡이 호버시 */
+::-webkit-scrollbar-thumb:hover {
+    background: #555; /* 손잡이 호버시 배경색 */
+}
+#wrap {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 40px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    border-radius: 10px;
+}
+#wrap h3{
+    text-align: left;
+}
+
+#title_box {
+    padding: 20px;
+    text-align: center;
+    line-height: 60px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
+}
+
+#title_box h1 {
+    font-size: 2em;
+    color: #333;
+}
+
+#addr {
+    color: #aaa;
+    text-align: center !important;
+}
+
+#button_box {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+#button_box ul {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+#button_box ul li {
+    text-align: center;
+    width: 200px;
+    cursor: pointer;
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+#button_box ul li:hover {
+    background-color: #00c88c;
+    color: white;
+}
+
+#button_box ul li.selected {
+    background-color: #00c88c;
+    color: white;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+#share_box {
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    padding-bottom: 5px;
+}
+
+
+
+#share_btn,#print_btn {
+    color: white;
+    padding: 15px 15px;
+    border: none;
+    margin-left: 5px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#share_modal {
+    display: none;
+    position: absolute;
+    width: 360px;
+    height: 319px;
+    top: 50px;
+    border: 1px solid #e2e2e2;
+    border-radius: 10px;
+    box-sizing: border-box;
+    background: #fff;
+    z-index: 1;
+    opacity: 0; /* 초기에 투명하게 설정 */
+    transition: opacity 0.3s ease; /* 트랜지션 효과 추가 */
+}
+
+#share_modal.show {
+    display: block;
+    opacity: 1; /* 보여질 때 불투명하게 설정 */
+}
+#share_title{
+    font-size: 17px;
+    font-weight: bold;
+}
+#share_modal ul{
+    padding: 0 27px;
+    overflow: hidden;
+}
+#share_modal ul li{
+    float: left;
+    margin: 21px 20px 0 20px;
+}
+
+#share_modal ul li:last-child{
+    margin: 21px auto;
+    width: 100%;
+    padding: 0;
+}
+#url_text{
+    width: 200px;
+    height: 50px;
+    padding: 6px;
+    font-size: 17px;
+    border: #ccc;
+    border-radius: 15px ;
+    outline: 1px solid #ddd;
+    color: #777;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+}
+#url_print{
+    width: auto;
+    height: 50px;
+    padding: 2px;
+    border-radius: 15px ;
+    border: 1px solid #aaa;
+    background-color: snow;
+    cursor: pointer;
+}
+
+
+
+#kakaotalk_share_btn{
+    width: 61px;
+    height: 61px;
+    border-radius: 20px;
+    border: none;
+    background: url("/image/kakao_share.png");
+    background-position: center;
+    background-size: cover;
+    cursor: pointer;
+}
+#mail_share_btn{
+    width: 61px;
+    height: 61px;
+    padding: 2px;
+    border-radius: 20px;
+    border: none;
+    cursor: pointer;
+    background: url("/image/mail_share.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 95%;
+}
+#print_btn{
+
+    background: url("/image/print_btn.png");
+    background-position: center;
+    background-size: cover;
+}
+#share_btn{
+    background: url("/image/upload.png");
+    background-position: center;
+    background-size: cover;
+}
+#share_close_btn{
+
+display: inline-block;
+position: absolute;
+top: 26px;
+right: 22px;
+width: 20px;
+height: 19px;
+background: url("/image/share_close.png") no-repeat 0 0;
+font-size: 0;
+color: transparent;
+background-size: cover;
+cursor: pointer;
+}
+#cont_wrap {
+    padding: 20px;
+}
+
+#pic_box {
+    margin-bottom: 30px;
+}
+
+#pic_box #picture {
+    margin-top: 20px;
+    width: 100%;
+    height: 455px;
+    background-position: center;
+    background-size: cover;
+    border-radius: 10px;
+}
+
+#info_box {
+    padding: 20px;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 50px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#info_box #description {
+    background-color: #fefefe;
+    line-height: 1.8;
+    padding: 20px;
+    margin-top: 20px;
+    height: auto;
+    text-align: left;
+}
+#info_box #description p {
+    line-height: 2;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 1px;
+    height: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #555;
+    box-shadow: inset 0  -10px 15px #eee;
+    transition: height 0.5s ease;
+    background-color: #fefefe;
+    padding: 30px;
+}
+
+#info_box #description p span {
+    background-color: #fefefe;
+
+}
+#info_box #description p.detail {
+    height: auto !important;
+}
+#more_btn_img{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background: url("/image/open_info.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden; /* 텍스트가 보이지 않도록 설정 */
+    text-indent: -9999px; /* 텍스트가 시각적으로 보이지 않도록 설정 */
+}
+#more_text{
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+    background-color: #fefefe;
+    opacity: 0.6;
+}
+#more_text button{
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 50px;
+    height: 10px;
+    font-size: 15px;
+}
+#up_btn_img{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background: url("/image/close_info.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    overflow: hidden; /* 텍스트가 보이지 않도록 설정 */
+    text-indent: -9999px; /* 텍스트가 시각적으로 보이지 않도록 설정 */
+}
+#up_text{
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    cursor: pointer;
+    opacity: 0.6;
+}
+#up_text button{
+    border: none;
+    background: none;
+    cursor: pointer;
+    width: 50px;
+    height: 10px;
+}
+
+/*ㅁㄴㅇㅁㄴㅇㅁㄴ*/
+#info_box #more_info {
+    padding: 20px;
+    margin-top: 20px;
+
+}
+
+#info_box #more_info ul {
+    display: flex;
+    flex-wrap: wrap;
+    /*gap: 10px 0;*/
+    width: 900px;
+    margin: 0 20px;
+}
+
+#info_box #more_info ul li {
+    list-style: circle;
+    width: 50%;
+    min-height: 40px;
+    text-align: left;
+    font-size: 14px;
+    color: #777777;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+
+
+#reply_box {
+    background-color: rgb(250, 250, 250);
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 100px;
+}
+
+#reply_box #create_reply {
+    width: 100%;
+    padding: 20px;
+    margin-top: 10px;
+}
+
+#reply_box #create_reply #btns_box {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+#reply_box #create_reply #btns_box textarea {
+    padding: 10px;
+    width: 80%;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    resize: none;
+}
+
+#replycontents {
+    line-height: 1.5;
+    font-size: 15px;
+    padding: 20px;
+    letter-spacing: 1.5px;
+    width: 100%;
+    max-width: 680px;
+    height: 100px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-family: 'Arial', sans-serif;
+    resize: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+#replycontents:focus {
+    border-color: #00cc8c;
+    box-shadow: 0 4px 8px #00cc8c;
+    outline: none;
+}
+#charCount{
+    margin-left: 20px;
+    position: absolute;
+    bottom: 5px;
+    right: 210px;
+}
+#reply_box #create_reply #btns_box #btn {
+    width: 15%;
+    height: 60px;
+    display: flex;
+    margin-left: 20px;
+    justify-content: space-between;
+    position: absolute;
+    right: 10px;
+    bottom: 20px;
+}
+.no-reply {
+    font-size: 18px;
+    color: #666;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeIn 1s forwards, slideIn 1s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateY(20px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+#reply_box #create_reply #btns_box #btn button {
+    width: 50%;
+    background-color: #00c88c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#reply_box #create_reply #btns_box #btn button:hover {
+    background-color: #009f70;
+}
+
+#reply_box #reply_user_box {
+    padding: 20px;
+    margin-top: 20px;
+}
+
+#reply_list {
+    height: auto;
+    max-height: 300px; /* 필요한 경우 최대 높이 설정 */
+    width: 950px;
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    margin: 0 auto;
+}
+
+#reply_list .user_reply {
+    border: 1px solid #eee;
+    box-shadow: 1px 2px 8px 1px rgba(31, 38, 135, .08);
+    width: 300px;
+    height: 200px;
+    padding: 10px;
+    border-radius: 15px;
+    margin-right: 10px; /* 각 댓글 사이에 간격 추가 */
+    /*display: none; */
+    /*flex-wrap: wrap;*/
+    flex-shrink: 0;
+}
+
+.profile {
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    height: 70px;
+    align-items: center;
+}
+
+.gap{
+    display: inline;
+    width: 200px;
+    float: left;
+}
+#reply_list .user_reply .profile .img {
+    border: 1px solid #ddd;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    float: left;
+    margin-right: 15px;
+}
+
+#reply_list .user_reply .profile .name {
+    text-align: center;
+    line-height: 40px;
+    float: left;
+}
+
+.deleteReply{
+    cursor: pointer;
+    margin-right: 10px;
+}
+.delete_button{
+    border: none;
+    background: none;
+    color: #aaa;
+    cursor: pointer;
+
+}
+#reply_list .reply {
+    height: 80px;
+    width: 100%;
+    padding: 5px;
+    line-height: 1.8;
+    font-weight: bold;
+    text-align: left;
+    white-space: normal;
+    overflow-wrap: break-word;
+
+}
+
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination button {
+    margin: 0 5px;
+    padding: 28px 20px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: all 0.8s ease;
+    opacity: 0.4;
+}
+
+.pagination #prevBtn{
+    background: url("/image/prev_img.png");
+    background-repeat: no-repeat;
+    background-size: 80%;
+}
+.pagination #prevBtn:hover {
+    transform: scale(1.3);
+    opacity: 0.9;
+}
+.pagination #nextBtn{
+    background: url("/image/next_img.png");
+    background-repeat: no-repeat;
+    background-size: 80%;
+}
+.pagination #nextBtn:hover {
+    transform: scale(1.3);
+    opacity: 0.9;
+}
+#map_box {
+    width: 100%;
+    height: 500px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+#like_btn{
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+#unlike_btn {
+    width: 30px;
+    height: 30px;
+    background: none;
+    border: none;
+    display: none;
+    cursor: pointer;
+}
+.btn_img{
+    width: 30px;
+    height: 30px;
+}

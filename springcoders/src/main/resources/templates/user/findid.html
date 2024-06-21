@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html {
+            background-color: #fff;
+        }
+        .find_id_title {
+            text-align: center;
+            padding-bottom: 110px;
+        }
+		.findId{
+			text-align: center;
+            border: 1px solid gray;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 5px 5px 5px -5px;
+		}
+        .fi_wp{
+         padding: 30px 0;   
+        }
+		#title_image img{
+			width: 150px; height: 100px;
+            background-color: #fff;
+            align-content: center;
+		}
+        #title_image_div{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+        #findid_main{
+            width: 50%;
+            align-items: center;
+            margin: 0 auto;
+        }
+        #findid_check{
+    margin-left: 5px;
+    height: 40px;
+    border-radius: 5px;
+    outline: none;
+    border: none;
+    color: white;
+    width: 110px;
+    font-weight: bold;
+    cursor: pointer;
+    background-color: #ffcc80;
+    border: 1px solid #ffa726;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+#findid_check:hover{
+    background-color: #ffa726;
+    transform: translateY(-2px);
+}
+#findid_email{
+    height: 40px;
+    width: 410px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    line-height: 40px;
+}
+input::placeholder {
+    font-size: 15px;
+    color: rgba(0, 0, 0, 0.2);
+    font-weight:800;
+    padding-left: 10px;
+}
+#go_fipw{
+    text-decoration: none;
+    color: black;
+}
+
+    </style>
+</head>
+<body>
+    <title>아이디 찾기</title>
+    <div id="title_image_div">
+	<a href="login" id="title_image" style="text-align: center;"><img src="/image/logo.png" alt="타이틀"></a>
+    </div>
+    <form action="/user/join" name="findid" id="findid_main">
+        <h1 class="find_id_title"><p>아이디 찾기</p></h1>
+        <div class="find_id_wrap">
+            <div class="findId" >
+                <div class="fi_wp">
+                    <input type="text" id="findid_email" placeholder="이메일을 입력해주세요">
+                    <input type="button" id="findid_check" value="확인" onclick="checkemail()">
+                </div>
+                <div id="fidis" style="display: none;">
+                    <h2>찾으시는 아이디는 <span id="findid_text"></span>입니다</h2>
+                    <div>
+                        <span>  |  </span><a href="/user/findpw" id="go_fipw">비밀번호 찾기</a><span>  |  </span>
+                    </div>
+                    <br>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </form>
+</body>
+    <script>
+        function checkemail() {
+            const xhr = new XMLHttpRequest();
+            const emailInput = document.getElementById("findid_email");
+            const findid_text = document.getElementById("findid_text");
+            
+            if (emailInput.value === "") {
+                alert("이메일을 입력하세요!");
+                emailInput.focus();
+                return;
+            }
+            
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        let response = xhr.responseText.trim();
+						console.log(response);
+                        console.log("아오 뭘봐  ")
+						if (response != "") {
+                            console.log("싯팔");
+                            // 이메일을 통해서 받은 ID
+                            document.getElementById("fidis").style.display = "block";
+                            findid_text.innerHTML = response;
+                        } else {
+                            console.log("얏팔");
+                            alert("이메일을 찾을 수 없어요.");
+                            emailInput.value = "";
+                            emailInput.focus();
+                            document.getElementById("fidis").style.display = "none";
+                        }
+                        emailInput.value = "";
+                        emailInput.focus();
+                    }
+                }
+            };
+
+            const encodedEmail = encodeURIComponent(emailInput.value);
+            xhr.open("GET", "/user/findByUserId?useremail=" + encodedEmail, true);
+            xhr.send();
+        }
+    </script>
+</html>

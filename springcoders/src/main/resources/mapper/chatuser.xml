@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.demo.mapper.ChatUserMapper">
+	<select id="getAllUserRoomByUserId">
+		select * from chatuser where userid = #{userid}
+	</select>
+	<select id="CheckUser">
+		select * from chatMessage where roomno=#{roomno} and userid=#{userid}
+	</select>
+	<insert id="chatUserInsert">
+		insert into chatuser(roomno, roomname, userid) values (#{roomno}, #{roomname}, #{userid})
+	</insert>
+	<delete id="chatUserDelete">
+		delete from chatuser where roomno=#{roomno} and userid=#{userid}
+	</delete>
+	<select id="countDuplicateUsers">
+        SELECT COUNT(*)
+		FROM chatuser cu1
+		WHERE roomname = #{roomname}
+		AND EXISTS (
+		    SELECT 1
+		    FROM chatuser cu2
+		    WHERE cu2.roomname = #{roomname}
+		    AND cu2.userid = #{adminid}
+		)
+		AND EXISTS (
+		    SELECT 1
+		    FROM chatuser cu3
+		    WHERE cu3.roomname = #{roomname}
+		    AND cu3.userid = #{userid}
+		);
+    </select>
+</mapper>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>관리자페이지</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #ma_wrap {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            box-sizing: border-box;
+        }
+
+        #sideBar {
+            width: 210px;
+            padding: 20px;
+            background-color: #607D8B;
+            color: white;
+            text-align: center;
+        }
+        #side_ul {
+            padding: 0;
+            text-align: center;
+            list-style: none;
+            margin: 0;
+        }
+        #side_ul li {
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 20px;
+            background-color: #90A4AE ;
+            color: #fff;
+            cursor: pointer;
+        }
+        #side_ul li:hover {
+            background-color: #555;
+        }
+
+
+        #mainBar {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #main_cont {
+            padding: 30px;
+            flex-grow: 1;
+            overflow-y: auto;
+            background-color: #f9f9f9;
+
+        }
+
+        #ma_home, #ma_accept {
+            display: none;
+            margin: 0 auto;
+        }
+        #ma_home{
+            position: relative;
+        }
+
+        #ma_home.active, #ma_accept.active {
+            display: block;
+        }
+
+        #home_table, #accept_table {
+            display: inline-block;
+            width: 1200px;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-left: 200px;
+        }
+        #home_table{
+            border: 1px solid #ccc;
+            border-radius: 30px;
+        }
+        #accept_table {}
+        #home_table th,#accept_table th {
+            /* border-bottom: 1px solid #aaa; */
+        }
+        #home_table th, #home_table td,
+        #accept_table th, #accept_table td {
+            width: 300px;
+            padding: 10px;
+
+            text-align: center;
+        }
+        #home_table th:not(:last-child), #home_table td:not(:last-child) {
+            border-right: 1px solid #ccc;
+        }
+        #home_table th, #accept_table th {
+            color: #111;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        #home_table td, #accept_table td {
+            color: #999;
+            font-size: 17px;
+        }
+        #accept_table tr:not(:last-child)  {
+            border-bottom: 1px solid #ccc;
+        }
+
+        #accept_button {
+            padding: 5px 10px;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .accept-button {
+            background-color: #4CAF50;
+        }
+
+        .accept-button:hover {
+            background-color: #45a049;
+        }
+
+        .cancel-button {
+            background-color: #f44336; /* You can choose any color you like */
+        }
+
+        .cancel-button:hover {
+            background-color: #e53935; /* You can choose any color you like */
+        }
+
+        #ma_h1 {
+            color: #333;
+            margin-bottom: 40px;
+        }
+        .ma_h2{
+            text-align: left;
+            margin-left: 200px;
+
+        }
+
+        canvas {
+            display: block;
+            margin: 20px auto;
+        }
+        #homeChart{
+            margin: 100px auto;
+        }
+        .blink-container {
+            height: 0;
+        }
+
+        .blink {
+            font-size: 18px;
+            position: absolute;
+            left: 165px;
+            top: 100px;
+            animation: rainbow-slide 5s linear infinite;
+        }
+
+        @keyframes rainbow-slide {
+            0% {
+                color: red;
+            }
+            20% {
+                color:  orange;
+            }
+            40% {
+                color: yellow;
+            }
+            60% {
+                color: green;
+            }
+            80% {
+                color: blue;
+            }
+            100% {
+                color: violet;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div id="ma_wrap">
+    <div id="sideBar">
+        <ul id="side_ul">
+            <li onclick="showSection('ma_home')">홈</li>
+            <li onclick="showSection('ma_accept')">승인하기</li>
+            <li>회원관리</li>
+            <li>탈퇴</li>
+        </ul>
+        <div th:if="${requestCnt}">
+            <div class="blink-container">
+                <span class="blink">new</span>
+            </div>
+        </div>
+    </div>
+    <div id="mainBar">
+        <div id="main_cont">
+            <h1 id="ma_h1">관리자 페이지</h1>
+            <div id="ma_home" class="active">
+                <h2 class="ma_h2">홈</h2>
+                <div id="home_box">
+                    <table id="home_table">
+                        <tbody>
+                        <tr>
+                            <th>상품개수</th>
+                            <th>회원수</th>
+                            <th>거래완료</th>
+                            <th>승인요청</th>
+                        </tr>
+                        <tr>
+                            <td id="boardCnt" th:text="${boardCnt} + '개'"></td>
+                            <td id="userCnt" th:text="${userCnt} + '명'"></td>
+                            <td id="completedCnt" th:text="${completedCnt} + '건'"></td>
+                            <td id="requestCnt" th:text="${requestCnt} + '건'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <canvas id="homeChart" width="1200" height="500"></canvas>
+                </div>
+            </div>
+            <div id="ma_accept">
+                <h2 class="ma_h2">승인대기</h2>
+                <div id="accept_box">
+                    <table id="accept_table">
+                        <thead>
+
+                        <tr>
+                            <th>상품 번호</th>
+                            <th>상품명</th>
+                            <th>판매자</th>
+                            <th>구매자</th>
+                            <th>상품가격</th>
+                            <th>승인요청시간</th>
+                            <th>거래상태</th>
+                            <th>승인</th>
+                        </tr>
+                        </thead>
+                        <tbody id="ag_tbody">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script>
+
+    // let boardCnt = document.getElementById("boardCnt").textContent;
+    // let userCnt = document.getElementById("userCnt").textContent;
+    // let completedCnt = document.getElementById("completedCnt").textContent;
+    // let requestCnt = document.getElementById("requestCnt").textContent;
+    //
+    // let maxGage;
+    let boardCnt = parseInt(document.getElementById("boardCnt").textContent, 10);
+    let userCnt = parseInt(document.getElementById("userCnt").textContent, 10);
+    let completedCnt = parseInt(document.getElementById("completedCnt").textContent, 10);
+    let requestCnt = parseInt(document.getElementById("requestCnt").textContent, 10);
+
+    let maxGage = Math.max(boardCnt, userCnt, completedCnt, requestCnt) +30;
+
+    function showSection(sectionId) {
+        document.getElementById('ma_home').classList.remove('active');
+        document.getElementById('ma_accept').classList.remove('active');
+        document.getElementById(sectionId).classList.add('active');
+
+
+        $.ajax({
+            method: "POST",
+            url: "/manager/accept", // 서버로 요청을 보낼 URL
+            dataType: "json", // 서버에서 받을 데이터 타입을 JSON으로 지정
+            success: function(response) {
+                console.log(response);
+                populateTable(response.list);
+            },
+            error: function(xhr, status, error) {
+                console.log("에러발생")
+            }
+        });
+    }
+
+    const ctx = document.getElementById('homeChart').getContext('2d');
+    const homeChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['상품개수', '회원수', '거래완료', '승인요청'],
+            datasets: [{
+                label: '데이터',
+                data: [boardCnt, userCnt, completedCnt, requestCnt],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)',
+                    'rgba(153, 102, 255, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)',
+                    'rgba(153, 102, 255, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: maxGage
+                }
+            }
+        }
+    });
+
+    function populateTable(data) {
+        var tbody = $("#ag_tbody");
+        tbody.empty();
+
+        data.forEach(function(item, index) {
+            var row = $("<tr></tr>");
+            row.append($("<td></td>").text(item.boardnum));
+            row.append($("<td></td>").text(item.boardtitle));
+            row.append($("<td></td>").text(item.userid));
+            row.append($("<td></td>").text(item.dealid));
+            var formattedPrice = item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + '원';
+            row.append($("<td></td>").text(formattedPrice));
+            row.append($("<td></td>").text(item.dealdate));
+            row.append($("<td></td>").text(
+                item.buystate === 'OO' ? '승인완료' :
+                    item.buystate === 'O' ? '미승인' :
+                        item.buystate
+            ));
+            var button = $("<button></button>")
+                .text(item.buystate === 'OO' ? '승인취소' : '승인하기')
+                .attr("id", "accept_button")
+                .addClass(item.buystate === 'OO' ? 'cancel-button' : 'accept-button')
+                .attr("onclick", item.buystate === 'OO' ? 'cancel(' + item.boardnum + ')' : 'complete(' + item.boardnum + ')');
+
+            row.append($("<td></td>").append(button));
+            tbody.append(row);
+        });
+    }
+
+     function complete(boardnum) {
+
+        $.ajax({
+            url: "/manager/complete",
+            data: {
+                boardnum: boardnum
+            },
+            method: "POST",
+            dataType: "text",
+            success: function(response) {
+                console.log("AJAX 요청 성공");
+                alert("승인을 완료하였습니다")
+                location.reload(true);
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX 요청 실패", status, error);
+            }
+        });
+    }
+    function  cancel(boardnum) {
+
+        $.ajax({
+            url: "/manager/cancel",
+            data: {
+                boardnum: boardnum
+            },
+            method: "POST",
+            dataType: "text",
+            success: function(response) {
+                console.log("AJAX 요청 성공");
+                alert("승인을 취소하였습니다")
+                location.reload(true);
+            },
+            error: function(xhr, status, error) {
+                console.error("AJAX 요청 실패", status, error);
+            }
+        });
+    }
+</script>
+</html>

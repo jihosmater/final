@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.demo.mapper.ReplyMapper">
+    <insert id="insertReply">
+        insert into reply (replycontents,userid)
+        values(#{replycontents},#{userid})
+    </insert>
+
+    <select id="getLastReply">
+        select * from reply where userid=#{userid} order by replynum desc limit 1
+    </select>
+
+    <!--    <select id="getList">-->
+    <!--        select * from reply where replynum=#{replynum}-->
+    <!--    </select>-->
+
+    <select id="getList">
+        select * from reply r
+        join place_reply pr on r.replynum = pr.replynum
+        where pr.placeid = #{placeid}
+        order by r.updatedate desc;
+    </select>
+
+    <select id="selectReplyByContentId">
+        select r.* from reply r
+        join place_reply pr on r.replynum = pr.replynum
+        where pr.placeid = #{placeid}
+        order by r.updatedate desc;
+    </select>
+    <delete id="deleteReply">
+        delete from reply where replynum=#{replynum}
+    </delete>
+
+    <select id="getAlready">
+        SELECT
+        EXISTS (
+        SELECT 1
+        FROM place_reply pr
+        JOIN reply r ON pr.replynum = r.replynum
+        WHERE pr.placeid = #{placeid}
+        AND r.userid = #{userid}
+        ) AS reply_exists;
+    </select>
+    
+    <delete id="userDeleteReply">
+		delete from reply
+		where userid = #{userid}
+	</delete>
+</mapper>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UserDelete</title>
+</head>
+<body>
+	<input type="button" name="userdelete" id="userdelete" value="회원탈퇴"> 
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+	$(document).ready(function(){
+		$("#userdelete").click(function() {
+			var userid = 'apple';
+			
+			$.ajax({
+				url: '/user/UserDelete',
+				type: 'POST',
+				data: { userid: userid },
+				success: function(response) {
+					// 성공
+					alert("회원탈퇴되었습니다.");
+				},
+				error: function(response) {
+					// 실패
+					alert("회원탈퇴를 실패하였습니다.");
+					console.log(error+"회원탈퇴실패!");
+				}
+			})
+		})
+	})
+</script>
+</html>

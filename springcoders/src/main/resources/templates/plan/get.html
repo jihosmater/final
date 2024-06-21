@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>일정보기|PLANZ</title>
+    <link rel="stylesheet" href="/css/plan/get.css">
+</head>
+<body>
+<th:block th:replace="~{common/header::header(${session.loginUser})}"></th:block>
+<div id="wrap" th:block th:with="owner=${session.loginUser!=creater.userid}">
+    <aside id="leftAside">
+        <div id="createrInfo">
+            <span id="createrid">작성자 [[${creater.userid}]] 님</span>
+        </div>
+        <div id="planInfo">
+            <span id="plantitle" class="row" th:text="${plan.plantitle}"></span>
+            <span id="planmemo" class="row" th:text="${plan.planmemo}"></span>
+            <div id="plandate" class="row">
+                <img src="/image/celendar.png">
+                <div id="celendarBox"></div>
+                <span id="planstartdate" class="date" th:text="${plan.startdate}"></span>
+                <th:block th:if="${plan.startdate!=plan.enddate}">
+                    ~ <span id="planenddate" class="date" th:text="${plan.enddate}"></span>
+                </th:block>
+            </div>
+            <div id="plancategory" class="row" th:text="${plan.category}"></div>
+        </div>
+        <ul id="planMateList">
+            <li th:if="${mateList==null||mateList.size()==0}">
+                <!-- mate가 없을 때 표시 -->
+            </li>
+            <li class="mate" th:if="${mateList!=null&&mateList.size()>0}" th:each="mate:${mateList}">
+                <img class="profile" th:src="'/file/thumbnail?systemname='+${mate.userprofile=='planz'?'default-user.webp':mate.userprofile}">
+                <span class="mateInfo" th:text="${mate.userid}"></span>
+            </li>
+        </ul>
+    </aside>
+    <main id="main">
+        <div id="kakaomap"></div>
+    </main>
+    <aside id="rightAside">
+        <div id="scheduleBox" th:if="${scheduleMap == null || scheduleMap.size()==0}">
+            <!-- 일정이 없음을 표시 -->
+        </div>
+        <div id="scheduledateBtn" th:if="${scheduleMap != null && scheduleMap.size()>0}">
+            <th:block th:each="date:${dates}">
+            <th:block th:each="scheduleList : ${scheduleMap}" th:with="scheduledate=${scheduleList.key.split('_')}" th:if="${date==scheduleList.key}">
+                <span class="scheduledate" th:id="${scheduleList.key}">
+                    [[${(scheduledate[1].substring(0,1)=='0'?scheduledate[1].charAt(1):scheduledate[1])+"월"}]]<br><strong>[[${scheduledate[2].substring(0,1)=='0'?scheduledate[2].charAt(1):scheduledate[2]}]]</strong>
+                </span>
+            </th:block>
+            </th:block>
+        </div>
+        <div id="scheduleBox" th:if="${scheduleMap != null && scheduleMap.size()>0}">
+            <th:block th:each="date:${dates}">
+            <th:block th:each="scheduleList : ${scheduleMap}" th:with="scheduledate=${scheduleList.key.split('_')}" th:if="${date==scheduleList.key}">
+                <div th:class="${'scheduleList disappear '+scheduleList.key}">
+                    <th:block th:each="schedule:${scheduleList.value}">
+                        <div th:class="scheduleInfo">
+                            <span class="marker"></span>
+                            <span class="scheduletitle" th:text="${schedule.scheduletitle}"></span>
+                            <div class="scheduletime">
+                                <span class="starttime" th:text="${schedule.starttime.split('_')[3]}"></span> ~ <span class="endtime" th:text="${schedule.endtime.split('_')[3]}"></span>
+                            </div>
+                            <div class="detailInfo">
+                                <span class="scheduletitle" th:text="${schedule.scheduletitle}"></span>
+                                <span class="schedulememo" th:text="${schedule.schedulememo.split('/&&/')[0]}"></span>
+                                <div class="scheduletime">
+                                    <span class="starttime" th:text="${schedule.starttime.split('_')[3]}"></span> ~ <span class="endtime" th:text="${schedule.endtime.split('_')[3]}"></span>
+                                </div>
+                                <th:block th:if="${schedule.schedulememo.split('/&&/').length==2}" th:with="split=${schedule.schedulememo.split('/&&/')},str=${split[1]}">
+                                    <th:block th:with="place=${placeMap.get(str)}">
+                                        <div class="place" th:if="${place!=null}">
+                                            <img class="placeImg" th:src="${placeImgMap.get(place.placeid+'')}">
+                                            <input type="hidden" class="placeid" th:value="${place.placeid}">
+                                            <span class="placename" th:text="${place.placename}"></span>
+                                            <span class="addr" th:text="${place.addr}"></span>
+                                            <span class="phone" th:text="${place.phone==''?'전화번호가 없습니다':place.phone}"></span>
+                                            <div class="categoryBox">
+                                                <th:block th:with="ctlist=${place.category.split('/&&/')}">
+                                                    <span class="category" th:each="ct:${ctlist}">
+                                                        #[[${ct}]]
+                                                    </span>
+                                                </th:block>
+                                            </div>
+                                        </div>
+                                    </th:block>
+                                </th:block>
+                            </div>
+                        </div>
+                    </th:block>
+                </div>
+            </th:block>
+            </th:block>
+        </div>
+    </aside>
+</div>
+<th:block th:replace="~{common/footer::footer}"></th:block>
+</body>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=e4f2eef01c86acd5391623854b8233a6&libraries=services"></script>
+<script src="/js/plan/get.js"></script>
+</html>

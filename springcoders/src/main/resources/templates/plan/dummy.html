@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<th:block>
+<form action="/plan/create" id="planForm" name="planForm" method="post">
+    <input type="submit" id="btn" value="제출"><br>
+    <label>일정명</label>
+    <input type="text" name="plantitle" th:value="${title}" id="plantitle" maxlength="100"><br>
+    <label>내용</label>
+    <textarea name="planmemo" id="planmemo" th:text="${memo}" maxlength="200"></textarea><br>
+    <label>카테고리</label>
+    <input type="text" name="category" id="category" th:value="${category}" class="plancategory"><br>
+    <th:block th:each="user :${userlist}">
+        <label>유저 아이디(여러개)</label>
+        <input type="text" class="userid" th:value="${user}" name="useridList"><br>
+    </th:block>
+    <label>일정 스타트</label>
+    <input type="text" name="startdate" th:value="${start}" id="startdate" class="planstartdate" readonly><br>
+    <label>일정 앤드</label>
+    <input type="text" name="enddate" th:value="${end}" id="enddate" class="planenddate"><br>
+    <th:block th:each="place :${places}">
+        <label>placeid(여러개)</label>
+        <input type="text" th:value="${place}" name="placeidList"><br>
+    </th:block>
+    <th:block th:each="schedule :${schedules}">
+        <label>스케줄 주제</label>
+        <input type="text" th:value="${schedule.scheduletitle}" name="scheduletitle" ><br>
+        <label>스케줄 내용(뒤에 장소 아이디)</label>
+        <input type="text" th:value="${schedule.schedulememo}" name="schedulememo" ><br>
+        <label>스케줄 시작날</label>
+        <input type="text" th:value="${schedule.starttime}" name="schedulestarttime" ><br>
+        <label>스케줄 끝나는날</label>
+        <input type="text" th:value="${schedule.endtime}" name="scheduleendtime" ><br>
+    </th:block>
+</form>
+</th:block>
+</body>
+<script>
+    const btn = document.getElementById("btn");
+    btn.focus();
+    btn.addEventListener("keypress",function (e){
+        console.log(e.key);
+    })
+</script>
+</html>

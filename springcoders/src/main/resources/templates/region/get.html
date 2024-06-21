@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>상세정보</title>
+<link rel="stylesheet" href="/css/region/get.css">
+</head>
+
+<body>
+<th:block th:replace="~{common/header::header(${session.loginUser})}"></th:block>
+<input type="hidden" id="loginUser" th:value="${session.loginUser}">
+<div id="wrap">
+  <div id="title_box">
+  <h1 th:text="${common['title']}"></h1>
+    <span><h3 id="addr" th:text="${common['addr1']}"></h3></span>
+  <div id="share_box">
+    <button id="like_btn" onclick="like()"><img src="/image/unlike_btn.png" id="like_img" class="btn_img"></button>
+    <button id="unlike_btn" onclick="unlike()"><img src="/image/like_btn.png" id="unlike_img" class="btn_img"></button>
+    <button id="print_btn" class="print" onclick="printPage()"></button>
+    <button id="share_btn" onclick="toggleShareModal()"></button>
+    <div id="share_modal">
+      <span id="share_title">공유하기</span>
+      <ul>
+        <li><button id="kakaotalk_share_btn"></button></li>
+        <li><button id="mail_share_btn" onclick="shareUrl()"></button></li>
+        <li>
+          <input id="url_text" type="url" readonly>
+          <button id="url_print" onclick="copyToClipboard()" ><span style="color: #aaa">URL 복사</span></button>
+        </li>
+      </ul>
+      <span id="share_close_btn" onclick="toggleShareModal()">닫기</span>
+    </div>
+  </div>
+  <div id="button_box">
+    <ul>
+      <li>사진보기</li>
+      <li>상세정보</li>
+      <li >댓글</li>
+      <li >지도</li>
+    </ul>
+  </div>
+
+
+  <div id="cont_wrap">
+    <div id="pic_box">
+      <h3></h3>
+      <img id="picture" th:src="${common['firstimage']}"></img>
+
+    </div>
+    <div id="info_box">
+      <h3>상세정보</h3>
+      <div id="description">
+          <p><span th:utext="${common['overview']}"></span></p>
+        <div id="more_text">
+            <span id="more_btn_img">사진</span><button id="more_btn">펼치기</button>
+        </div>
+        <div id="up_text" style="display: none">
+          <span id="up_btn_img">사진</span><button id="up_btn">접기</button>
+        </div>
+      </div>
+
+      <div id="more_info">
+        <th:block th:if="${info==null}">
+          <script>
+            document.getElementById('info_text').style.display = "none";
+          </script>
+        </th:block>
+          <ul id="info_text" th:if="${intro != null}   ">
+            <li>문의 및 안내 :
+              <span th:if="${intro != null && intro['infocenter'] != null &&  intro['infocenter'] != ''}" th:utext="${intro['infocenter']}"></span>
+              <span th:if="${intro != null && (intro['infocenter'] == null || intro['infocenter'] == '')}">정보가 없습니다.</span>
+            </li>
+<!--           <li th:text="${(intro['infoname'] == null&&intro != null)?'비용':intro['infoname']} + ' :'"><span th:text="${(intro['infotext'] == null&&intro != null) ? '정보가 없습니다.' : intro['infotext']}"></span></li>-->
+            <li>
+              비용 :
+              <span th:if="${intro != null && intro['infoname'] != null}" th:text="${intro['infoname']} + ' :'"></span>
+              <span th:if="${intro != null && intro['infotext'] == null}">정보가 없습니다.</span>
+              <span th:if="${intro != null && intro['infotext'] != null}" th:text="${intro['infotext']}"></span>
+            </li>
+<!--           <li th:text="${(info['infoname'] == null&&info != null)?'화장실 :':info['infoname']} + ' :' "><span th:text="${(info['infotext'])?'정보가 없습니다.':info['infotext']}"> </span></li>-->
+            <li>운영시간 :
+<!--              <span th:if="${intro != null && intro['usetime'] != null}" th:text="${intro['usetime']}"></span>-->
+              <span th:if="${intro != null && intro['usetime'] != null && intro['usetime'] != ''}" th:utext="${intro['usetime']}"></span>
+              <span th:if="${intro == null || intro['usetime'] == null || intro['usetime'] == ''}">정보가 없습니다.</span>
+            </li>
+            <li>홈페이지 :
+              <span th:if="${common != null && common['homepage'] != null}" th:utext="${common['homepage']}"></span>
+              <span th:if="${common == null || common['homepage'] == null || common['homepage'] == ''}">정보가 없습니다.</span>
+            </li>
+            <li><span id="roadAddress"></span></li>
+           <li><span id="jibunAddress"></span></li>
+
+          </ul>
+      </div>
+    </div>
+    <div id="reply_bg">
+    <div id="reply_box">
+      <h3>댓글을 달아보세요!</h3>
+      <div id="create_reply">
+        <div id="btns_box">
+          <textarea id="replycontents" name="replycontents" placeholder="댓글을 작성해보세요! (최대 50자까지)" maxlength="50"></textarea>
+          <div id="charCount" style="color: #aaa">0/50</div>
+          <div id="btn">
+            <th:block th:if="${session.loginUser == null}">
+              <button onclick="location.href='/user/login'">로그인</button>
+            </th:block>
+
+            <!-- 로그인된 경우 -->
+            <th:block th:if="${session.loginUser != null}">
+              <button id="finish">등록</button>
+            </th:block>
+          </div>
+        </div>
+      </div>
+      <div id="reply_user_box" style="">
+        <div id="reply_list">
+        </div >
+        <!-- 페이지 이동 버튼 -->
+        <div class="pagination">
+          <button id="prevBtn"></button>
+          <button id="nextBtn"></button>
+        </div>
+      </div>
+    </div>
+    </div>
+    <div id="map_box">
+      <h3>지도로 보기</h3>
+      <div id="map" style="width:100%; height:400px; margin-top: 20px"></div>
+      <div id="clickLatlng"></div>
+    </div>
+  </div>
+</div>
+</div>
+<th:block th:replace="~{common/footer::footer}"></th:block>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script
+    src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.1/kakao.min.js"
+    integrity="sha384-kDljxUXHaJ9xAb2AzRd59KxjrFjzHa5TAoFQ6GbYTCAG0bjM55XohjjDT7tDDC01"
+    crossorigin="anonymous"
+  ></script>
+  <script>
+    Kakao.init("4e377c32768fb5729ca2fc9e4bc49b2d"); // 사용하려는 앱의 JavaScript 키 입력
+  </script>
+  <script>
+    Kakao.Share.createDefaultButton({
+      container: "#kakaotalk_share_btn",
+      objectType: "feed",
+      content: {
+        title: "딸기 치즈 케익",
+        description: "#케익 #딸기 #삼평동 #카페 #분위기 #소개팅",
+        imageUrl:
+          "http://k.kakaocdn.net/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png",
+        link: {
+          // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+          mobileWebUrl: "https://developers.kakao.com",
+          webUrl: "https://developers.kakao.com",
+        },
+      },
+      social: {
+        likeCount: 286,
+        commentCount: 45,
+        sharedCount: 845,
+      },
+      buttons: [
+        {
+          title: "웹으로 보기",
+          link: {
+            mobileWebUrl: "https://developers.kakao.com",
+            webUrl: "https://developers.kakao.com",
+          },
+        },
+        {
+          title: "앱으로 보기",
+          link: {
+            mobileWebUrl: "https://developers.kakao.com",
+            webUrl: "https://developers.kakao.com",
+          },
+        },
+      ],
+    });
+
+    function printPage() {
+      window.print();
+    }
+  </script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var photoButton = document.querySelector("#button_box ul li:nth-child(1)");
+    var infoButton = document.querySelector("#button_box ul li:nth-child(2)");
+    var replyButton = document.querySelector("#button_box ul li:nth-child(3)");
+    var mapButton = document.querySelector("#button_box ul li:nth-child(4)");
+
+    var picBox = document.querySelector("#pic_box");
+    var infoBox = document.querySelector("#info_box");
+    var replyBox = document.querySelector("#reply_box");
+    var mapBox = document.querySelector("#map_box");
+
+    var sections = [
+      { button: photoButton, section: picBox },
+      { button: infoButton, section: infoBox },
+      { button: replyButton, section: replyBox },
+      { button: mapButton, section: mapBox }
+    ];
+
+    photoButton.classList.add("selected");
+
+    photoButton.addEventListener("click", function () {
+      scrollToSection(picBox, photoButton);
+    });
+    infoButton.addEventListener("click", function () {
+      scrollToSection(infoBox, infoButton);
+    });
+    replyButton.addEventListener("click", function () {
+      scrollToSection(replyBox, replyButton);
+    });
+    mapButton.addEventListener("click", function () {
+      scrollToSection(mapBox, mapButton);
+    });
+
+    window.addEventListener('scroll', onScroll);
+
+    function scrollToSection(section, button) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+      removeSelectedClass();
+      button.classList.add("selected");
+    }
+
+    function onScroll() {
+      var scrollPosition = window.scrollY + window.innerHeight / 2;
+      sections.forEach(({ button, section }) => {
+        var sectionTop = section.offsetTop;
+        var sectionBottom = sectionTop + section.offsetHeight;
+        if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
+          removeSelectedClass();
+          button.classList.add("selected");
+        }
+      });
+    }
+
+    function removeSelectedClass() {
+      var selectedButton = document.querySelector("#button_box ul li.selected");
+      if (selectedButton) {
+        selectedButton.classList.remove("selected");
+      }
+    }
+  });
+</script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=52def14254558add7db321279aabe69e&libraries=services"></script>
+<script src="/js/reply/reply.js"></script>
+<script th:inline="javascript">
+  let mapx = [[${common['mapx']}]];
+  let mapy = [[${common['mapy']}]];
+  let contentid = [[${common['contentid']}]];
+
+</script>
+<script th:inline="javascript">
+  console.log(mapx);
+  console.log(mapy);
+  console.log("contentid 타입 = " + typeof contentid);
+
+  var markerPosition  = new kakao.maps.LatLng(mapy, mapx);
+  var mapContainer = document.getElementById('map'), // 지도를 표시할 div
+          mapOption = {
+            center: markerPosition, // 지도의 중심좌표
+            level: 1 // 지도의 확대 레벨
+          };
+
+  var map = new kakao.maps.Map(mapContainer, mapOption);
+
+  var marker = new kakao.maps.Marker({
+    position: markerPosition
+  });
+  marker.setMap(map);
+
+  var geocoder = new kakao.maps.services.Geocoder();
+  var callback = function(result, status) {
+    if (status === kakao.maps.services.Status.OK) {
+      var detailAddr = result[0].road_address && result[0].road_address.address_name !== '' ? '도로명주소 : ' + result[0].road_address.address_name : '도로명주소 : 정보가 없습니다.';
+      var jibunAddress = result[0].address && result[0].address.address_name !== '' ? '지번주소 : ' + result[0].address.address_name : '지번주소 : 정보가 없습니다.';
+      document.getElementById('roadAddress').innerHTML = detailAddr;
+      document.getElementById('jibunAddress').innerHTML = jibunAddress;
+    }
+  };
+  geocoder.coord2Address(mapx, mapy, callback);
+  geocoder.coord2RegionCode(mapx, mapy, callback);
+
+  function searchAddrFromCoords(coords, callback) {
+    geocoder.coord2RegionCode(coords.getLng(), coords.getLat(), callback);
+  }
+
+  function searchDetailAddrFromCoords(coords, callback) {
+    geocoder.coord2Address(coords.getLng(), coords.getLat(), callback);
+  }
+
+  function displayCenterInfo(result, status) {
+    if (status === kakao.maps.services.Status.OK) {
+      var infoDiv = document.getElementById('centerAddr');
+      for(var i = 0; i < result.length; i++) {
+        if (result[i].region_type === 'H') {
+          infoDiv.innerHTML = result[i].address_name;
+          break;
+        }
+      }
+    }
+  }
+
+  function setDraggable() {
+    map.setDraggable(false);
+  }
+
+  $(document).ready(function() {
+    var getReply = /*[[${getReply}]]*/ null;
+
+    if (getReply == null) {
+      showList(0, contentid);
+    } else {
+      const replynum = getReply.replynum;
+      showList(replynum, contentid);
+    }
+    slide();
+  });
+
+  $("#finish").on("click", function(e) {
+    e.preventDefault();
+    let replycontents = $("#replycontents").val();
+    const loginUser =  $("#loginUser").val();
+    console.log("댓글 등록 아이디 : "+loginUser);
+    if (replycontents == "") {
+      alert("댓글 내용을 입력하세요!");
+      $("#replycontents").focus();
+      return;
+    }
+    replyService.insert(
+            {"replycontents": replycontents, "userid":loginUser , "placeid": contentid},
+            function(result) {
+              alert("댓글 등록 성공");
+              console.log(result);
+              showList(result.replynum, contentid);
+            },
+            function(result) {
+              alert("댓글은 한개만 등록가능합니다!");
+            }
+
+    );
+    $("#replycontents").val("");
+    const charCount = document.getElementById('charCount');
+    charCount.textContent = '0/50';
+    $(".regist").show();
+  });
+
+  function showList(replynum, contentid) {
+    const reply_list = $('#reply_list');
+    const loginUser = $("#loginUser").val();
+    replyService.selectAll(
+            {replynum: replynum || 0, contentid: contentid},
+            function(replyList) {
+              let str = "";
+              if (replyList == null || replyList.length == 0) {
+                str += `<li class="no-reply">등록된 댓글이 없습니다.</li>`;
+              } else {
+                for (let i = 0; i < replyList.length; i++) {
+                  const reply = replyList[i];
+                  str += `<li id="user${i}" class="user_reply hehe">
+                   <div class="reply">${reply.replycontents}</div>
+                   <div class="profile">
+                    <div class="gap">
+<!--                       <div class="img"></div>-->
+                       <span class="name">${reply.userid}</span>
+                    </div>
+                       ${reply.userid == loginUser ? `<a class="deleteReply" id="delete${i}" href="${reply.replynum}"><button class='delete_button'>삭제</button></a>` : ''}
+                   </div>
+                 </li>`;
+
+                }
+              }
+              reply_list.html(str);
+
+              $(".deleteReply").on("click",deleteReply);
+              slide();
+            }
+    );
+  }
+
+  function deleteReply(e) {
+    e.preventDefault();
+    let replynum = e.target.closest('a').getAttribute('href');
+    replynum = replynum.split('/').pop(); // href에서 replynum 추출
+    replyService.delete(
+            replynum,
+            function(result) {
+              alert("댓글 삭제 완료!");
+              showList(replynum, contentid); // 필요시 활성화
+            },
+            function(result) {
+              alert("댓글 삭제 실패!");
+            }
+    );
+  }
+
+
+  function slide() {
+    let currentReplyIndex = 0;
+    const replyList = document.getElementById('reply_list');
+    const replies = document.getElementsByClassName('user_reply');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function updateReplies() {
+      const startIndex = currentReplyIndex;
+      const endIndex = Math.min(startIndex + 3, replies.length);
+
+      for (let i = 0; i < replies.length; i++) {
+        replies[i].style.display = 'none';
+      }
+      for (let i = startIndex; i < endIndex; i++) {
+        replies[i].style.display = 'block';
+      }
+      prevBtn.disabled = currentReplyIndex === 0;
+      nextBtn.disabled = currentReplyIndex >= replies.length - 3;
+    }
+
+    prevBtn.addEventListener('click', () => {
+      if (currentReplyIndex > 0) {
+        currentReplyIndex--;
+        updateReplies();
+      }
+    });
+
+    nextBtn.addEventListener('click', () => {
+      if (currentReplyIndex < replies.length - 3) {
+        currentReplyIndex++;
+        updateReplies();
+      }
+    });
+
+    updateReplies();
+  }
+
+  document.addEventListener('DOMContentLoaded', slide);
+  document.addEventListener('DOMContentLoaded', function () {
+    const textarea = document.getElementById('replycontents');
+    const charCount = document.getElementById('charCount');
+
+    textarea.addEventListener('input', function () {
+      const textLength = textarea.value.length;
+      charCount.textContent = `${textLength}/50`;
+
+      if (textLength > 50) {
+        textarea.value = textarea.value.substring(0, 50); // 글자 수 제한
+        charCount.textContent = '50/50'; // 글자 수 업데이트
+      }
+    });
+  });
+</script>
+<script>
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const moreText = document.getElementById('more_text');
+    const upText = document.getElementById('up_text');
+    const descriptionP = document.querySelector('#description p');
+    const moreBtn = document.getElementById('more_btn');
+    const upBtn = document.getElementById('up_btn');
+
+    // Check if the height of the paragraph exceeds 150px
+    if (descriptionP.scrollHeight > 150) {
+      moreText.style.display = 'flex';
+    } else {
+      moreText.style.display = 'none';
+      upText.style.display = 'none';
+    }
+
+    moreBtn.addEventListener('click', function() {
+      const currentHeight = descriptionP.clientHeight; // 현재 높이
+      const autoHeight = descriptionP.scrollHeight; // 전체 높이
+
+      descriptionP.style.height = currentHeight + 'px'; // 현재 높이로 고정
+      setTimeout(function() {
+        descriptionP.style.height = autoHeight + 'px'; // 전체 높이로 부드럽게 확장
+      }, 10);
+
+      moreText.style.display = 'none';
+      upText.style.display = 'flex';
+    });
+
+    upBtn.addEventListener('click', function() {
+      const autoHeight = descriptionP.scrollHeight; // 전체 높이
+      const currentHeight = descriptionP.clientHeight; // 현재 높이
+
+      descriptionP.style.height = autoHeight + 'px'; // 현재 높이로 고정
+      setTimeout(function() {
+        descriptionP.style.height = '150px'; // 150px로 부드럽게 축소
+      }, 10);
+
+      upText.style.display = 'none';
+      moreText.style.display = 'flex';
+    });
+  });
+</script>
+
+<!--공유하기 스크립트-->
+<script>
+  window.onload = function() {
+    document.getElementById('url_text').value = window.location.href;
+  };
+
+  function toggleShareModal() {
+    var modal = document.getElementById("share_modal");
+
+    // 현재 모달의 상태를 확인하여 toggle
+    if (modal.style.display === "block") {
+      hideModal(modal);
+    } else {
+      showModal(modal);
+    }
+  }
+
+  function showModal(modal) {
+    modal.style.display = "block";
+    setTimeout(function() {
+      modal.style.opacity = "1";
+    }, 50);
+  }
+
+  function hideModal(modal) {
+    modal.style.opacity = "0";
+    setTimeout(function() {
+      modal.style.display = "none";
+    }, 300);
+  }
+  function copyToClipboard() {
+    const url = window.location.href;
+    navigator.clipboard.writeText(url).then(() => {
+      alert('URL이 복사되었습니다!');
+    }).catch(err => {
+      console.error('URL 복사 실패:', err);
+    });
+  }
+
+  function shareUrl() {
+    const url = window.location.href;
+
+    if (navigator.share) {
+      navigator.share({
+        title: document.title,
+        url: url
+      }).then(() => {
+        console.log('URL 공유 성공');
+      }).catch(err => {
+        console.error('URL 공유 실패:', err);
+      });
+    } else {
+      alert('이 브라우저에서는 URL 공유를 지원하지 않습니다.');
+    }
+  }
+</script>
+<!--좋아요 누르기 시작-->
+<script>
+const likeBtn = document.getElementById('like_btn');
+const unlikeBtn = document.getElementById('unlike_btn');
+  $(document).ready(function() {
+    console.log(contentid);
+    $.ajax({
+      url: "/user/checkLikeStatus",
+      data: {
+        placeid: contentid
+      },
+      method: "POST",
+      dataType: "text",
+      success: function(data) {
+        if (data == "O") {
+          likeBtn.style.display="none";
+          unlikeBtn.style.display="inline-block";
+        } else if (data == "Y") {
+          likeBtn.style.display="inline-block";
+          unlikeBtn.style.display="none";
+        }
+      },
+      error: function(data) {
+        console.log("Error:", data);
+        alert("좋아요 상태를 가져오는 중에 오류가 발생했습니다.");
+      }
+    });
+  });
+    function like(){
+      console.log(contentid);
+      $.ajax({
+        url: "/user/like",
+        data: {
+          placeid: contentid,
+        },
+        method: "POST",
+        dataType: "text",
+        success: function (data) {
+          if(data == "X"){
+            alert("로그인 후 이용 가능합니다.");
+            window.location.href = "/user/login";
+          }else if(data == "O"){
+            likeBtn.style.display="none";
+            unlikeBtn.style.display="inline-block";
+            alert("좋아요를 눌렀습니다.")
+          }
+          else if(data == "Y"){
+            alert("좋아요 실패!")
+          }
+
+        },
+        error: function (data) {
+          console.log("/like 에러 발생");
+        }
+      })
+    }
+
+    function unlike() {
+      $.ajax({
+        url: "/user/unlike",
+        data: {
+          placeid: contentid,
+        },
+        method: "POST",
+        dataType: "text",
+        success: function (data) {
+          if(data == "X"){
+            alert("로그인 후 이용 가능합니다.");
+            window.location.href = "/user/login";
+          }else if(data == "O"){
+            likeBtn.style.display="inline-block";
+            unlikeBtn.style.display="none";
+            alert("좋아요를 취소했습니다.")
+          }
+          else if(data == "Y"){
+            alert("좋아요 취소 실패!")
+          }
+        },
+        error: function (data) {
+          console.log("/unlike 에러 발생");
+        }
+      });
+    }
+
+</script>
+<!--좋아요 누르기 끝-->
+</html>

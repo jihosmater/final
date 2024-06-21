@@ -1,0 +1,2030 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyPage</title>
+    <!-- 결제창(충전하기) css -->
+    <link rel="stylesheet" href="/css/charge.css"/>
+    <link rel="stylesheet" href="/css/myinfolist.css"/>
+    <style>
+        #wrap{
+            width: 1300px;
+            margin: 0 auto;
+            /* border: 1px solid black; */
+        }
+        #top_section{
+            padding: 70px;
+            /* border: 1px solid black; */
+        }
+        #top_section #info{
+            float: left;
+            /* border: 1px solid black; */
+        }
+
+        #top_section #info #pic{
+            float: left;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+        }
+
+        #pic_image {
+            border-radius: 50px;
+        }
+
+        #top_section #info #name{
+            float: left;
+            padding: 10px;
+            /* border-bottom: 2px solid black; */
+        }
+
+        #bottom_section{
+            margin-top: 50px;
+            /* border: 1px solid black; */
+        }
+        #name{
+            font-weight: bold;
+            font-size: 40px;
+        }
+        #btn_box{
+            /* border: 1px solid black; */
+            display: flex;
+            justify-content: space-between;
+            padding: 20px 0;
+            margin-bottom: 20px;
+        }
+
+        #btn_box button{
+            width: 216.5px;
+            height: 40px;
+            background-color: #fff;
+            outline: none;
+            border: none;
+            line-height: 40px;
+            border-bottom: 1px solid rgba( 0,0,0,0.2);
+            font-size: 17px;
+            cursor: pointer;
+        }
+
+        #btn_box button:hover
+        {
+            width: 216.5px;
+            /* border-bottom: 5px solid #00C88C; */
+            font-weight: bold;
+        }
+        #btn_box .select{
+            width: 216.5px;
+            border-bottom: 5px solid #00C88C;
+        }
+
+
+
+        #ddaybox{
+            display: inline-block;
+            width: 30px;
+            text-align: center;
+            background-color:#00C88C;
+            border-radius: 5px;
+        }
+        #trip_box{
+            width: 1100px;
+            border: 1px solid #dbdfdf;
+            border-radius: 10px;
+            padding: 20px;
+            display: flex;
+            justify-items: center;
+        }
+        #trip_pic{
+            /* border: 1px solid black; */
+            width: 400px;
+            height: 200px;
+            background: url(./psictrip/images/KakaoTalk_20240517_121037644.jpg);
+            background-position: center;
+            background-size: 100%;
+            background-repeat: no-repeat;
+            border-radius: 20px;
+        }
+        #trip_info{
+            /* border: 1px solid black; */
+            padding: 30px;
+        }
+        #trip_btn{
+            margin-left: 310px;
+            width: 100px;
+        }
+        #share{
+            margin-top: 35px;
+        }
+        #share, #delete, #update{
+            border: 2px solid #70cfb3;
+            background-color: rgb(30, 30, 43);
+            border-radius: 5px;
+            width: 80px;
+            height: 30px;
+            margin-left: 15px;
+            margin-bottom: 15px;
+            line-height: 30px;
+            color: #030303;
+            text-align: center;
+            font-weight: 500;
+        }
+        #info_text{
+            padding-bottom: 20px;
+            display: flex;
+            justify-content: left;
+            /* border: 1px solid black; */
+            padding-top: 10px;
+            font-size: 18px;
+        }
+        #info_text #title{
+            font-weight: bold;
+            font-size: 19px;
+            margin-left: 30px;
+            text-decoration: underline;
+
+        }
+        #trip_name{
+            padding-bottom: 20px;
+            font-size: 18px;
+        }
+        #info_day{
+            color: #aaa;
+        }
+
+        #favorites{
+            width: 1300px;
+            /* border: 1px solid black; */
+        }
+        #favor_box{
+            border: 1px solid rgba( 0,0,0,0.2);
+            border-radius: 10px;
+            width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+
+            justify-content: flex-start;
+        }
+        #favor_box .favor_list{
+            width: 300px;
+            height: 300px;
+            /* border: 1px solid red; */
+            margin-bottom: 20px;
+            box-shadow: 2px 0px 5px #ccc;
+            margin-right:  125px;
+        }
+        #favor_box .favor_list:nth-child(3n){margin-right: 0;}
+
+        #favor_box .favor_list .favor_img{
+            width: 100%;
+            height: 200px;
+            /* border: 1px solid black; */
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            background-image: url(./psictrip/images/ricenoodle.png);
+        }
+
+        #favor_box .favor_list .favor_name{
+            padding: 10px;
+            font-weight: bold;
+            font-size: 20px;
+            color: black;
+            text-align: center;
+
+        }
+
+        #favor_box .favor_list .favor_tag{
+            padding: 18px;
+            text-align: left;
+            font-size: 13px;
+            color: #777;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+
+        }
+        .favorimg{
+            width: 300px;
+            height: 200px;
+        }
+        .favorName{
+
+        }
+        .favor_addr{
+            text-align: center;
+        }
+        .favorAddr{
+            color: #888;
+        }
+        #follow{
+            width: 1200px;
+            margin: 0 auto;
+        }
+        #followtop{
+            display: flex;
+            justify-content: center;
+        }
+        #follower, #following{
+            height: 100px;
+            width: 550px;
+            text-align: center;
+            padding: 20px;
+        }
+        #follower{
+            border-right: 1px solid rgba(0, 0, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        #following{
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+
+        }
+        #followlist ul li{
+            height: 100px;
+            border-radius: 10px;
+            box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            list-style-type: none;
+            display: flex;
+            line-height: 100px;
+        }
+        #followlist{
+            /* border-top: 1px solid rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.3); */
+        }
+        #followlist span{
+            margin-left: 40px;
+        }
+        #btnbox button{
+            width: 65px;
+            height: 30px;
+            border-radius: 5px;
+            background-color: #102042;
+            border: none;
+            color: white;
+        }
+        #loginsns img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50px;
+            /* border: 1px solid black; */
+            margin-top: 20px;
+            margin-left: 50px;
+        }
+        #pibox{
+            /* border: 1px solid black; */
+            width: 1020px;
+            padding: 20px;
+            display: flex;
+
+        }
+        #pibox img{
+            width: 60px;
+            height: 60px;
+            border: 1px solid black;
+            border-radius: 50px;
+        }
+        #pibox span{
+            /* border: 1px solid black; */
+            vertical-align: baseline;
+            line-height: 60px;
+        }
+        #purchased_boards{
+            display: none;
+        }
+        #purchased_boards h2 {
+            padding: 10px;
+            font-size: 26px;
+            font-weight: bold;
+            text-align: center;
+            /* 폰트 색상을 투명하게 설정하여 텍스트를 숨깁니다 */
+            color: transparent;
+            /* 무지개색 그라디언트를 배경으로 설정합니다 */
+            background: linear-gradient(to right, violet, indigo, blue, green, yellow, orange, red);
+            /* 그라디언트를 텍스트에 적용하기 위해 필요한 설정 */
+            -webkit-background-clip: text; /* WebKit 브라우저를 위한 설정 */
+            background-clip: text; /* 텍스트만 그라디언트 배경을 보이게 합니다 */
+            /* 아래 선 추가 */
+            border-bottom: 1px solid #ccc;
+            /* 하단 마진 추가 */
+            margin-bottom: 20px;
+        }
+        .board-list {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        /* 테이블 헤더 스타일 */
+        .board-list th {
+            background-color: #f2f2f2;
+            color: #333;
+            padding: 8px;
+            text-align: center;
+            width: 150px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* 테이블 셀 스타일 */
+        .board-list td {
+            padding: 15px;
+            text-align: center;
+            width: 150px;
+        }
+
+        /* 짝수 번째 행 배경색 추가 */
+        .board-list tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .priceCell {
+            font-weight: bold;
+            color: #007bff;
+        }
+        .min_height{
+            min-height: 1000px;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="~{common/header::header(${session.loginUser})}"></th:block>
+<div id="wrap">
+    <div id="top_section">
+        <div id="info">
+            <div id="pic">
+                <img id="pic_image" th:if="${user.userprofile != null}" th:src="@{'/file/thumbnail?systemname=' + ${user.userprofile=='planz'?'planz.webp':user.userprofile}}" alt="" onclick="addimage()">
+                <img id="pic_image"
+                     th:unless="${user.userprofile != null}"
+                     th:src="@{/images/planz.png}"
+                     alt="default image"
+                     onclick="addimage()">
+            </div>
+            <div id="name">
+                <span style="padding: 0 0 0 30px;" th:text="${username}"></span>
+            </div>
+        </div>
+    </div>
+    <div id="bottom_section">
+        <div id="btn_box" >
+            <input type="hidden" id="order" th:value="${order}">
+            <button type="button" id="bar1">내 일정 보기</button>
+            <button type="button" id="bar2" onclick="favor()">즐겨 찾기 장소</button>
+            <button type="button" id="bar4">충전하기</button>
+            <button type="button" id="bar5" th:checked="${order == 'deal'}">결제 내역</button>
+            <button type="button" id="bar6">내 정보 수정</button>
+        </div>
+        <div id="my_schedule" class="min_height">
+            <!-- 내 일정리스트 DOM구현 -->
+            <div id="myPlanBox"></div>
+            <input type="button" id="getPlanBtn" onclick="getPlanList(0)">
+        </div>
+
+        <div id="favorites" style="display:none;" class="min_height">
+            <div id="favor_box">
+
+            </div>
+        </div>
+        <div id="purchased_boards" class="min_height">
+            <div  th:if="${not #lists.isEmpty(purchasedBoards)}">
+                <h2>구매한 게시물 목록</h2>
+                <table class="board-list">
+                    <tbody>
+                    <tr>
+                        <th>게시물 번호</th>
+                        <th>제목</th>
+                        <th>내용</th>
+                        <th>여행 시작일</th>
+                        <th>여행 종료일</th>
+                        <th>가격</th>
+                    </tr>
+                    <tr th:each="board : ${purchasedBoards}">
+                        <td th:text="${board['boardnum']}"></td>
+                        <td th:text="${board['boardtitle']}"></td>
+                        <td th:text="${board['boardcontents']}"></td>
+                        <td th:text="${board['travelPlansStart']}"></td>
+                        <td th:text="${board['travelPlansEnd']}"></td>
+                        <td th:text="${board['price']}"></td>
+                        <!-- 필요한 추가 정보들을 여기에 추가 -->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${#lists.isEmpty(purchasedBoards)}">
+                <div style="border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    width: 1200px;
+    margin: 0 auto;
+    padding: 20px;">
+
+                    <p>구매한 게시물이 없습니다.</p>
+                </div>
+            </div>
+        </div>
+        <div id="myinfolist" class="min_height">
+            <div id="title_area">
+                <h2>내 정보 수정</h2>
+            </div>
+            <div id="semi_tab">
+                <ul id="tab_area">
+                    <li id="return_mypage">내 정보</li>
+                    <li id="profileM">프로필사진 수정</li>
+                    <li id="pwM">비밀번호 수정</li>
+                    <li id="phoneM">전화번호 수정</li>
+                    <li id="emailM">이메일 수정</li>
+                    <li id="addrM">주소 수정</li>
+                    <li id="quitM">회원 탈퇴</li>
+                </ul>
+            </div>
+            <div id="file_area">
+                <div id="image_area">	
+                   <img id="imgbox" th:if="${user.userprofile != null}" th:src="@{'/file/thumbnail?systemname=' + ${user.userprofile=='planz'?'planz.webp':user.userprofile}}" alt="" onclick="addimage()">
+                   <img id="imgbox"
+                         th:unless="${user.userprofile != null}"
+                         th:src="@{/images/planz.png}"
+                         alt="default image"
+                         onclick="addimage()">
+                    <input type="hidden" name="org_name" id="org_name" value="">
+                </div>
+                <input type="file" name="files" id="file" onchange="fileview()">
+            </div>
+            <table id="myinfo_table">
+                <tr id="view1">
+                    <th scope="col">
+                        로그인 정보
+                    </th>
+                    <td id="logininfo_box">
+                        <div id="logininfo"></div>
+                    </td>
+                </tr>
+                <tr id="view2">
+                    <th scope="col">아이디</th>
+                    <td id="loginUserId" th:text="${userinfo.userid}"></td>
+                </tr>
+                <tr id="view3">
+                    <th scope="col">비밀번호</th>
+                    <td>**********</td>
+                </tr>
+                <tr id="view4" class="new_pw" style="display: none;">
+                    <th scope="col" rowspan="2">비밀번호 변경</th>
+                    <td class="text1" colspan="">
+                        <textarea id="new_password1" placeholder="새로운 비밀번호를 입력해주세요"></textarea>
+                    </td>
+                </tr>
+                <tr id="view5" class="new_pw" style="display: none;">
+                    <td class="text1" colspan="2">
+                        <textarea id="new_password2" placeholder="새로운 비밀번호를 다시 한번 입력해주세요"></textarea>
+                    </td>
+                </tr>
+                <tr id="view6">
+                    <th scope="col">성명</th>
+                    <td id="ca" th:text="${user.username}"></td>
+                </tr>
+                <tr id="view7">
+                    <th scope="col">휴대폰번호</th>
+                    <td id="ca" th:text="${user.userphone}"></td>
+                </tr>
+                <tr id="view8" style="display: none;" class="new_phone">
+                    <th scope="col">휴대폰번호 변경</th>
+                    <td class="text1" id="ca">
+                        <textarea id="newphone" placeholder="새로운 휴대폰번호를 입력해주세요"></textarea>
+                    </td>
+                </tr>
+                <tr id="view9">
+                    <th scope="col">이메일</th>
+                    <td th:text="${user.useremail}"></td>
+                </tr>
+                <tr id="view10" style="display: none;" class="new_email">
+                    <th scope="col">이메일 변경</th>
+                    <td class="text1" id="ca">
+                        <textarea id="newemail" placeholder="새로운 이메일을 입력해주세요"></textarea>
+                    </td>
+                </tr>
+                <tr id="view11">
+                    <th scope="col">주소</th>
+                    <td id="ca" th:text="${user.addr}"></td>
+                </tr>
+                <tr id="view13">
+                    <th scope="col">보유코인</th>
+                    <td th:text="${user.changeusercoin}"></td>
+                </tr>
+                <tr id="view14" style="display: none;">
+                    <th scope="col">비밀번호확인</th>
+                    <td>
+                        <textarea class="text1" id="allcheck" placeholder="현재 비밀번호를 입력해주세요"></textarea>
+                    </td>
+                </tr>
+            </table>
+
+            <table id="addr_table">
+                <tr>
+                    <th>우편번호</th>
+                    <td>
+                        <input type="text" placeholder="우편번호" id="addr_search_text">
+                    </td>
+                </tr>
+                <tr>
+                    <th>주소</td>
+                    <td>
+                        <input type="text" placeholder="주소" id="doro">
+                    </td>
+                </tr>
+                <tr>
+                    <th>상세주소</th>
+                    <td>
+                        <input type="text" placeholder="상세주소" id="addr_detail">
+                    </td>
+                </tr>
+                <tr>
+                    <th>참고항목</th>
+                    <td>
+                        <input type="text" placeholder="참고항목" id="addr_detail2">
+                    </td>
+                </tr>
+            </table>
+
+            <table id="phonecheck">
+                <tr>
+                    <th>휴대폰번호 인증</th>
+                    <td>
+                        <input type="text" placeholder="휴대폰번호를 입력해주세요" id="phonechecknum">
+                    </td>
+                </tr>
+                <tr>
+                    <th>인증번호</th>
+                    <td>
+                        <input type="text" placeholder="인증번호를 입력해주세요" id="checknum">
+                    </td>
+                </tr>
+            </table>
+
+            <div id="phonecheck_btn_area">
+                <input type="button" value="인증번호 발송" id="phonecheck_btn" onclick="phoneCheck()">
+            </div>
+
+
+            <div id="addr_search_btn_area">
+                <input type="button" value="우편번호 찾기" id="addr_search" onclick="sample6_execDaumPostcode()">
+            </div>
+
+            <div id="completeBtn_area">
+                <input type="button" id="completeBtn" class="completeBtn" value="수정완료">
+            </div>
+
+            <div id="userDeleteBtn_area">
+                <input type="button" value="회원 탈퇴" id="userDeleteBtn">
+            </div>
+
+
+            <input type="hidden" value="" id="modifyType">
+        </div>
+    </div>
+    <div id="charge_area" class="min_height">
+        <div id="pay_box">
+            <div id="title">
+                <p>
+                    충전하기
+                </p>
+            </div>
+            <div id="amount_area">
+                <input type="text" name="amount_view" id="amount_view" value="금액선택" readonly>
+                <select id="amount" onclick="clickAmount()">
+                    <option value="5000">5,000</option>
+                    <option value="10000">10,000</option>
+                    <option value="30000">30,000</option>
+                    <option value="50000">50,000</option>
+                    <option value="100000">100,000</option>
+                    <option id="self" value="direct">직접입력</option>
+                </select>
+            </div>
+            <div id="coin_info">
+                <table>
+                    <tr>
+                        <td>보유코인</td>
+                        <td id="coin" th:text="${user.changeusercoin}"></td>
+                    </tr>
+                    <tr>
+                        <td>충전 후 코인</td>
+                        <td id="after_coin"></td>
+                    </tr>
+                </table>
+            </div>
+            <div id="logo"></div>
+        </div>
+        <div id="select_method">
+            <div id="top_area">
+                <div id="right_title">결제수단</div>
+            </div>
+            <div id="charge_to_info">
+                <div id="method_name">결제수단</div>
+                <div id="charge_btn_area">
+                    <div id="charge_btn">결 제</div>
+                </div>
+            </div>
+            <div id="select">
+                <table id="select_table">
+                    <tr>
+                        <td id="select_phone">휴대폰</td>
+                        <td id="select_card">신용/체크카드</td>
+                        <td id="select_culture">문화상품권</td>
+                        <input type="hidden" id="select_type" value="">
+                    </tr>
+                </table>
+            </div>
+            <div id="charge_info">
+                <table>
+                    <tr>
+                        <td id="i1">유의사항</td>
+                        <td id="i2">모든 결제수단은 할부를 선택할 수 없습니다.</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+    <th:block th:replace="~{common/footer::footer}"></th:block>
+</body>
+<!-- jQuery -->
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<!-- iamport.payment.js -->
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+<!-- 임포트 카카오주소찾기 -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="/js/user/mypage.js"></script>
+<script th:inline="javascript">
+
+    // ------------------------------ 내 정보수정 시작 ------------------------------
+	
+	// 세션
+	var userid = /*[[${session.loginUser}]]*/+'';
+	console.log(userid);
+	
+    // 프로필 사진
+
+    var fileinput = document.getElementById("file");
+    var image_area = document.getElementById("image_area");
+    var reader = new FileReader();
+    var orgname = document.getElementById("org_name");
+    var imgbox = document.getElementById("imgbox");
+
+    // 이미지area클릭시 파일인풋 클릭
+    function addfile() {
+        fileinput.click();
+    }
+    function addimage() {
+        fileinput.click();
+    }
+
+    // 파일 업로드시 미리보기
+    function fileview() {
+        var file = fileinput.files[0];
+
+        if(file == undefined || file == null || file == "") {
+            orgname.value = "";
+        } else {
+            // 업로드된 파일이 있다면
+            // 파일을 읽고 이를 Base64 형식의 데이터 URL로 변환
+            console.log(file.name);
+            reader.readAsDataURL(file);
+            // 읽은 파일의 name을 orgname.value에 할당
+            orgname.value = file.name;
+            // 강아지.jpg 라고 가정할때 "."을 기준으로 문자열 2개로 나눠서 마지막 문자열을 가져옴
+            let ext = file.name.split(".").pop();
+
+            // 조건문 파일형식이 이미지라면
+            if(ext == "jpeg" || ext == "png" || ext == "jpg" ||
+                ext == "webp" || ext == "gif") {
+                // 프로필창에 미리보기 사진 삽입
+                reader.onloadend = function() {
+                    imgbox.src = reader.result;
+                }
+            } else {
+                alert("유효하지 않은 파일형식 입니다");
+                imgbox.src = "/images/planz.png";
+                orgname.value = "";
+            }
+        }
+    }
+
+    // 업로드된 이미지 파일 클릭 시 파일 삭제
+    imgbox.addEventListener("click", function() {
+        imgbox.src = "/images/planz.png";
+        file.value = null;
+        orgname.value = null;
+    });
+
+    // 프로필사진 설정이 처음일때 (아무런 파일이 없을때)
+    window.onload = function() {
+        var imgbox = document.getElementById("imgbox");
+        if (imgbox.getAttribute("src") === "/file/thumbnail?systemname=null") {
+            imgbox.src = "/images/planz.png";
+        }
+    };
+
+
+    // ------------------------------ 내 정보수정 끝 -------------------------------
+
+    // ----------------------- 메뉴바 선택 이벤트 -----------------------------------
+
+    var bar1 = document.getElementById("bar1"); // 내일정보기(기본)
+    var bar2 = document.getElementById("bar2"); // 즐겨찾기장소
+    var bar4 = document.getElementById("bar4"); // 충전하기
+    var bar5 = document.getElementById("bar5"); // 결제내역
+    var bar6 = document.getElementById("bar6"); // 내정보수정
+
+    var myschedule = document.getElementById("my_schedule"); // 내일정보기(기본)
+    var favorites = document.getElementById("favorites"); // 즐겨찾기장소
+    var chargearea = document.getElementById("charge_area"); // 충전하기
+    var purchased = document.getElementById("purchased_boards"); // 결제내역
+    var myinfolist = document.getElementById("myinfolist");   // 내정보수정
+
+    // -----------------------메뉴바 선택 이벤트 끝 ---------------------------------
+
+    // --------------------------- 이벤트 ----------------------------------------
+    const order= document.getElementById('order').value;
+    if(order == "deal"){
+        myschedule.style.display = "none";
+        favorites.style.display = "none";
+        chargearea.style.display = "none";
+        purchased.style.display = "block";
+        myinfolist.style.display = "none";
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+		
+    }
+
+    bar1.addEventListener("click", function() {
+        myschedule.style.display = "block";
+        favorites.style.display = "none";
+        chargearea.style.display = "none";
+        purchased.style.display = "none";
+        myinfolist.style.display = "none";
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+    });
+    bar2.addEventListener("click", function() {
+        myschedule.style.display = "none";
+        favorites.style.display = "block";
+        chargearea.style.display = "none";
+        purchased.style.display = "none";
+        myinfolist.style.display = "none";
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+    });
+
+    bar4.addEventListener("click", function() {
+        myschedule.style.display = "none";
+        favorites.style.display = "none";
+        chargearea.style.display = "flex";
+        purchased.style.display = "none";
+        myinfolist.style.display = "none";
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+    });
+    bar5.addEventListener("click", function() {
+        myschedule.style.display = "none";
+        favorites.style.display = "none";
+        chargearea.style.display = "none";
+        purchased.style.display = "block";
+        myinfolist.style.display = "none";
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+    });
+    bar6.addEventListener("click", function() {
+        myschedule.style.display = "none";
+        favorites.style.display = "none";
+        chargearea.style.display = "none";
+        purchased.style.display = "none";
+        myinfolist.style.display = "block";
+
+        var imageurlPLANZ = "url('/images/planzlogo.png')";
+        var imageurlGOOGLE = "url('/images/googlelogo.png')";
+        var imageurlNAVER = "url('/images/naverlogo.png')";
+        var imageurlKAKAO = "url('/images/kakaologo.png')";
+        var loginUserId = document.getElementById("loginUserId");
+        var logininfo = document.getElementById("logininfo");
+        $("#file_area").show();
+        $("#image_area").css("pointer-events", "none");
+        $("#view1").show();
+        $("#view2").show();
+        $("#view3").show();
+        $("#view4").hide();
+        $("#view5").hide();
+        $("#view6").show();
+        $("#view7").show();
+        $("#view8").hide();
+        $("#view9").show();
+        $("#view10").hide();
+        $("#view11").show();
+        $("#view12").hide();
+        $("#view13").show();
+        $("#view14").hide();
+        $("#completeBtn_area").hide();
+        $("#modifyType").val("");
+        $("#allcheck").val("");
+        $("#addr_search_btn_area").hide();
+        $("#addr_table").hide();
+        $("#phonecheck").hide();
+        $("#phonecheck_btn_area").hide();
+        $("#userDeleteBtn_area").hide();
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+		
+		if(userid.includes('GOOGLE') || userid.includes('KAKAO') || userid.includes('NAVER')) {
+			console.log("SNS간편로그인 유저입니다");
+			$("#file_area").show();
+			$("#image_area").css("pointer-events", "none");
+			$("#view1").show();
+			$("#view2").show();
+			$("#view3").hide();
+			$("#view4").hide();
+			$("#view5").hide();
+			$("#view6").hide();
+			$("#view7").hide();
+			$("#view8").hide();
+			$("#view9").hide();
+			$("#view10").hide();
+			$("#view11").hide();
+			$("#view12").hide();
+			$("#view13").show();
+			$("#view14").hide();
+			$("#return_mypage").show();	
+			$("#profileM").show();	
+			$("#pwM").hide();	
+			$("#phoneM").hide();	
+			$("#emailM").hide();	
+			$("#addrM").hide();	
+			$("#quitM").show();	
+		} else {
+			$("#view1").show();
+			$("#view2").show();
+			$("#view3").show();
+			$("#view4").hide();
+			$("#view5").hide();
+			$("#view6").show();
+			$("#view7").show();
+			$("#view8").hide();
+			$("#view9").show();
+			$("#view10").hide();
+			$("#view11").show();
+			$("#view12").hide();
+			$("#view13").show();
+			$("#view14").hide();
+			$("#return_mypage").show();	
+			$("#profileM").show();	
+			$("#pwM").show();	
+			$("#phoneM").show();	
+			$("#emailM").show();
+			$("#addrM").show();	
+			$("#quitM").show();	
+		}
+		if (userid.includes('GOOGLE')) {
+			console.log("GOOGLE 로그인 유저입니다. 유저 아이디 : "+userid);
+            logininfo.style.backgroundImage = imageurlGOOGLE;
+		} else if (userid.includes('NAVER')) {
+			console.log("NAVER 로그인 유저입니다. 유저 아이디 : "+userid);
+            logininfo.style.backgroundImage = imageurlNAVER;
+		} else if (userid.includes('KAKAO')) {
+			console.log("KAKAO 로그인 유저입니다. 유저 아이디 : "+userid);	
+            logininfo.style.backgroundImage = imageurlKAKAO;
+		} else {		
+			console.log("PLANZ 로그인 유저입니다. 유저 아이디 : "+userid);	
+            logininfo.style.backgroundImage = imageurlPLANZ;
+		}
+    });
+
+
+    // --------------------------- 이벤트 끝 --------------------------------------
+
+    // --------------------------- 세미메뉴바 시작 --------------------------------------
+
+    var return_mypage = document.getElementById("return_mypage"); // 내정보
+    var profileM = document.getElementById("profileM"); // 프로필사진 수정
+    var pwM = document.getElementById("pwM"); // 비밀번호 수정
+    var phoneM = document.getElementById("phoneM"); // 전화번호 수정
+    var emailM = document.getElementById("emailM"); // 이메일 수정
+    var addrM = document.getElementById("addrM"); // 주소 수정
+    var quitM = document.getElementById("quitM"); // 회원 탈퇴
+
+    // 내 정보 버튼
+    return_mypage.addEventListener("click", function() {
+        $("#file_area").show();
+        $("#image_area").css("pointer-events", "none");
+        $("#view1").show();
+        $("#view2").show();
+        $("#view3").show();
+        $("#view4").hide();
+        $("#view5").hide();
+        $("#view6").show();
+        $("#view7").show();
+        $("#view8").hide();
+        $("#view9").show();
+        $("#view10").hide();
+        $("#view11").show();
+        $("#view12").show();
+        $("#view13").show();
+        $("#view14").hide();
+        $("#completeBtn_area").hide();
+        $("#modifyType").val("");
+        $("#allcheck").val("");
+        $("#addr_search_btn_area").hide();
+        $("#addr_table").hide();
+        $("#phonecheck").hide();
+        $("#phonecheck_btn_area").hide();
+        $("#userDeleteBtn_area").hide();
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+
+        myschedule.style.display = "none";
+        favorites.style.display = "none";
+        follow.style.display = "none";
+        chargearea.style.display = "none";
+
+        myinfolist.style.display = "block";
+		
+		if(userid.includes('GOOGLE') || userid.includes('KAKAO') || userid.includes('NAVER')) {
+			console.log("SNS간편로그인 유저입니다");
+			$("#file_area").show();
+			$("#image_area").css("pointer-events", "none");
+			$("#view1").show();
+			$("#view2").show();
+			$("#view3").hide();
+			$("#view4").hide();
+			$("#view5").hide();
+			$("#view6").hide();
+			$("#view7").hide();
+			$("#view8").hide();
+			$("#view9").hide();
+			$("#view10").hide();
+			$("#view11").hide();
+			$("#view12").hide();
+			$("#view13").show();
+			$("#view14").hide();
+			$("#return_mypage").show();	
+			$("#profileM").show();	
+			$("#pwM").hide();	
+			$("#phoneM").hide();	
+			$("#emailM").hide();	
+			$("#addrM").hide();	
+			$("#quitM").show();	
+		} else {
+			$("#view1").show();
+			$("#view2").show();
+			$("#view3").show();
+			$("#view4").hide();
+			$("#view5").hide();
+			$("#view6").show();
+			$("#view7").show();
+			$("#view8").hide();
+			$("#view9").show();
+			$("#view10").hide();
+			$("#view11").show();
+			$("#view12").hide();
+			$("#view13").show();
+			$("#view14").hide();
+			$("#return_mypage").show();	
+			$("#profileM").show();	
+			$("#pwM").show();	
+			$("#phoneM").show();	
+			$("#emailM").show();
+			$("#addrM").show();	
+			$("#quitM").show();	
+		}
+
+        const str1 = "GOOGLE";
+        const str2 = "NAVER";
+        const str3 = "KAKAO";
+        const str4 = "PLANZ";
+        var imageurlPLANZ = "url('/images/planzlogo.png')";
+        var imageurlGOOGLE = "url('/images/googlelogo.png')";
+        var imageurlNAVER = "url('/images/naverlogo.png')";
+        var imageurlKAKAO = "url('/images/kakaologo.png')";
+        var loginUserId = document.getElementById("loginUserId");
+        var logininfo = document.getElementById("logininfo");
+
+		if (userid.includes('GOOGLE')) {
+			console.log("GOOGLE 로그인 유저입니다. 유저 아이디 : "+userid);
+		    logininfo.style.backgroundImage = imageurlGOOGLE;
+		} else if (userid.includes('NAVER')) {
+			console.log("NAVER 로그인 유저입니다. 유저 아이디 : "+userid);
+		    logininfo.style.backgroundImage = imageurlNAVER;
+		} else if (userid.includes('KAKAO')) {
+			console("KAKAO 로그인 유저입니다. 유저 아이디 : "+userid);	
+		    logininfo.style.backgroundImage = imageurlKAKAO;
+		} else {		
+			console("PLANZ 로그인 유저입니다. 유저 아이디 : "+userid);	
+		    logininfo.style.backgroundImage = imageurlPLANZ;
+		}
+
+    });
+
+    // 프로필 사진 수정
+    profileM.addEventListener("click", function() {
+        $("#file_area").show();
+        $("#image_area").css("pointer-events", "auto");
+        $("#view1").hide();
+        $("#view2").hide();
+        $("#view3").hide();
+        $("#view4").hide();
+        $("#view5").hide();
+        $("#view6").hide();
+        $("#view7").hide();
+        $("#view8").hide();
+        $("#view9").hide();
+        $("#view10").hide();
+        $("#view11").hide();
+        $("#view12").hide();
+        $("#view13").hide();
+        $("#view14").show();
+        $("#completeBtn_area").css("display", "flex");
+        $("completeBtn").show();
+        $("#modifyType").val("file");
+        $("#allcheck").val("");
+        $("#addr_search_btn_area").hide();
+        $("#addr_table").hide();
+        $("#phonecheck").hide();
+        $("#phonecheck_btn_area").hide();
+        $("#userDeleteBtn_area").hide();
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+		
+		if(userid.includes('GOOGLE') || uesrid.includes('KAKAO') || userid.includes('NAVER')) {
+			console.log("SNS간편로그인 유저입니다");
+			$("#file_area").show();
+			$("#image_area").css("pointer-events", "auto");
+			$("#view1").show();
+			$("#view2").hide();
+			$("#view3").hide();
+			$("#view4").hide();
+			$("#view5").hide();
+			$("#view6").hide();
+			$("#view7").hide();
+			$("#view8").hide();
+			$("#view9").hide();
+			$("#view10").hide();
+			$("#view11").hide();
+			$("#view12").hide();
+			$("#view13").show();
+			$("#view14").hide();
+			$("#return_mypage").show();	
+			$("#profileM").show();	
+			$("#pwM").hide();	
+			$("#phoneM").hide();	
+			$("#emailM").hide();	
+			$("#addrM").hide();	
+			$("#quitM").show();	
+		} else {
+			$("#view1").show();
+			$("#view2").show();
+			$("#view3").show();
+			$("#view4").hide();
+			$("#view5").hide();
+			$("#view6").show();
+			$("#view7").show();
+			$("#view8").hide();
+			$("#view9").show();
+			$("#view10").hide();
+			$("#view11").show();
+			$("#view12").hide();
+			$("#view13").show();
+			$("#view14").hide();
+			$("#return_mypage").show();	
+			$("#profileM").show();	
+			$("#pwM").show();	
+			$("#phoneM").show();	
+			$("#emailM").show();
+			$("#addrM").show();	
+			$("#quitM").show();	
+		}
+    });
+
+    pwM.addEventListener("click", function() {
+        $("#file_area").hide();
+        $("#image_area").css("pointer-events", "none");
+        $("#view1").hide();
+        $("#view2").hide();
+        $("#view3").hide();
+        $("#view4").show();
+        $("#view5").show();
+        $("#view6").hide();
+        $("#view7").hide();
+        $("#view8").hide();
+        $("#view9").hide();
+        $("#view10").hide();
+        $("#view11").hide();
+        $("#view12").hide();
+        $("#view13").hide();
+        $("#view14").show();
+        $("#completeBtn_area").css("display", "flex");
+        $("#modifyType").val("pw");
+        $("#allcheck").val("");
+        $("#addr_search_btn_area").hide();
+        $("#addr_table").hide();
+        $("#phonecheck").show();
+        $("#phonecheck_btn_area").css("display", "flex");
+        $("#userDeleteBtn_area").hide();
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+    });
+
+    phoneM.addEventListener("click", function() {
+        $("#file_area").hide();
+        $("#image_area").css("pointer-events", "none");
+        $("#view1").hide();
+        $("#view2").hide();
+        $("#view3").hide();
+        $("#view4").hide();
+        $("#view5").hide();
+        $("#view6").hide();
+        $("#view7").show();
+        $("#view8").show();
+        $("#view9").hide();
+        $("#view10").hide();
+        $("#view11").hide();
+        $("#view12").hide();
+        $("#view13").hide();
+        $("#view14").show();
+        $("#completeBtn_area").css("display", "flex");
+        $("#modifyType").val("phone");
+        $("#allcheck").val("");
+        $("#addr_search_btn_area").hide();
+        $("#addr_table").hide();
+        $("#phonecheck").hide();
+        $("#phonecheck_btn_area").hide();
+        $("#userDeleteBtn_area").hide();
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+    });
+
+    emailM.addEventListener("click", function() {
+        $("#file_area").hide();
+        $("#image_area").css("pointer-events", "none");
+        $("#view1").hide();
+        $("#view2").hide();
+        $("#view3").hide();
+        $("#view4").hide();
+        $("#view5").hide();
+        $("#view6").hide();
+        $("#view7").hide();
+        $("#view8").hide();
+        $("#view9").show();
+        $("#view10").show();
+        $("#view11").hide();
+        $("#view12").hide();
+        $("#view13").hide();
+        $("#view14").show();
+        $("#completeBtn_area").css("display", "flex");
+        $("#modifyType").val("email");
+        $("#allcheck").val("");
+        $("#addr_search_btn_area").hide();
+        $("#addr_table").hide();
+        $("#phonecheck").hide();
+        $("#phonecheck_btn_area").hide();
+        $("#userDeleteBtn_area").hide();
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+    });
+
+    addrM.addEventListener("click", function() {
+        $("#file_area").hide();
+        $("#image_area").css("pointer-events", "none");
+        $("#view1").hide();
+        $("#view2").hide();
+        $("#view3").hide();
+        $("#view4").hide();
+        $("#view5").hide();
+        $("#view6").hide();
+        $("#view7").hide();
+        $("#view8").hide();
+        $("#view9").hide();
+        $("#view10").hide();
+        $("#view11").show();
+        $("#view12").show();
+        $("#view13").hide();
+        $("#view14").show();
+        $("#completeBtn_area").css("display", "flex");
+        $("#modifyType").val("addr");
+        $("#allcheck").val("");
+        $("#addr_search_btn_area").css("display", "flex");
+        $("addr_search_btn_area").show();
+        $("#addr_table").show();
+        $("#phonecheck").hide();
+        $("#phonecheck_btn_area").hide();
+        $("#userDeleteBtn_area").hide();
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+    });
+
+    quitM.addEventListener("click", function() {
+        $("#file_area").show();
+        $("#image_area").css("pointer-events", "none");
+        $("#view1").show();
+        $("#view2").show();
+        $("#view3").hide();
+        $("#view4").hide();
+        $("#view5").hide();
+        $("#view6").show();
+        $("#view7").show();
+        $("#view8").hide();
+        $("#view9").show();
+        $("#view10").hide();
+        $("#view11").show();
+        $("#view12").show();
+        $("#view13").show();
+        $("#view14").show();
+        $("#completeBtn_area").hide();
+        $("#modifyType").val("");
+        $("#allcheck").val("");
+        $("#addr_search_btn_area").hide();
+        $("#addr_table").hide();
+        $("#phonecheck").show();
+        $("#phonecheck_btn_area").css("display", "flex");
+        $("#userDeleteBtn_area").css("display", "flex");
+		$("#allcheck").val("");
+		$("#phonechecknum").val("");
+		$("#checknum").val("");
+		$("#new_password1").val("");
+		$("#new_password2").val("");
+		$("#newphone").val("");
+		$("#newemail").val("");
+		$("#addr_search_text").val("");
+		$("#doro").val("");
+		$("#addr_detail").val("");
+		$("#addr_detail2").val("");
+		
+		if(userid.includes('GOOGLE') || uesrid.includes('KAKAO') || userid.includes('NAVER')) {
+			console.log("SNS간편로그인 유저입니다");
+			$("#file_area").show();
+			$("#image_area").css("pointer-events", "none");
+			$("#view1").show();
+			$("#view2").hide();
+			$("#view3").hide();
+			$("#view4").hide();
+			$("#view5").hide();
+			$("#view6").hide();
+			$("#view7").hide();
+			$("#view8").hide();
+			$("#view9").hide();
+			$("#view10").hide();
+			$("#view11").hide();
+			$("#view12").hide();
+			$("#view13").show();
+			$("#view14").hide();
+			$("#return_mypage").show();	
+			$("#profileM").show();	
+			$("#pwM").hide();	
+			$("#phoneM").hide();	
+			$("#emailM").hide();	
+			$("#addrM").hide();	
+			$("#quitM").show();
+			$("#phonecheck").hide();
+			$("#phonecheck_btn_area").hide();
+		} else {
+			$("#view1").show();
+			$("#view2").show();
+			$("#view3").show();
+			$("#view4").hide();
+			$("#view5").hide();
+			$("#view6").show();
+			$("#view7").show();
+			$("#view8").hide();
+			$("#view9").show();
+			$("#view10").hide();
+			$("#view11").show();
+			$("#view12").hide();
+			$("#view13").show();
+			$("#view14").hide();
+			$("#return_mypage").show();	
+			$("#profileM").show();	
+			$("#pwM").show();	
+			$("#phoneM").show();	
+			$("#emailM").show();
+			$("#addrM").show();	
+			$("#quitM").show();
+			$("#phonecheck").hide();
+			$("#phonecheck_btn_area").show();
+		}
+    });
+
+    // --------------------------- 세미메뉴바 끝 --------------------------------------
+
+    // --------------------------- 결제(충전하기)js --------------------------------
+
+    // 충전하기 왼쪽탭의 금액입력란 시작
+    function clickAmount() {
+        var amountview = document.getElementById("amount_view");
+        var amount = document.getElementById("amount");
+        var amountValue = amount.value.trim();
+
+        console.log("선택 : " + amountValue);
+
+        if (amountValue === "direct") {
+            amountview.readOnly = false;
+            amountview.value = "";
+            amountview.focus();
+
+            amountview.addEventListener('blur', function() {
+                if(amountview.value !== "") {
+                    // 정규식을 사용하여 해당값에서 모든 쉼표를 제거
+                    // parseFloat : 문자열을 부동 소수점 숫자로 변환
+                    var num = parseFloat(amountview.value.replace(/,/g, ''));
+                    // 1000단위 콤마 찍기
+                    amountview.value = num.toLocaleString();
+                    updateAfterCoin();
+                }
+            });
+        } else {
+            // 숫자인 경우 1000단위 콤마찍기
+            amountview.value = parseFloat(amountValue).toLocaleString();
+            amountview.readOnly = true;
+            updateAfterCoin();
+        }
+    }
+
+    function updateAfterCoin() {
+        var usercoin = parseInt(document.getElementById("coin").innerText.replace(/,/g, ""));
+        var amountView = parseInt(document.getElementById("amount_view").value.replace(/,/g, ""))
+        var afterCoin = usercoin + amountView;
+        document.getElementById("after_coin").innerText = afterCoin.toLocaleString();
+    }
+
+    // 충전하기 왼쪽탭의 금액입력란 끝
+
+    // 결제수단 시작
+    var selectphone = document.getElementById("select_phone");
+    var selectcard = document.getElementById("select_card");
+    var selectculture = document.getElementById("select_culture");
+    var selecttype = document.getElementById("select_type");
+    var methodname = document.getElementById("method_name");
+
+    selectphone.addEventListener("click", function() {
+        selectcard.style.border = "1px solid #a0a0a0";
+        selectculture.style.border = "1px solid #a0a0a0";
+        selectphone.style.border = "2px solid black";
+        selecttype.value = "phone";
+        methodname.textContent = "휴대폰 결제"
+    })
+    selectcard.addEventListener("click", function() {
+        selectcard.style.border = "2px solid black";
+        selectculture.style.border = "1px solid #a0a0a0";
+        selectphone.style.border = "1px solid #a0a0a0";
+        selecttype.value = "card";
+        methodname.textContent = "신용/체크카드 결제"
+    })
+    selectculture.addEventListener("click", function() {
+        selectcard.style.border = "1px solid #a0a0a0";
+        selectculture.style.border = "2px solid black";
+        selectphone.style.border = "1px solid #a0a0a0";
+        selecttype.value = "cultureland";
+        methodname.textContent = "문화상품권 결제"
+    })
+    // 결제수단 끝
+
+    // 결제버튼 시작
+    var chargebtn = document.getElementById("charge_btn");
+    var typephone = "";
+
+    chargebtn.addEventListener("click", function() {
+
+        switch(true) {
+
+            case selecttype.value === "phone" :
+                // 휴대폰 결제API 수행
+                requestPay(selecttype.value);
+                break;
+
+            case selecttype.value === "card" :
+                // 카드 결제API 수행
+                requestPay(selecttype.value);
+                break;
+
+            case selecttype.value === "cultureland" :
+                // 문화상품권 결제API 수행
+                requestPay(selecttype.value);
+                break;
+
+            default :
+                alert("결제수단을 선택해 주세요!");
+                break;
+        }
+    })
+    // 결제버튼 끝
+
+    // KG이니시스 API 시작
+    var IMP = window.IMP;
+    IMP.init("imp78108416");
+
+    var today = new Date();
+    var hours = today.getHours(); // 시
+    var minutes = today.getMinutes();  // 분
+    var seconds = today.getSeconds();  // 초
+    var milliseconds = today.getMilliseconds();
+    var makeMerchantUid = hours +  minutes + seconds + milliseconds;
+
+    console.log("PG정보 확인 : "+makeMerchantUid);
+
+    function requestPay(element) {
+
+        var amountview = document.getElementById("amount_view");
+        var amountValue = amountview.value.replace(/,/g, '');
+        var amount = parseFloat(amountValue);
+
+        var useremail = '[[${realuser.useremail}]]';
+        var reuseremail = useremail.replace(/"/g, '');
+        var userid = '[[${realuser.userid}]]';
+        var reuserid = userid.replace(/"/g, '');
+		var userphone = '[[${realuser.userphone}]]';
+		var reuserphone = userphone.replace(/"/g, '');
+        var userphone = '[[${userinfo.userphone}]]';
+        var reuserphone = userphone.replace(/"/g, '');
+
+        console.log("구매자 아이디 : "+   reuserid);
+        console.log("구매자 이메일 : "+   reuseremail);
+        console.log("구매자 전화번호 : "+  reuserphone);
+
+        if(isNaN(amount) || amount <=0) {
+            alert("유효한 금액을 입력하세요");
+            return;
+        }
+
+        IMP.request_pay({
+            pg : 'html5_inicis', // INIpayTest
+            pay_method : element,
+            merchant_uid: "IMP"+makeMerchantUid,
+            name : 'PLANZ 코인충전',
+            amount : amount,
+            buyer_email : reuseremail,
+            buyer_name : reuserid,
+            buyer_tel : reuserphone,
+            buyer_addr : '서울특별시 강남구 테헤란로14길 6 남도빌딩 2F, 3F, 4F, 5F, 6F',
+            buyer_postcode : '06234'
+        }, function (rsp) { // callback
+            if (rsp.success) {
+                console.log("if 정보 : "+JSON.stringify(rsp));
+
+                $.ajax({
+                    type: "POST",
+                    url: "/user/charge",
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                        // 세션 아이디
+                        userid: userid,
+                        usercoin: amount
+                    }),
+                });
+                alert("결제가 완료되었습니다!");
+            } else {
+                console.log("else 정보 : "+JSON.stringify(rsp));
+                console.log("오류 발생 : "+rsp);
+                alert("결제에 실패했습니다. 이미 결제가 이루어진 거래입니다.");
+            }
+        });
+    }
+
+
+    // KG이니시스 API 끝
+
+    // --------------------------- 결제(충전하기)js 끝 ------------------------------
+
+    // --------------------------- 내 정보 수정 ajax 시작 ---------------------------
+
+    var completeBtn = document.getElementById("completeBtn");
+    var modifyType = document.getElementById("modifyType");
+
+    completeBtn.addEventListener("click", function() {
+
+        var modifyTypeValue = modifyType.value;
+        var allcheck = document.getElementById("allcheck").value;
+        var stringallcheck = ""+allcheck;
+
+        console.log("현재 비밀번호 확인 : "+stringallcheck);
+        console.log("비밀번호 타입 : "+(typeof stringallcheck));
+        console.log("타입명 : "+modifyTypeValue)
+		
+		if(userid.includes('GOOGLE') || userid.includes('NAVER') || userid.includes('KAKAO')) {
+			console.log("SNS로그인 유저입니다 snsUserProfile호출");
+			snsUserProfile();
+		} else {
+			
+        if(modifyTypeValue != null && modifyTypeValue != "") {
+
+            switch(modifyTypeValue) {
+
+                case "file":
+                    // 프로필파일 수정
+                    console.log("프로필파일 수정");
+                    fileModifyOk(userid, stringallcheck);
+                    break;
+
+                case "pw":
+                    // 비밀번호 수정
+                    var newpw1 = document.getElementById("new_password1").value;
+                    var newpw2 = document.getElementById("new_password2").value;
+                    var checknum = document.getElementById("checknum").value;
+
+                    if(newpw1 === newpw2) {
+
+                        modifyOk(userid, stringallcheck, newpw1, "pw", checknum);
+
+                    } else {
+                        alert("새로운 비밀번호가 일치하지 않습니다");
+                        console.log("새로운 비밀번호가 일치하지 않습니다.");
+                        console.log("newpw1 : "+newpw1);
+                        console.log("newpw2 : "+newpw2);
+                    }
+                    break;
+
+                case "phone":
+
+                    // 핸드폰번호 수정
+                    var newphone = document.getElementById("newphone").value;
+                    modifyOk(userid, stringallcheck, newphone, "phone");
+                    break;
+
+                case "email":
+
+                    // 이메일 수정
+                    var newemail = document.getElementById("newemail").value;
+                    modifyOk(userid, stringallcheck, newemail, "email");
+                    break;
+
+                case "addr":
+
+                    // 주소 수정
+                    var addr_search_text = document.getElementById("addr_search_text").value; // 우편번호
+                    var doro = document.getElementById("doro").value; // 주소
+                    var addr_detail = document.getElementById("addr_detail").value; // 상세주소
+                    var addr_detail2 = document.getElementById("addr_detail2").value; // 참고항목
+                    console.log("주소수정");
+                    console.log(userid);
+
+                    addrmodifyOk(userid, stringallcheck, addr_search_text, doro, addr_detail, addr_detail2);
+
+                    break;
+
+                default: console.log("수정할 타입이 설정되지 않았습니다");
+
+            }
+        } else {
+            console.log("수정할 타입이 설정되지 않았습니다");
+        	}
+		}
+    });
+	// 회원탈퇴버튼 이벤트
+	const userDeleteBtn = document.querySelector('#userDeleteBtn');
+	
+	userDeleteBtn.addEventListener('click', function() {
+		
+		if(userid.includes('GOOGLE') || userid.includes('NAVER') || userid.includes('KAKAO')) {
+			console.log("SNS로그인 유저의 회원탈퇴 유저아이디 : "+userid);
+			snsUserDelete();
+		} else {
+			console.log("PLANZ로그인 유저의 회원탈퇴 유저아이디 : "+userid);
+			userDelete();
+		}
+		
+	});
+	
+	// SNS로그인 유저 회원탈퇴
+	function snsUserDelete() {
+		console.log("SNS로그인유저 회원탈퇴 Ajax");
+		console.log("유저아이디 확인 : "+userid);
+		
+		$.ajax({
+			type: "DELETE",
+			url: "/user/snsUserDelete",
+			data: JSON.stringify({
+			    userid: userid,
+			}),
+			contentType: "application/json",
+			success: function(response) {
+			    console.log("수정성공 : "+response);
+			    alert("회원탈퇴 되었습니다.");
+			},
+			error: function(error) {
+			    console.log("수정실패 : "+error);
+			    console.log(JSON.stringify(error))
+			    alert("회원탈퇴를 실패하였습니다.");
+			}
+		});
+	}
+	
+    // 회원 탈퇴
+    function userDelete() {
+        var phonechecknum = document.getElementById("phonechecknum").value;
+        var allcheck = document.getElementById("allcheck").value;
+        var checknum = document.getElementById("checknum").value;
+
+        console.log("유저아이디 확인 : "+userid);
+        console.log("휴대폰번호 확인 : "+phonechecknum)
+        console.log("비밀번호 확인 : "+   allcheck);
+        console.log("인증번호 확인 : "+   checknum);
+
+        $.ajax({
+            type: "DELETE",
+            url: "/user/userDelete",
+            data: JSON.stringify({
+                userid: userid,
+                phonechecknum: phonechecknum,
+                allcheck: allcheck,
+                checknum: checknum
+            }),
+            contentType: "application/json",
+            success: function(response) {
+                console.log("수정성공 : "+response);
+                alert("회원탈퇴 되었습니다.");
+            },
+            error: function(error) {
+                console.log("수정실패 : "+error);
+                console.log(JSON.stringify(error))
+                alert("회원탈퇴를 실패하였습니다.");
+            }
+        });
+    }
+
+    // 주소 수정시 사용
+    function addrmodifyOk(userid, userpw, zipcode, addr, addrdetail, addretc) {
+
+        console.log("파라미터확인 : "+userid);
+        console.log("파라미터확인 : "+userpw);
+        console.log("파라미터확인 : "+zipcode);
+        console.log("파라미터확인 : "+addr);
+        console.log("파라미터확인 : "+addrdetail);
+        console.log("파라미터확인 : "+addretc);
+
+        $.ajax({
+            type: "POST",
+            url: "/user/addrmodify",
+            data: JSON.stringify({
+                // userid 세션값 사용
+                userid: userid,
+                userpw: userpw,
+                zipcode: zipcode,
+                addr: addr,
+                addrdetail: addrdetail,
+                addretc: addretc
+            }),
+            contentType: "application/json",
+            success: function(response) {
+                console.log("수정성공 : "+response);
+                alert("수정되었습니다");
+            },
+            error: function(error) {
+                console.log("수정실패 : "+error);
+                console.log(JSON.stringify(error))
+                alert("수정을 실패하였습니다");
+            }
+        });
+    }
+    // 비밀번호, 핸드폰 , 이메일, 주소 수정시 사용
+    function modifyOk(userid, userpw, userElement, modifyTypeValue, checknum) {
+
+        console.log("파라미터확인 : "+userid);
+        console.log("파라미터확인 : "+userpw);
+        console.log("파라미터확인 : "+userElement);
+        console.log("파라미터확인 : "+modifyTypeValue);
+        console.log("파라미터확인 : "+checknum);
+
+        $.ajax({
+            type: "POST",
+            url: "/user/modify",
+            data: JSON.stringify({
+                // userid 세션값 사용
+                userid: userid,
+                userpw: userpw,
+                userElement: userElement,
+                modifyTypeValue: modifyTypeValue,
+                checknum: checknum
+            }),
+            contentType: "application/json",
+            success: function(response) {
+                console.log("수정성공 : "+response);
+                alert("수정되었습니다");
+            },
+            error: function(error) {
+                console.log("수정실패 : "+error);
+                alert("수정을 실패하였습니다");
+            }
+        });
+    }
+	
+	// SNS로그인 프로필 변경
+	function snsUserProfile() {
+		
+		var formData = new FormData();
+		var fileInput = document.getElementById('file');
+		
+		formData.append('userid', userid);
+		
+		if (fileInput.files.length > 0) {
+		     formData.append('files', fileInput.files[0]);
+		}
+		
+		$.ajax({
+			  type: "POST",
+			  url: "/user/snsUserProfile",
+			  data: formData,
+			  contentType: false,
+			  processData: false, // 데이터처리를 제이쿼리가 해주지 않도록 설정
+			  success: function(response) {
+			      console.log("수정 성공 : "+response);
+			      alert("프로필 설정을 성공하였습니다");
+			  },
+			  error: function(error) {
+			      console.log("수정 실패 : "+error);
+			      alert("프로필 설정을 실패하였습니다");
+			  }
+		  });
+	}
+
+    // 프로필사진 수정시 사용
+    function fileModifyOk(userid, userpw) {
+
+        var formData = new FormData();
+        var fileInput = document.getElementById('file');
+
+        formData.append('userid', userid);
+        formData.append('userpw', userpw);
+
+        if (fileInput.files.length > 0) {
+            formData.append('files', fileInput.files[0]);
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/user/profile",
+            data: formData,
+            contentType: false,
+            processData: false, // 데이터처리를 제이쿼리가 해주지 않도록 설정
+            success: function(response) {
+                console.log("수정 성공 : "+response);
+                alert("프로필 설정을 성공하였습니다");
+            },
+            error: function(error) {
+                console.log("수정 실패 : "+error);
+                alert("프로필 설정을 실패하였습니다");
+            }
+        });
+    }
+
+    // 주소찾기 API
+
+    function sample6_execDaumPostcode() {
+
+        var addr_search_text = document.getElementById("addr_search_text");
+        var doro = document.getElementById("doro");
+        var addr_detail = document.getElementById("addr_detail");
+        var addr_detail2 = document.getElementById("addr_detail2");
+
+        new daum.Postcode({
+            oncomplete: function(data) {
+                // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                var addr = "";
+                var extraAddr = "";
+
+                //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                    addr = data.roadAddress;
+                } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                    addr = data.jibunAddress;
+                }
+
+                if(data.userSelectedType === 'R'){
+                    // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                    // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                    if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                        extraAddr += data.bname;
+                    }
+                    // 건물명이 있고, 공동주택일 경우 추가한다.
+                    if(data.buildingName !== '' && data.apartment === 'Y'){
+                        extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                    }
+                    // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                    if(extraAddr !== ''){
+                        extraAddr = ' (' + extraAddr + ')';
+                    }
+                    // 조합된 참고항목을 해당 필드에 넣는다.
+                    addr_detail2.value = extraAddr;
+
+                } else {
+                    addr_detail2.value.value = '';
+                }
+                // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                addr_search_text.value = data.zonecode;
+                doro.value = addr;
+                // 커서를 상세주소 필드로 이동한다.
+                addr_detail.focus();
+            }
+        }).open();
+    }
+
+    // 전화번호인증
+    function phoneCheck() {
+        var phonechecknum = document.getElementById("phonechecknum").value;
+
+        console.log("아이디 : "+userid);
+        console.log("입력한 휴대폰번호 : "+phonechecknum);
+
+        $.ajax({
+            type: "POST",
+            url: "/user/phonecheck",
+            data: {
+                userid: userid,
+                "phonechecknum" : phonechecknum
+            },
+            contentsType: "application/json",
+            success: function(response) {
+                console.log("인증번호전송성공 : "+response);
+                alert("인증번호가 전송되었습니다");
+            },
+            error: function(error) {
+                console.log("인증번호전송실패 : "+error);
+                alert("인증번호 전송이 실패하였습니다. 휴대폰번호를 확인해주세요.");
+            }
+        });
+    }
+    // --------------------------- 내 정보 수정 ajax 끝 ----------------------------
+
+</script>
+<!--즐겨찾기 장소 시작-->
+<script>
+    function favor() {
+        $.ajax({
+            method: "POST",
+            url: "/user/favorites", // 서버로 요청을 보낼 URL
+            dataType: "json", // 서버에서 받을 데이터 타입을 JSON으로 지정
+            success: function(response) {
+                const placeList = response.likedPlaces;
+                const placeImg = response.placeImg;
+                var favorBox = $('#favor_box');
+                favorBox.empty(); // favor_box 내용 초기화
+
+                if (placeList.length === 0) {
+                    // placeList가 비어 있을 때 "좋아요한 장소가 없습니다" 메시지 추가
+                    favorBox.append('<p>좋아요한 장소가 없습니다.</p>');
+                } else {
+                    // 받은 JSON 데이터를 순회하면서 HTML 요소 생성
+                    for (var i = 0; i < placeList.length; i++) {
+                        var place = placeList[i];
+
+                        // 각 place에 대한 HTML 요소 생성
+                        var favorList = $('<div>').attr('id', 'favor_list' + (i + 1)).addClass('favor_list');
+                        var favorImg = $('<div>').addClass('favor_img').html('<img class="favorimg" src="/file/thumbnail?systemname=' + placeImg[i] + '" alt="Place Image">');
+                        var favorName = $('<div>').addClass('favor_name').html('<span class="favorName">' + place.placename + '</span>');
+                        var favorAddr = $('<div>').addClass('favor_addr').html('<span class="favorAddr">' + place.addr + '</span>');
+
+                        // favorList에 하위 요소들 추가
+                        favorList.append(favorImg, favorName, favorAddr);
+
+                        // favorBox에 favorList 추가
+                        favorBox.append(favorList);
+                    }
+                }
+
+                // favorites 요소를 표시
+                $('#favorites').show();
+            },
+            error: function(xhr, status, error) {
+                // 에러 발생 시 처리하는 로직
+                console.error(error);
+            }
+        });
+    }
+
+    // 모든 class가 priceCell인 요소들을 찾습니다.
+    let priceCells = document.getElementsByClassName('priceCell');
+
+    // 각 요소에 대해 처리합니다.
+    Array.from(priceCells).forEach(element => {
+        // 요소의 텍스트 콘텐츠를 가져옵니다.
+        let value = element.textContent.trim();
+
+        // 숫자 형식으로 변환합니다 (쉼표 없는 문자열 형태로).
+        let numericValue = parseFloat(value.replace(/[^\d.-]/g, ''));
+
+        // 천 단위로 쉼표를 붙입니다.
+        let formattedValue = numericValue.toLocaleString('ko-KR');
+
+        // '원'을 붙입니다.
+        let finalValue = formattedValue + '원';
+
+        // 요소의 텍스트 콘텐츠를 수정합니다.
+        element.textContent = finalValue;
+    });
+	
+
+</script>
+<!--즐겨찾기 장소 끝-->
+</html>

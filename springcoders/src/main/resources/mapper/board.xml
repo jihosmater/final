@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+      "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.team.demo.mapper.BoardMapper">
+
+   <sql id="cri">
+      <if test="keyword != '' and type != ''">
+         <!-- trim은 요소의 불필요한 문자열을 자르고 접두사와 접미사를 추가 -->
+         <!-- prefixOverrides:제거할 접두사 지정, prefix:새 접두사 지정 -->
+         <!-- suffix: 새 접미사 지정 -->
+         <trim prefixOverrides="or" prefix="(" suffix=") and">
+            <!-- foreach: 컬렉션의 각 요소에 대해 반복하며 -->
+            <!-- 각 요소에 대해 choose요소로 분기하여 조건애 따라 SQL문 생성 -->
+            <!-- when은 조건문 -->
+            <foreach collection="typeArr" item="type">
+               or
+               <choose>
+                  <when test="type == 'T'.toString()">
+                     boardtitle like('%${keyword}%')
+                  </when>
+                  <when test="type == 'C'.toString()">
+                     (travelPlansStart like concat('%', #{keyword}, '%')
+                     or travelPlansEnd like concat('%', #{keyword}, '%'))
+                  </when>
+                  <when test="type == 'W'.toString()">
+                     userid like('%${keyword}%')
+                  </when>
+               </choose>
+            </foreach>
+         </trim>
+      </if>
+   </sql>
+
+
+   <insert id="insertBoard">
+      insert into board (boardtitle,boardcontents,travelPlansStart,travelPlansEnd,price,userid)
+      values(#{boardtitle},#{boardcontents},#{travelPlansStart},#{travelPlansEnd},#{price},#{userid})
+   </insert>
+
+
+   <select id="getList">
+      select * from board where
+      <include refid="cri"></include>
+      boardnum > 0 order by boardnum desc limit #{startrow}, #{amount}
+   </select>
+
+   <select id="getTotal">
+      select count(*) from board where
+      <include refid="cri"></include>
+      boardnum > 0
+   </select>
+
+   <select id="getLastNum">
+      select max(boardnum) from board where userid = #{userid}
+   </select>
+
+   <select id="getBoardByNum">
+      select * from board where boardnum=#{boardnum}
+   </select>
+   
+   <update id="updateReadCount">
+      update board
+      set readcount = #{readcount}
+      where boardnum = #{boardnum}
+   </update>
+   <update id="updateBoard">
+      update board
+      set boardtitle=#{boardtitle}, boardcontents=#{boardcontents}, updatedate=now()
+      where boardnum=#{boardnum}
+   </update>
+   <delete id="deleteBoard">
+      delete from board where boardnum=#{boardnum}
+   </delete>
+   <delete id="UserDelete">
+		delete from board
+		where userid = #{userid}
+   </delete>
+   <insert id="updateBuyState">
+      insert into deal (boardnum, userid, buystate)
+      values (#{boardnum}, #{userid}, 'O');
+   </insert>
+
+   <select id="checkBuyState">
+      select count(*) from deal where buystate = 'O' and boardnum=#{boardnum}
+   </select>
+   <select id="getBuyState">
+      SELECT buystate
+      FROM deal
+      WHERE boardnum = #{boardnum}
+   </select>
+
+   <select id="boardCnt">
+      select count(*) from board;
+   </select>
+   <select id="completedCnt">
+      SELECT COALESCE(COUNT(*), 0) FROM deal WHERE buystate = 'OO'
+   </select>
+   <select id="requestCnt">
+      SELECT COALESCE(COUNT(*), 0) FROM deal WHERE buystate = 'O'
+   </select>
+   <select id="notAllowedBoardInfo" >
+     select
+      b.boardnum,
+      b.boardtitle,
+      b.boardcontents,
+      b.travelPlansStart,
+      b.travelPlansEnd,
+      b.updatedate,
+      b.created,
+      b.price,
+      b.userid,
+      d.userid as dealid,
+      d.dealdate,
+      d.buystate
+      FROM board b
+      JOIN deal d ON b.boardnum = d.boardnum
+      WHERE d.buystate = 'O' or d.buystate = 'OO'
+      <include refid="cri"></include>
+      order by b.boardnum desc limit #{startrow}, #{amount}
+   </select>
+
+   <update id="completeDeal">
+      update deal set buystate ='OO' where boardnum = #{boardnum}
+   </update>
+   <update id="cancelDeal">
+      update deal set buystate = 'O' where boardnum = #{boardnum}
+   </update>
+</mapper>
+
+

@@ -1,0 +1,34 @@
+*{box-sizing: border-box; margin: 0; padding: 0;}
+ul,li{list-style: none;}
+a{text-decoration: none;}
+
+.btn{display: inline-block; width: 30px; height: 30px; cursor: pointer;}
+.prev{background: url(../image/prev_img.png) no-repeat center/100%;}
+.stop{background: url(../image/stop_img.png) no-repeat center/100%;}
+.start{background: url(../image/start_img.png) no-repeat center/100%;}
+.next{background: url(../image/next_img.png) no-repeat center/100%;}
+.disappear{display: none;}
+
+
+#in_wrap{width: 1200px; height: 1000px; margin: 0 auto; margin-top: 100px;}
+#in_wrap #resentEventList{width: 1200px; height: 500px;}
+/* 최근 행사 정보박스 부분 */
+#in_wrap #eventInfoBox{float: left; width: 500px; height: 500px; margin-right: 100px;}
+#in_wrap #eventInfoList{float: left; width: 500px; height: 350px; overflow: hidden;}
+#in_wrap #eventInfoList .eventInfo{float: left; width: 500px; height: 350px;  padding: 50px 25px;}
+#in_wrap .eventInfo .eventTitle{float: left; width: 450px; height: 70px; font-weight: bolder; font-size: 32px; padding: 15px;}
+#in_wrap .eventInfo .eventAddr{float: left; width: 450px; height: 50px; font-weight: 700; font-size: 20px; padding: 10px 15px;}
+#in_wrap .eventInfo .eventDate{float: left; width: 450px; height: 50px; font-weight: 400; font-size: 20px; padding: 10px 15px;}
+
+/* 배너 넘기는 버튼 박스 */
+#in_wrap #evenPageBtnBox{float: left; width: 500px; height: 110px; margin-top: 40px;}
+#in_wrap #pagenumbox{float: left; width: 120px;height: 30px; margin: 40px 25px; font-size: 22px; font-weight: bold; padding: 0 15px;}
+
+#in_wrap #btnbox{float: left; width: 150px;height: 30px; margin: 40px 25px;}
+#in_wrap #btnbox .btn{float: left; margin-right: 30px;}
+#in_wrap #btnbox .btn:last-child{margin: 0;}
+
+/* 최근 행사 이미지 부분 */
+#in_wrap #eventImgBox{float: left; width: 600px; height: 500px; overflow: hidden;}
+#in_wrap #eventImgList{width: 7320px; height: 500px;}
+#in_wrap #eventImgList .evenImg{float: left; width: 600px; height: 500px; margin-right: 10px;}
